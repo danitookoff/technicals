@@ -1,2 +1,267 @@
 Deck.add([
+  {
+    id: "re-market-001",
+    track: "re",
+    module: "re-market",
+    topic: "How markets are analyzed",
+    level: 1,
+    type: "primer",
+    q: "Primer: how a real estate market is analyzed",
+    a: "Rents and values follow the balance between demand for space and its supply. Demand comes from jobs, households, incomes and spending, and shows up as net absorption, the change in occupied space. Supply comes from new construction, which arrives a year or more after it starts. When absorption outruns new supply, vacancy falls and rents rise; when supply outruns absorption, vacancy climbs and concessions appear. You study this for the submarket a building competes in, then turn it into rent growth, vacancy and concession assumptions.",
+    why: "Inventory: the total stock of competing space or units. Vacancy rate: empty space ÷ inventory. Availability rate: space marketed for lease, empty or not, ÷ inventory. Net absorption: the change in occupied space. Starts: projects that broke ground. Deliveries: projects completed and added to inventory. Pipeline: space under construction or planned. Sublease space: space a tenant leases but offers to others. Asking rent: the advertised rent. Effective rent: rent after concessions such as free months. Submarket: the area and product a building competes with. Natural vacancy: the rate at which rents just keep pace with inflation. Barriers to entry: whatever makes new supply hard to add.",
+    visual: { kind: "table", headers: ["Question", "What to look at"], rows: [
+      ["Is demand growing?", "Net absorption; jobs, households and incomes"],
+      ["How much supply is coming?", "Starts, space under construction, deliveries"],
+      ["Is the market tight or loose?", "Vacancy and availability against history"],
+      ["Are rents really rising?", "Effective rent, not just asking rent"],
+      ["Which market, exactly?", "The submarket the building competes in"],
+      ["Can supply respond quickly?", "Barriers to entry"]
+    ], caption: "Each question is answered for one property type in one submarket." }
+  },
+  {
+    id: "re-market-002",
+    track: "re",
+    module: "re-market",
+    topic: "Net absorption",
+    level: 1,
+    type: "qa",
+    classic: true,
+    q: "What is net absorption, and how do you calculate it?",
+    a: "Net absorption is the change in occupied space over a period: the space tenants moved into minus the space they moved out of. Positive means tenants occupy more space than before; negative means they gave space back. It's the standard measure of demand, and you compare it with new supply to see where vacancy is heading.",
+    why: "It measures growth in occupied space, not deal volume. Leasing activity counts leases signed, renewals included, and gross absorption counts every move-in, so both can look busy while demand shrinks. A tenant moving across town creates a lease, a move-in and a move-out, but no net absorption. Measuring occupied space at two dates also captures new buildings and demolitions automatically. Commercial space is counted in square feet, apartments in units. Reports differ on whether empty sublease space counts as vacant, so compare figures from one source over time.",
+    formula: "Net absorption = space moved into − space vacated\nNet absorption = occupied space at the end − occupied space at the start",
+    example: "A market starts the year with [[36.0M]] SF occupied. Tenants move into [[1.5M]] SF and vacate [[1.1M]] SF, leaving 36.4M SF occupied. Gross absorption is 1.5M SF; net absorption is +0.4M SF. A law firm relocating [[100K]] SF across town adds 100K SF to gross absorption and nothing to net.",
+    trap: "Absorption is usually counted at move-in, not at lease signing, so it lags leasing. A big pre-leased building opening can flatter one quarter, and a tenant that has signed elsewhere shows up only when it moves out."
+  },
+  {
+    id: "re-market-003",
+    track: "re",
+    module: "re-market",
+    topic: "Supply, absorption and vacancy",
+    level: 2,
+    type: "qa",
+    q: "An office market has 40M SF, 10% vacant. Next year 1.5M SF delivers and net absorption is 0.5M SF. What happens to vacancy?",
+    a: "It rises to about 12.0%. Occupied space grows by 0.5M SF to 36.5M, but inventory grows by 1.5M SF to 41.5M, leaving 5.0M SF empty. New supply outran demand by 1.0M SF, so vacancy climbs even though absorption was positive. Expect slower rent growth and more concessions, especially in buildings that compete with the new ones.",
+    why: "Vacancy is the gap between the stock and the space tenants occupy, so it moves with the difference between new supply and absorption, not with either alone. That's why analysts line up expected deliveries against expected absorption year by year. Supply also arrives in lumps: a tower that took three years to build delivers all at once, while demand grows gradually, so one heavy year can take several to absorb. Rents respond to how much space sits empty: landlords chasing the same tenants compete first with free rent and TI, then with lower asking rents.",
+    formula: "Vacant space next year = vacant space today + deliveries − net absorption\nVacancy rate = vacant space ÷ inventory, including the deliveries",
+    example: "Year two: deliveries drop to [[0.3M]] SF and net absorption stays at [[0.5M]] SF. Vacant space falls to 4.8M SF of 41.8M: 11.5%. At that pace, vacancy only gets back below 10% in year five.",
+    trap: "Don't read positive absorption as a healthy market on its own. Empty space shrinks only when absorption beats deliveries, and new buildings often fill by pulling tenants from older ones, which moves vacancy rather than removing it.",
+    visual: { kind: "bars", unit: "%", dp: 1, items: [
+      { label: "Today", value: 10.0 },
+      { label: "Year 1", value: 12.0, highlight: true },
+      { label: "Year 2", value: 11.5 },
+      { label: "Year 3", value: 10.9 },
+      { label: "Year 4", value: 10.4 },
+      { label: "Year 5", value: 9.8 }
+    ], caption: "Vacancy with 1.5M SF delivered in year 1, then 0.3M SF a year, against 0.5M SF of net absorption a year" }
+  },
+  {
+    id: "re-market-004",
+    track: "re",
+    module: "re-market",
+    topic: "The construction pipeline",
+    level: 2,
+    type: "qa",
+    q: "What's the difference between construction starts and deliveries, and how do you read a market's pipeline?",
+    a: "Starts are projects that broke ground; deliveries are buildings completed and added to inventory, often one to three years later. Read the pipeline by stage, since proposed projects may never start. Then size what's under construction against inventory and absorption, and focus on what competes with your building, when it delivers and how much is pre-leased.",
+    why: "Supply answers demand late. Developers start when rents and values justify building, and the space arrives years later, often into a cooler market, which is why supply tends to overshoot. Space under construction will almost certainly deliver; proposed projects still need land, approvals and financing, and many never start. So falling starts today mean less new supply in a year or two. The pipeline as a share of inventory shows the size of the wave; months of supply shows how long demand takes to fill it. Pre-leased space is demand already committed, though those tenants often leave space behind elsewhere.",
+    formula: "Pipeline share = space under construction ÷ inventory\nMonths of supply = unleased space under construction ÷ monthly net absorption",
+    example: "A [[60M]] SF industrial market has [[3.6M]] SF under construction, [[1.2M]] SF of it pre-leased, and absorbs about [[200K]] SF a month. The pipeline is 6% of inventory. Its 2.4M SF of unleased space is 12 months of absorption, before counting space that's already vacant.",
+    trap: "Don't divide by a boom year's absorption: if the last twelve months were unusually strong, months of supply looks short. Test it at the long-run pace too. Some analysts also add existing vacant space, so say which version you use.",
+    visual: { kind: "flow", steps: [
+      { label: "Proposed", note: "Land and plans; many never start" },
+      { label: "Under construction", note: "Started; very likely to deliver" },
+      { label: "Delivered", note: "Added to inventory" },
+      { label: "Absorbed", note: "Leased and occupied" }
+    ]}
+  },
+  {
+    id: "re-market-005",
+    track: "re",
+    module: "re-market",
+    topic: "Vacancy vs availability",
+    level: 1,
+    type: "qa",
+    q: "What's the difference between a market's vacancy rate and its availability rate, and where does sublease space fit?",
+    a: "The vacancy rate counts space nobody occupies. The availability rate counts all space marketed for lease, empty or not, including space whose tenant is leaving and space offered for sublease. Availability runs higher and moves first, so it's the better early warning. Sublease space is space a tenant pays for but no longer needs; it competes for the same tenants.",
+    why: "Vacancy shows what's empty today; availability shows what landlords and tenants are trying to fill. A tenant that gives notice or lists space for sublease shows up in availability months before it moves out, so a widening gap between the two warns that vacancy is heading up. Sublease space is shadow vacancy: the landlord still collects rent, so its building looks fine, but the space is usually cheaper, often furnished and shorter-term, so it undercuts direct space nearby. When those leases expire, sublease space nobody has taken usually becomes direct vacancy.",
+    example: "A [[20M]] SF submarket has [[2.0M]] SF empty: 10% vacancy. Another [[0.8M]] SF is occupied but on the market, from tenants leaving at expiry or offering sublease space. Availability is 2.8M SF, or 14%: four more points of space competing for tenants than vacancy shows.",
+    trap: "The follow-up: why don't landlords' reports show the problem? A building can be 95% leased but only 80% occupied if tenants have moved out and keep paying. Ask when those leases expire.",
+    visual: { kind: "stack", unit: "M SF", dp: 1, items: [
+      { label: "Vacant", value: 2.0 },
+      { label: "Occupied, on the market", value: 0.8, highlight: true },
+      { label: "Occupied, not on the market", value: 17.2 }
+    ], caption: "Vacancy counts the top block (10%); availability counts the top two (14%)." }
+  },
+  {
+    id: "re-market-006",
+    track: "re",
+    module: "re-market",
+    topic: "Asking vs effective rent",
+    level: 2,
+    type: "qa",
+    q: "Asking rents in a submarket rose 2% this year. Why might landlords actually be earning less?",
+    a: "Because asking rent is the advertised price, not what leases sign for. If concessions grew, effective rent can fall while asking rent rises. Landlords often hold the headline rent and give free months or bigger TI packages instead, which protects comparables and appraised values. Track effective rent, after concessions, to see the real trend.",
+    why: "Asking rents are sticky. Cutting the advertised rent resets every future comparison and can lower a building's appraised value, so landlords discount through concessions that are harder to see: free rent, larger TI allowances, paid moving costs. Market reports often lead with asking rents because they're easy to collect, but deals close at effective rents. So in a weakening market asking rents lag on the way down, and in a recovery concessions burn off first, lifting effective rent before asking rent moves. For apartments, track concessions on new leases; for office, compare net effective rents on signed deals.",
+    example: "Last year: [[$2,000]] a month with no concessions. This year: asking rent up [[2%]] to $2,040, with [[1]] month free on a [[12]]-month lease. Effective rent = $2,040 × 11 ÷ 12 = $1,870, down 6.5% from last year.",
+    trap: "Watch the mix. New, expensive buildings entering the survey can lift the average asking rent even when every existing building cut its rent. Compare the same buildings over time before calling it rent growth."
+  },
+  {
+    id: "re-market-007",
+    track: "re",
+    module: "re-market",
+    topic: "Submarkets",
+    level: 1,
+    type: "qa",
+    q: "Why do you analyze a property's submarket rather than the whole metro, and how do you define one?",
+    a: "Because tenants shop locally, and conditions within one metro can differ widely: downtown can be 16% vacant while a suburb sits at 6%. Define the submarket as the area and product your tenants would consider instead: set it by geography, access and commute patterns, then narrow it to the same property type, class and rent range.",
+    why: "A building competes only with the space its tenants would actually consider. Apartment renters look within a commute of work or school; logistics tenants within reach of customers and highways; office tenants near their workforce. Metro averages blend areas with different pipelines, demand drivers and rents, so they can hide a supply wave next door or a tight pocket. Broker and data-provider boundaries are a useful start, but they're drawn for reporting. Tighten them into a set of buildings that really compete with yours, and use that same set for rent comps, vacancy and the pipeline.",
+    trap: "Don't draw it so tightly that you miss the new building two miles away that will chase your tenants, or so loosely that metro averages drown out local supply. The test: would your tenants tour that building?",
+    visual: { kind: "table", headers: ["", "Metro", "Downtown", "North suburb"], rows: [
+      ["Vacancy", "11%", "16%", "6%"],
+      ["Under construction, share of stock", "2%", "0.5%", "5%"],
+      ["Asking rent growth", "1%", "−2%", "4%"]
+    ], caption: "Illustrative. The metro average describes neither submarket, and the tight one carries the supply risk." }
+  },
+  {
+    id: "re-market-008",
+    track: "re",
+    module: "re-market",
+    topic: "Jobs and space per worker",
+    level: 3,
+    type: "qa",
+    q: "Office-using jobs in a market grow 2%, from 200,000 to 204,000, while space per worker falls from 175 to 170 SF. What happens to office demand?",
+    a: "It falls. Occupied space drops from 35.0M SF (200,000 × 175) to 34.7M SF (204,000 × 170): about −320K SF of net absorption despite job growth. The new jobs add 700K SF, but 5 SF less per worker across the whole workforce gives back about 1.0M SF. Demand is jobs × space per worker, and both move.",
+    why: "Demand for space is derived demand: tenants need room for their people or goods, and how intensively they use it sets how much. Office analysts forecast office-using employment (finance, professional and business services, tech and similar, not all jobs) and multiply by space per worker. Density changes only as leases expire and tenants resize, but it applies to the entire occupied stock, so a small shift can outweigh years of job growth. Hybrid work, open plans and desk sharing push space per worker down; roomier layouts push it up. Other types work the same way: renter households fill apartments, goods fill warehouses.",
+    formula: "Office demand = office-using jobs × SF per worker\nChange = new jobs × old SF per worker + change in SF per worker × jobs after growth",
+    trap: "Don't use total job growth: hospital, restaurant and warehouse jobs add little office demand. And watch leased versus used space: tenants paying for more room than they use will shed it as leases expire.",
+    visual: { kind: "waterfall", unit: "M SF", dp: 2, start: { label: "Occupied space today", value: 35.0 }, steps: [
+      { label: "4,000 new jobs × 175 SF", delta: 0.7 },
+      { label: "5 SF less per worker × 204,000", delta: -1.02 }
+    ], end: { label: "Occupied space next year", value: 34.68 } }
+  },
+  {
+    id: "re-market-009",
+    track: "re",
+    module: "re-market",
+    topic: "Household formation",
+    level: 2,
+    type: "qa",
+    q: "Why do apartment analysts watch household formation more closely than population growth?",
+    a: "Because apartments are rented by households, not people. Households can form without population growth, as young adults move out of their parents' homes or roommates split up, and population can grow without new households if people double up. Then the renter share decides how many new households rent. Jobs and incomes drive both.",
+    why: "Population sets the long-run base, but household formation fills units, and it swings with the economy. When jobs and wages are strong, young adults move out and more people live alone, so households grow faster than population; in a downturn people double up or move home, and demand falls even while population rises. Tenure, owning versus renting, is the second lever: when owning gets dearer relative to renting, through higher home prices or mortgage rates, more new households rent. The useful chain runs from jobs and incomes to household formation, then the renter share, then units needed, compared with units delivered.",
+    example: "A metro adds [[20,000]] households a year, and [[35%]] of them rent: 7,000 new renter households. With [[9,000]] new apartments delivering, supply outruns new renter demand by 2,000 units, so vacancy rises unless more households choose to rent.",
+    trap: "Ask where the population growth comes from. Newborns won't rent for about two decades, while working-age people moving in form households right away. And new households rent more than average, because they skew young."
+  },
+  {
+    id: "re-market-010",
+    track: "re",
+    module: "re-market",
+    topic: "Rent-to-income",
+    level: 2,
+    type: "qa",
+    q: "A new apartment building plans rents of $2,100 a month. Median renter household income in the submarket is $60,000. Are those rents achievable?",
+    a: "Possibly, but only by drawing renters well above the median. At the common screen of income at least 3x the monthly rent, a household needs $75,600 a year, 26% above the median. At the median income, the rent would take 42% of gross income. So check how many renter households earn enough and what competing buildings charge them.",
+    why: "Rent comes out of paychecks, so income caps how far rents can run. Rent-to-income, annual rent ÷ gross household income, measures the strain: paying more than 30% is the usual definition of cost-burdened, and a 3x income screen equals about 33%. New Class A buildings do target above-median earners, so a high ratio at the median isn't fatal, but a narrower pool means slower lease-up and more fragile rent growth. Across a whole market, when the ratio is high and rising, rent growth has to slow toward income growth.",
+    formula: "Rent-to-income = annual rent ÷ gross household income\nIncome needed at a 3x screen = monthly rent × 3 × 12",
+    example: "The submarket's median rent is [[$1,500]] a month against the [[$60,000]] median income: 30%. If rents grow [[5%]] a year and incomes [[3%]], the ratio reaches 33% in five years, where the median renter barely passes a 3x screen. Growth that far ahead of incomes can't last.",
+    trap: "Use renter incomes, not all households: owners usually earn more, so an overall median flatters what renters can pay. And count the renter households above your qualifying income, not the whole market."
+  },
+  {
+    id: "re-market-011",
+    track: "re",
+    module: "re-market",
+    topic: "Barriers to entry",
+    level: 1,
+    type: "qa",
+    classic: true,
+    q: "What are barriers to entry in real estate, and why do investors pay for them?",
+    a: "Barriers to entry are whatever makes new competing supply hard to add: scarce land, strict zoning, slow approvals and building costs high relative to rents. Where supply can't respond, demand growth turns into higher rents and occupancy rather than new buildings, so income holds up better through the cycle. That's why supply-constrained markets usually trade at lower cap rates.",
+    why: "In an easy-to-build market, rising rents quickly draw new construction, which caps rent growth and leaves too much space when demand turns. Where land is scarce or approvals take years, supply can't catch up, so landlords keep pricing power in good times and hold occupancy better in bad ones. Barriers come in three kinds. Physical: built-out infill, water, terrain. Regulatory: zoning, height limits, historic districts, environmental review, local opposition. Economic: rents too low to justify building at today's costs. The first two last; the economic barrier disappears once rents rise enough.",
+    trap: "Barriers are usually priced in, so you pay for them through a lower cap rate. They don't protect against falling demand: a supply-constrained market still loses tenants when employers leave. And rules that block rivals can block your plans too."
+  },
+  {
+    id: "re-market-012",
+    track: "re",
+    module: "re-market",
+    topic: "Forecasting rent growth",
+    level: 3,
+    type: "qa",
+    q: "How would you forecast rent growth for a submarket over the next five years?",
+    a: "Forecast the supply-demand balance first. Project demand from jobs, households and incomes, and supply from the pipeline, to get the vacancy path. Rents grow faster than inflation while vacancy sits below the market's natural rate and slower while it sits above. Then sanity-check against affordability, the rents new construction needs and past cycles.",
+    why: "Rent is a price, so it moves with how tight the market is. Each market has a natural vacancy rate at which rents grow roughly with inflation; it differs by property type and market with lease length, tenant turnover and how fast supply responds. Below it, landlords have pricing power; above it, they compete with concessions. Two anchors keep the long run honest: rents can't outrun incomes forever, and rents well above what justifies new construction invite supply that pulls growth back. So near-term growth follows the supply wave, and later years usually fade toward inflation.",
+    formula: "Rent growth ≈ inflation + k × (natural vacancy − actual vacancy)\nk = how strongly rents have responded to vacancy in the past",
+    example: "Say natural vacancy is [[6%]], inflation is [[2.5%]] and rents have historically moved about [[1]] point for each point of vacancy gap. At [[4%]] vacancy, rent growth ≈ 2.5% + 2.0% = 4.5%. If a supply wave lifts vacancy to [[8%]], growth drops to about 0.5%.",
+    trap: "Don't straight-line recent growth. A market growing rents 8% a year is usually drawing the construction that will slow it. The follow-up: what long-run rate do you use? Tie it to inflation and income growth, not the last three years."
+  },
+  {
+    id: "re-market-013",
+    track: "re",
+    module: "re-market",
+    topic: "Market data in underwriting",
+    level: 2,
+    type: "qa",
+    classic: true,
+    q: "How does market research feed the rent growth, vacancy and concession assumptions in an acquisition model?",
+    a: "Market rent today comes from rent comps. Rent growth follows the submarket forecast: slower in years with heavy deliveries, then fading toward a long-run rate near inflation. Vacancy trends toward the submarket's long-run average, not today's reading, with credit loss on top. Concessions start at current market levels and burn off only as new supply is absorbed.",
+    why: "The model is your market view in numbers, so every input should trace to evidence and tell one consistent story. If you expect a supply wave in year two, that year can't also carry the market's best rent growth. Lean on long-run averages for later years, since today's tight or loose conditions rarely persist through a five- to ten-year hold, and the exit year above all should reflect a normal market. Where the data points to fragility, such as a big pipeline, stress lower rent growth and higher concessions. Expect reviewers to ask where each number came from.",
+    trap: "The follow-up: your rent growth beats the third-party forecast. Why? Have a specific reason, such as a renovation or in-place rents well below market, or bring it back. Beating the market every year needs more than optimism.",
+    visual: { kind: "table", headers: ["Assumption", "Market evidence", "Common approach"], rows: [
+      ["Market rent today", "Rent comps and recent leases", "Effective rent of the closest comps"],
+      ["Rent growth", "Submarket forecast, pipeline, incomes", "Slower in supply-heavy years, then near inflation"],
+      ["Vacancy and credit loss", "Submarket history and forecast", "Long-run average, not today's reading"],
+      ["Concessions", "Current market concessions", "Burn off as new supply is absorbed"]
+    ]}
+  },
+  {
+    id: "re-market-014",
+    track: "re",
+    module: "re-market",
+    topic: "Rent comps",
+    level: 2,
+    type: "qa",
+    q: "How do you pick and adjust rent comps for an apartment acquisition?",
+    a: "Pick buildings your tenants would realistically choose instead: same submarket, similar age, quality and unit types, with recent leasing data. Put them on one basis: effective rent after concessions, with the same utilities and fees included, compared per SF within each unit type. Then adjust for location, finishes, amenities and unit size, and place your building within the adjusted range.",
+    why: "Comps turn the market into your building's rent, so they're only as good as the match. A new building with a gym and in-unit laundry isn't a comp for a 1980s walk-up across the street. Per-SF figures control for size, but smaller units rent for more per SF, so compare like units. Use signed leases where you can, since asking rents and advertised specials can mislead. For a value-add plan, build two sets: buildings like yours today and renovated buildings like yours after the work, which set the rent premium the renovation must earn.",
+    example: "Your [[900]] SF units rent for [[$1,800]]: $2.00/SF. Renovated comps rent for [[$2.30]]/SF but sit in a better location, worth about [[$0.10]]/SF, so adjust them to $2.20/SF: $1,980 a month after renovation, a $180 premium. At [[$15,000]] a unit, that premium earns 14.4% a year on the renovation cost.",
+    trap: "Don't cherry-pick. A comp set of the three highest-rent buildings in the submarket will justify any business plan. Show the full range and explain where your building belongs in it."
+  },
+  {
+    id: "re-market-015",
+    track: "re",
+    module: "re-market",
+    topic: "Evaluating a market",
+    level: 2,
+    type: "walk",
+    classic: true,
+    q: "Walk me through how you'd evaluate whether a market is attractive for a property type.",
+    a: "Start with demand: growth in jobs, population, households and incomes, and how diverse the employers are. Then supply: the pipeline against inventory and absorption, and how hard it is to build more. Then the balance: vacancy and availability against history, and effective rent growth. Then pricing: cap rates and prices against replacement cost. Finally, narrow to the submarket you'd buy in and name what would make you wrong.",
+    why: "The order follows cause and effect: demand and supply set vacancy; vacancy sets rents; rents drive NOI and value. Pricing comes last because a strong market can already be fully priced; the question is whether the growth you expect is worth more than what buyers already pay for it. Diversity matters because a market that depends on one industry or employer can lose demand quickly. Answer for one property type, since office, apartments and industrial in the same metro can sit at different points in their cycles.",
+    trap: "The follow-up: fast growth with a big pipeline, or slow growth with almost no new supply? Either can win. Compare where vacancy is heading in each and what today's prices already assume.",
+    visual: { kind: "flow", steps: [
+      { label: "Demand", note: "Jobs, population, households, incomes, employer mix" },
+      { label: "Supply", note: "Pipeline against inventory and absorption; barriers" },
+      { label: "Balance", note: "Vacancy, availability, effective rent growth" },
+      { label: "Pricing", note: "Cap rates; price against replacement cost" },
+      { label: "Submarket and risks", note: "Where you'd buy; what would prove you wrong" }
+    ]}
+  },
+  {
+    id: "re-market-016",
+    track: "re",
+    module: "re-market",
+    topic: "The real estate cycle",
+    level: 3,
+    type: "qa",
+    q: "An interviewer asks where we are in the real estate cycle. How do you structure your answer?",
+    a: "Pick a property type and market, since they're rarely in the same phase, then read the physical cycle from vacancy and construction. Falling vacancy with little building is recovery; with rising construction, expansion. Rising vacancy as deliveries outrun demand is oversupply; rising vacancy as demand shrinks is recession. Then add the capital side (pricing and lending) and give a view.",
+    why: "Real estate runs two linked cycles. The physical cycle is supply and demand for space: buildings take years to deliver, so developers answer today's tight market with space that lands in tomorrow's, which is why supply overshoots. The capital cycle is the price of that space: cap rates, lending terms and investor appetite, driven by interest rates and risk tolerance. They can diverge, so values can fall on higher rates while occupancy is still strong. Interviewers don't expect a correct call, just a structured one built on indicators and honest about uncertainty.",
+    trap: "Don't answer with a date or a headline. 'Late cycle' means nothing without evidence: vacancy against its long-run average, starts as a share of stock and whether rent growth is speeding up or slowing.",
+    visual: { kind: "table", headers: ["Phase", "Vacancy", "Construction", "Rents"], rows: [
+      ["Recovery", "Falling from a high level", "Little", "Flat, then rising"],
+      ["Expansion", "Falling below normal", "Rising", "Growing fastest"],
+      ["Oversupply", "Rising", "Deliveries peak", "Growth slows; concessions appear"],
+      ["Recession", "Rising above normal", "Starts fall", "Falling"]
+    ], caption: "The physical cycle in four phases, a widely used framework. Property types and markets move through it at different times." }
+  }
 ]);

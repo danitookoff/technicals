@@ -12,8 +12,9 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 - Owner feedback on the sample (2026-09-23): keep the current style (likes dark mode), keep answer length the same, difficulty is the right starting point.
 - **Phase 3 (full deck) is in progress.** Content is written in parallel waves, one module per writer, following WRITING.md. After each wave: validate, spot-check, tick subtopics, update counts, bump, commit, push.
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
-  - Wave B (in progress): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`.
-  - Waves C and D (next): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, then the IB modules and the remaining IB drills.
+  - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
+  - Wave C (in progress): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills.
+  - Wave D (next): `ib-comps`, `ib-precedents`, `ib-dcf`, `ib-wacc`, `ib-lbo`, `ib-ma`, `ib-process`, `ib-credit`, `ib-rx`, `ib-sectors`, `ib-model`.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
 
@@ -21,9 +22,9 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
 | IB | 17 | 560 | 15 | 12 | 4 of 18 |
-| Real estate | 13 | 440 | 197 | 56 | 22 of 22 |
-| Hotels | 9 | 250 | 103 | 27 | 13 of 13 |
-| **Total** | **39** | **1250** | **315** | **95** | **39 of 53** |
+| Real estate | 13 | 440 | 450 | 118 | 22 of 22 |
+| Hotels | 9 | 250 | 155 | 41 | 13 of 13 |
+| **Total** | **39** | **1250** | **620** | **171** | **39 of 53** |
 <!-- summary:end -->
 
 ---
@@ -388,33 +389,33 @@ Target: 30 · Written: 30 · Classic: 9 · Status: complete
 - [x] Why investors own real estate (income, inflation protection, diversification)
 
 ### `re-leases` Leases and rent rolls
-Target: 45 · Written: 2 · Classic: 2 · Status: seeded
+Target: 45 · Written: 48 · Classic: 12 · Status: complete
 
 - [x] Gross, modified gross, net and NNN leases
-- [ ] Base rent and escalations (fixed, CPI, steps)
-- [ ] Free rent
-- [ ] TI allowances
-- [ ] Leasing commissions
-- [ ] Renewal, expansion and termination options
-- [ ] Recoveries: CAM and pro-rata share
-- [ ] Base years and expense stops
-- [ ] Gross-ups, caps and CAM reconciliations
-- [ ] Percentage rent and breakpoints
-- [ ] Co-tenancy
-- [ ] Estoppels and SNDAs
-- [ ] WALT and rollover schedules
-- [ ] In-place vs market rent: mark-to-market and loss-to-lease
-- [ ] Tenant credit and concentration
+- [x] Base rent and escalations (fixed, CPI, steps)
+- [x] Free rent
+- [x] TI allowances
+- [x] Leasing commissions
+- [x] Renewal, expansion and termination options
+- [x] Recoveries: CAM and pro-rata share
+- [x] Base years and expense stops
+- [x] Gross-ups, caps and CAM reconciliations
+- [x] Percentage rent and breakpoints
+- [x] Co-tenancy
+- [x] Estoppels and SNDAs
+- [x] WALT and rollover schedules
+- [x] In-place vs market rent: mark-to-market and loss-to-lease
+- [x] Tenant credit and concentration
 - [x] Net effective rent
-- [ ] Market leasing assumptions: renewal probability, downtime, new vs renewal TI/LC
-- [ ] Multifamily: unit mix, concessions, physical vs economic occupancy, other income, turnover
-- [ ] Office: rentable vs usable area and the load factor
-- [ ] Retail: sales per SF, occupancy cost, anchors
-- [ ] Industrial basics: clear height, loading, bulk vs flex
-- [ ] Security deposits and letters of credit
-- [ ] Assignment, subletting and holdover
-- [ ] Radius restrictions, exclusives, go-dark and kick-out clauses
-- [ ] Lease abstracts
+- [x] Market leasing assumptions: renewal probability, downtime, new vs renewal TI/LC
+- [x] Multifamily: unit mix, concessions, physical vs economic occupancy, other income, turnover
+- [x] Office: rentable vs usable area and the load factor
+- [x] Retail: sales per SF, occupancy cost, anchors
+- [x] Industrial basics: clear height, loading, bulk vs flex
+- [x] Security deposits and letters of credit
+- [x] Assignment, subletting and holdover
+- [x] Radius restrictions, exclusives, go-dark and kick-out clauses
+- [x] Lease abstracts
 
 ### `re-noi` Operating statement and NOI
 Target: 35 · Written: 35 · Classic: 8 · Status: complete
@@ -495,130 +496,130 @@ Target: 55 · Written: 55 · Classic: 15 · Status: complete
 - [x] Loan assumptions
 
 ### `re-deals` Deal structures and waterfalls
-Target: 40 · Written: 2 · Classic: 1 · Status: seeded
+Target: 40 · Written: 41 · Classic: 11 · Status: complete
 
-- [ ] JV structures: LP/GP, co-GP, programmatic
-- [ ] GP co-invest
-- [ ] Fees: acquisition, asset management, disposition, development
+- [x] JV structures: LP/GP, co-GP, programmatic
+- [x] GP co-invest
+- [x] Fees: acquisition, asset management, disposition, development
 - [x] Preferred return: simple vs compounding, cumulative
-- [ ] IRR vs multiple hurdles
-- [ ] Catch-ups
+- [x] IRR vs multiple hurdles
+- [x] Catch-ups
 - [x] Promote tiers
-- [ ] Deal-by-deal vs whole-fund waterfalls
-- [ ] Clawbacks
-- [ ] Calculating total GP take
-- [ ] Major decisions, buy-sell and removal rights
-- [ ] Capital calls and dilution of a non-funding partner
-- [ ] Fund basics: closed- vs open-end, commitment period, capital calls, dry powder, J-curve, NAV
-- [ ] REIT basics: distribution requirement, asset and income tests, UPREITs and OP units, traded vs non-traded
-- [ ] Sale-leasebacks
-- [ ] Tax at interview depth: depreciation shield, 1031 exchanges, recapture
+- [x] Deal-by-deal vs whole-fund waterfalls
+- [x] Clawbacks
+- [x] Calculating total GP take
+- [x] Major decisions, buy-sell and removal rights
+- [x] Capital calls and dilution of a non-funding partner
+- [x] Fund basics: closed- vs open-end, commitment period, capital calls, dry powder, J-curve, NAV
+- [x] REIT basics: distribution requirement, asset and income tests, UPREITs and OP units, traded vs non-traded
+- [x] Sale-leasebacks
+- [x] Tax at interview depth: depreciation shield, 1031 exchanges, recapture
 
 ### `re-acq` Acquisitions process
-Target: 30 · Written: 0 · Classic: 0 · Status: planned
+Target: 30 · Written: 33 · Classic: 9 · Status: complete
 
-- [ ] Sourcing on and off market
-- [ ] Offering memorandums and broker opinions of value
-- [ ] The underwriting flow
-- [ ] Broker pro forma vs your underwriting
-- [ ] Bid rounds and best-and-final
-- [ ] LOI
-- [ ] PSA
-- [ ] Soft vs hard deposits
-- [ ] Due diligence: property condition, Phase I and II environmental, title, survey, zoning
-- [ ] Due diligence: estoppels, lease audit, financial audit
-- [ ] Closing and prorations; closing costs and transfer taxes
-- [ ] Assuming existing debt
-- [ ] The IC memo
-- [ ] Defending key assumptions
-- [ ] Red flags
+- [x] Sourcing on and off market
+- [x] Offering memorandums and broker opinions of value
+- [x] The underwriting flow
+- [x] Broker pro forma vs your underwriting
+- [x] Bid rounds and best-and-final
+- [x] LOI
+- [x] PSA
+- [x] Soft vs hard deposits
+- [x] Due diligence: property condition, Phase I and II environmental, title, survey, zoning
+- [x] Due diligence: estoppels, lease audit, financial audit
+- [x] Closing and prorations; closing costs and transfer taxes
+- [x] Assuming existing debt
+- [x] The IC memo
+- [x] Defending key assumptions
+- [x] Red flags
 
 ### `re-am` Asset management on the job
-Target: 50 · Written: 0 · Classic: 0 · Status: planned
+Target: 50 · Written: 51 · Classic: 14 · Status: complete
 
-- [ ] Business plans and tracking execution
-- [ ] Annual budgets and reforecasts
-- [ ] Budget-vs-actual variance analysis
-- [ ] Monthly and quarterly reporting and KPIs
-- [ ] Evaluating lease proposals: net effective rent, NPV, TI/LC, downtime
-- [ ] Capex planning: ROI vs maintenance vs life-safety; reserves
-- [ ] Overseeing property managers; management agreements
-- [ ] Tax appeals
-- [ ] Insurance renewals
-- [ ] Lender reporting and covenant compliance
-- [ ] Hold/sell analysis: forward IRR from today's value
-- [ ] Refinance vs hold
-- [ ] Running a disposition
-- [ ] Quarterly valuations
-- [ ] Watchlist assets
-- [ ] Tenant credit monitoring
+- [x] Business plans and tracking execution
+- [x] Annual budgets and reforecasts
+- [x] Budget-vs-actual variance analysis
+- [x] Monthly and quarterly reporting and KPIs
+- [x] Evaluating lease proposals: net effective rent, NPV, TI/LC, downtime
+- [x] Capex planning: ROI vs maintenance vs life-safety; reserves
+- [x] Overseeing property managers; management agreements
+- [x] Tax appeals
+- [x] Insurance renewals
+- [x] Lender reporting and covenant compliance
+- [x] Hold/sell analysis: forward IRR from today's value
+- [x] Refinance vs hold
+- [x] Running a disposition
+- [x] Quarterly valuations
+- [x] Watchlist assets
+- [x] Tenant credit monitoring
 
 ### `re-dev` Development and feasibility
-Target: 35 · Written: 2 · Classic: 1 · Status: seeded
+Target: 35 · Written: 35 · Classic: 8 · Status: complete
 
 - [x] The development budget: land, hard, soft, financing costs, contingency, developer fee
 - [x] Sources and uses
-- [ ] Capitalized interest and the interest reserve
-- [ ] Construction loans: equity first, draws, completion guarantees
-- [ ] Lease-up and stabilization
+- [x] Capitalized interest and the interest reserve
+- [x] Construction loans: equity first, draws, completion guarantees
+- [x] Lease-up and stabilization
 - [x] Yield on cost vs exit cap: the development spread
-- [ ] Development margin (profit on cost)
-- [ ] Residual land value
-- [ ] Entitlement and construction risk
-- [ ] Hard-cost contracts: GMP vs cost-plus
-- [ ] Zoning basics: FAR, density, parking
-- [ ] Merchant build vs build-to-hold
-- [ ] What a feasibility study contains
-- [ ] Break-even rent
+- [x] Development margin (profit on cost)
+- [x] Residual land value
+- [x] Entitlement and construction risk
+- [x] Hard-cost contracts: GMP vs cost-plus
+- [x] Zoning basics: FAR, density, parking
+- [x] Merchant build vs build-to-hold
+- [x] What a feasibility study contains
+- [x] Break-even rent
 
 ### `re-market` Market analysis
-Target: 15 · Written: 0 · Classic: 0 · Status: planned
+Target: 15 · Written: 16 · Classic: 4 · Status: complete
 
-- [ ] Supply, demand and absorption
-- [ ] The construction pipeline
-- [ ] Vacancy and rent trends
-- [ ] Submarkets
-- [ ] Demand drivers: jobs, population, household formation, incomes
-- [ ] Barriers to entry
-- [ ] How underwriting uses market data
+- [x] Supply, demand and absorption
+- [x] The construction pipeline
+- [x] Vacancy and rent trends
+- [x] Submarkets
+- [x] Demand drivers: jobs, population, household formation, incomes
+- [x] Barriers to entry
+- [x] How underwriting uses market data
 
 ### `re-acct` Real estate accounting
-Target: 15 · Written: 0 · Classic: 0 · Status: planned
+Target: 15 · Written: 15 · Classic: 4 · Status: complete
 
-- [ ] Straight-line vs cash rent
-- [ ] Depreciation, and why FFO adds it back
-- [ ] AFFO adjustments
-- [ ] Above- and below-market lease intangibles
-- [ ] Impairments
-- [ ] Lessor accounting basics
-- [ ] Capitalized interest and development costs
+- [x] Straight-line vs cash rent
+- [x] Depreciation, and why FFO adds it back
+- [x] AFFO adjustments
+- [x] Above- and below-market lease intangibles
+- [x] Impairments
+- [x] Lessor accounting basics
+- [x] Capitalized interest and development costs
 
 ### `re-model` Building a real estate model
-Target: 20 · Written: 0 · Classic: 0 · Status: planned
+Target: 20 · Written: 20 · Classic: 4 · Status: complete
 
-- [ ] The order to build a property pro forma
-- [ ] Rent roll to cash flow
-- [ ] Debt tab
-- [ ] Waterfall tab
-- [ ] Sensitivity tables
-- [ ] Circularity from construction interest
-- [ ] XIRR and XNPV
-- [ ] How real estate modeling tests are structured, and what graders check
+- [x] The order to build a property pro forma
+- [x] Rent roll to cash flow
+- [x] Debt tab
+- [x] Waterfall tab
+- [x] Sensitivity tables
+- [x] Circularity from construction interest
+- [x] XIRR and XNPV
+- [x] How real estate modeling tests are structured, and what graders check
 
 ---
 
 ## Hotels
 
 ### `hotel-basics` Hotel fundamentals
-Target: 25 · Written: 2 · Classic: 1 · Status: seeded
+Target: 25 · Written: 25 · Classic: 7 · Status: complete
 
 - [x] Why hotels are operating businesses (nightly "leases", volatile cash flow, wider cap rates)
-- [ ] Chain scales: luxury to economy
-- [ ] Service levels: full, select and limited service; extended stay
-- [ ] Resorts, lifestyle hotels, independents and soft brands
+- [x] Chain scales: luxury to economy
+- [x] Service levels: full, select and limited service; extended stay
+- [x] Resorts, lifestyle hotels, independents and soft brands
 - [x] Owner vs brand vs operator
-- [ ] Management vs franchise vs lease structures (leases more common outside the US)
-- [ ] Demand drivers and the hotel cycle
+- [x] Management vs franchise vs lease structures (leases more common outside the US)
+- [x] Demand drivers and the hotel cycle
 
 ### `hotel-metrics` Performance metrics
 Target: 35 · Written: 35 · Classic: 9 · Status: complete
@@ -666,23 +667,23 @@ Target: 35 · Written: 35 · Classic: 9 · Status: complete
 - [x] F&B and banquet metrics
 
 ### `hotel-agreements` Management and franchise agreements
-Target: 30 · Written: 1 · Classic: 0 · Status: seeded
+Target: 30 · Written: 30 · Classic: 8 · Status: complete
 
-- [ ] HMA term and renewals
+- [x] HMA term and renewals
 - [x] Base fee
 - [x] Incentive fee and the owner's priority
-- [ ] Performance tests
-- [ ] Termination rights, including on sale
-- [ ] Budget approval
-- [ ] Reserves under the HMA
-- [ ] Key money
-- [ ] Area of protection
-- [ ] Franchise agreements: royalty, marketing, loyalty and reservation fees
-- [ ] PIPs in franchise agreements
-- [ ] Liquidated damages
-- [ ] Brand-managed vs franchised with a third-party operator
-- [ ] Conversions and rebranding
-- [ ] Encumbered vs unencumbered hotels
+- [x] Performance tests
+- [x] Termination rights, including on sale
+- [x] Budget approval
+- [x] Reserves under the HMA
+- [x] Key money
+- [x] Area of protection
+- [x] Franchise agreements: royalty, marketing, loyalty and reservation fees
+- [x] PIPs in franchise agreements
+- [x] Liquidated damages
+- [x] Brand-managed vs franchised with a third-party operator
+- [x] Conversions and rebranding
+- [x] Encumbered vs unencumbered hotels
 
 ### `hotel-val` Valuation and investment
 Target: 30 · Written: 30 · Classic: 8 · Status: complete
