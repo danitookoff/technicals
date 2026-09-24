@@ -94,6 +94,7 @@ tools/bump.js         version bump before each deploy
 tools/icons.js        draws the icons
 COVERAGE.md           the content map and progress; resume from here
 CLAUDE.md             notes for future Claude sessions
+WRITING.md            house style for cards and drills
 ```
 
 The card schema, ID rules and content rules are in CLAUDE.md.
@@ -115,6 +116,7 @@ Type: system UI fonts (SF on Apple devices), tabular lining figures everywhere, 
 
 ## Decisions where the spec left room
 
+- **Theme** follows the system by default; Settings › Theme can force Light or Dark on any device.
 - **Primers** have a single **Got it** button. Reading one parks it in box 6, so it returns as a refresher in about three months. Primers don't count toward mastery or closing a module.
 - **Too easy** on a card already at box 4 or higher moves it up one box instead of back to 4.
 - **Closing a module** needs at least 10 question cards, so the small sample modules can't mint a tombstone that would later cover 50 cards. A tombstone stays on the shelf even if cards are added afterwards.

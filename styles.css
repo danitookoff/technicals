@@ -43,8 +43,10 @@
   color-scheme: light dark;
 }
 
+/* Dark tokens, used when the system is dark (unless Settings forces light) or when Settings forces dark.
+   Keep the two copies identical. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --paper: #17191C;
     --ink: #ECECE7;
     --graphite: #9EA4AB;
@@ -58,6 +60,21 @@
     --lift: 0 16px 40px -18px rgb(0 0 0 / 0.7);
   }
 }
+:root[data-theme="dark"] {
+  --paper: #17191C;
+  --ink: #ECECE7;
+  --graphite: #9EA4AB;
+  --rule: #30343A;
+  --input: #8DB2FF;
+  --lucite: #9FD0C5;
+  --surface: #1F2226;
+  --wash: #262A2F;
+  --edge: #737A83;
+  --scrim: rgb(0 0 0 / 0.55);
+  --lift: 0 16px 40px -18px rgb(0 0 0 / 0.7);
+  color-scheme: dark;
+}
+:root[data-theme="light"] { color-scheme: light; }
 
 html[data-size="s"] { --scale: 0.92; }
 html[data-size="l"] { --scale: 1.12; }
@@ -476,7 +493,7 @@ h1, h2, h3, h4, p { margin: 0; }
   text-shadow: 0 1px 0 rgb(255 255 255 / 0.55);
 }
 @media (prefers-color-scheme: dark) {
-  .tombstone {
+  :root:not([data-theme="light"]) .tombstone {
     background-color: #22312E;
     background-image:
       linear-gradient(118deg, rgb(255 255 255 / 0.12) 0 16%, rgb(255 255 255 / 0) 36%),
@@ -487,6 +504,17 @@ h1, h2, h3, h4, p { margin: 0; }
       0 calc(var(--w) * 0.09) calc(var(--w) * 0.12) calc(var(--w) * -0.07) rgb(0 0 0 / 0.8);
     text-shadow: 0 -1px 0 rgb(0 0 0 / 0.5);
   }
+}
+:root[data-theme="dark"] .tombstone {
+  background-color: #22312E;
+  background-image:
+    linear-gradient(118deg, rgb(255 255 255 / 0.12) 0 16%, rgb(255 255 255 / 0) 36%),
+    linear-gradient(180deg, rgb(159 208 197 / 0.14), rgb(159 208 197 / 0) 50%);
+  box-shadow:
+    inset 0 0 0 1px rgb(159 208 197 / 0.55),
+    inset 0 0 0 calc(var(--w) * 0.035) rgb(159 208 197 / 0.08),
+    0 calc(var(--w) * 0.09) calc(var(--w) * 0.12) calc(var(--w) * -0.07) rgb(0 0 0 / 0.8);
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 0.5);
 }
 .ts-track { font-style: italic; font-size: calc(var(--w) * 0.058); opacity: 0.8; }
 .ts-figure { font-size: calc(var(--w) * 0.22); font-weight: 600; line-height: 1; margin-top: calc(var(--w) * 0.05); letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }

@@ -4,7 +4,7 @@ A personal swipe feed of IB, real estate and hotel technicals: plain HTML/CSS/JS
 
 ## Status
 
-Phase 2 (app, sample deck of 50 cards, 10 drills, validator, first deploy) is done and waiting for the owner's feedback on style, answer length and difficulty. Don't write Phase 3 content until that feedback is in. Build phases 3–5 are described in the "Where things stand" section of COVERAGE.md.
+Phase 2 is done and approved (owner feedback, 2026-09-23: keep the current style, likes dark mode; same answer length; difficulty is the right starting point). Phase 3 (writing the full deck) is in progress; see "Where things stand" in COVERAGE.md. **WRITING.md is the house style for every card and drill; read it before writing content.**
 
 ## Files
 

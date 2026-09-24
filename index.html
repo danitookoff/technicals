@@ -17,6 +17,14 @@
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
+<script>
+  // Apply the saved theme and text size before first paint (app.js keeps them in sync after).
+  try {
+    var saved = JSON.parse(localStorage.getItem('technicals.progress.v1')).settings;
+    if (saved.theme === 'light' || saved.theme === 'dark') document.documentElement.dataset.theme = saved.theme;
+    if (saved.size) document.documentElement.dataset.size = saved.size;
+  } catch (e) {}
+</script>
 </head>
 <body>
 
@@ -70,23 +78,42 @@
 
 <script defer src="deck.js"></script>
 <script defer src="data/ib-acct.js"></script>
+<script defer src="data/ib-acct-adv.js"></script>
+<script defer src="data/ib-comps.js"></script>
+<script defer src="data/ib-credit.js"></script>
 <script defer src="data/ib-dcf.js"></script>
 <script defer src="data/ib-ev.js"></script>
 <script defer src="data/ib-lbo.js"></script>
 <script defer src="data/ib-ma.js"></script>
+<script defer src="data/ib-model.js"></script>
+<script defer src="data/ib-precedents.js"></script>
+<script defer src="data/ib-process.js"></script>
+<script defer src="data/ib-ratios.js"></script>
+<script defer src="data/ib-rx.js"></script>
+<script defer src="data/ib-sectors.js"></script>
+<script defer src="data/ib-val.js"></script>
 <script defer src="data/ib-wacc.js"></script>
 <script defer src="data/ib-walk.js"></script>
+<script defer src="data/re-acct.js"></script>
+<script defer src="data/re-acq.js"></script>
+<script defer src="data/re-am.js"></script>
 <script defer src="data/re-basics.js"></script>
 <script defer src="data/re-deals.js"></script>
 <script defer src="data/re-debt.js"></script>
 <script defer src="data/re-dev.js"></script>
 <script defer src="data/re-leases.js"></script>
+<script defer src="data/re-market.js"></script>
+<script defer src="data/re-model.js"></script>
 <script defer src="data/re-noi.js"></script>
 <script defer src="data/re-returns.js"></script>
 <script defer src="data/re-val.js"></script>
 <script defer src="data/hotel-agreements.js"></script>
+<script defer src="data/hotel-am.js"></script>
 <script defer src="data/hotel-basics.js"></script>
+<script defer src="data/hotel-capex.js"></script>
+<script defer src="data/hotel-debt.js"></script>
 <script defer src="data/hotel-metrics.js"></script>
+<script defer src="data/hotel-rm.js"></script>
 <script defer src="data/hotel-usali.js"></script>
 <script defer src="data/hotel-val.js"></script>
 <script defer src="drills/engine.js"></script>

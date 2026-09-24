@@ -8,9 +8,13 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 
 ## Where things stand
 
-- Phase 1 (plan) is done.
-- Phase 2 (app, sample deck, validator, first deploy) is done and waiting for feedback on style, answer length and difficulty. Don't start Phase 3 until that feedback is in.
-- Phase 3 order: `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, then the remaining real estate and hotel modules, then IB. Batches of 40–60 cards; build the remaining drills along the way.
+- Phase 1 (plan) and Phase 2 (app, sample deck, validator, first deploy) are done. Live at https://danitookoff.github.io/technicals/.
+- Owner feedback on the sample (2026-09-23): keep the current style (likes dark mode), keep answer length the same, difficulty is the right starting point.
+- **Phase 3 (full deck) is in progress.** Content is written in parallel waves, one module per writer, following WRITING.md. After each wave: validate, spot-check, tick subtopics, update counts, bump, commit, push.
+  - Wave A: `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus the remaining real estate and hotel drills.
+  - Wave B: the remaining real estate modules and `hotel-basics`, `hotel-agreements`.
+  - Waves C and D: the remaining hotel modules, then IB, plus the remaining IB drills.
+- Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
 
 <!-- summary:start -->

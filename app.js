@@ -3,7 +3,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = 1;
+  const APP_VERSION = 2;
   const STORE_KEY = 'technicals.progress.v1';
   const INTERVALS = [0, 1, 3, 7, 16, 35, 90]; // days until due, by Leitner box
   const MASTERED_BOX = 4;
@@ -76,7 +76,7 @@
         missed: [],  // [{ id, t }], newest first
         log: {},     // 'YYYY-MM-DD' → cards graded that day
         closed: {},  // module → { t, mastered, total }
-        settings: { track: 'all', focus: null, drillEvery: 6, size: 'm', advance: true }
+        settings: { track: 'all', focus: null, drillEvery: 6, size: 'm', theme: 'system', advance: true }
       };
     },
     load() {
@@ -1141,6 +1141,11 @@
           Store.save();
           applySize();
         })),
+        section('Theme', seg('theme', [['system', 'System'], ['light', 'Light'], ['dark', 'Dark']], p.theme || 'system', (v) => {
+          p.theme = v;
+          Store.save();
+          applyTheme();
+        })),
         section(null, switchRow('Go to the next card after grading', p.advance, (on) => { p.advance = on; Store.save(); })));
 
       const progress = section('Progress',
@@ -1250,6 +1255,8 @@
   }
 
   function restartFeed() {
+    applyTheme();
+    applySize();
     resetAhead();
     Q.served = new Set(Q.entries.filter((e) => e.kind === 'card').map((e) => e.id));
     ensureAhead();
@@ -1273,6 +1280,19 @@
   function applySize() {
     document.documentElement.dataset.size = prefs().size || 'm';
     rendered.forEach((node) => fit(node));
+  }
+
+  // System follows the device; Light or Dark overrides it (index.html applies it before first paint too).
+  const THEME_COLORS = { light: '#F7F7F4', dark: '#17191C' };
+  function applyTheme() {
+    const t = prefs().theme;
+    const forced = t === 'light' || t === 'dark' ? t : null;
+    const root = document.documentElement;
+    if (forced) root.dataset.theme = forced;
+    else delete root.dataset.theme;
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => {
+      m.content = THEME_COLORS[forced || (m.media.includes('dark') ? 'dark' : 'light')];
+    });
   }
 
   function registerSW() {
@@ -1386,6 +1406,7 @@
   });
 
   Store.load();
+  applyTheme();
   applySize();
   measure();
   ensureAhead();
