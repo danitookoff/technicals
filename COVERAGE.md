@@ -11,9 +11,9 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 - Phase 1 (plan) and Phase 2 (app, sample deck, validator, first deploy) are done. Live at https://danitookoff.github.io/technicals/.
 - Owner feedback on the sample (2026-09-23): keep the current style (likes dark mode), keep answer length the same, difficulty is the right starting point.
 - **Phase 3 (full deck) is in progress.** Content is written in parallel waves, one module per writer, following WRITING.md. After each wave: validate, spot-check, tick subtopics, update counts, bump, commit, push.
-  - Wave A: `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus the remaining real estate and hotel drills.
-  - Wave B: the remaining real estate modules and `hotel-basics`, `hotel-agreements`.
-  - Waves C and D: the remaining hotel modules, then IB, plus the remaining IB drills.
+  - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
+  - Wave B (in progress): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`.
+  - Waves C and D (next): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, then the IB modules and the remaining IB drills.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
 
@@ -21,9 +21,9 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
 | IB | 17 | 560 | 15 | 12 | 4 of 18 |
-| Real estate | 13 | 440 | 26 | 17 | 4 of 22 |
-| Hotels | 9 | 250 | 9 | 5 | 2 of 13 |
-| **Total** | **39** | **1250** | **50** | **34** | **10 of 53** |
+| Real estate | 13 | 440 | 197 | 56 | 22 of 22 |
+| Hotels | 9 | 250 | 103 | 27 | 13 of 13 |
+| **Total** | **39** | **1250** | **315** | **95** | **39 of 53** |
 <!-- summary:end -->
 
 ---
@@ -364,28 +364,28 @@ Target: 20 · Written: 0 · Classic: 0 · Status: planned
 ## Real estate
 
 ### `re-basics` Foundations
-Target: 30 · Written: 4 · Classic: 2 · Status: seeded
+Target: 30 · Written: 30 · Classic: 9 · Status: complete
 
-- [ ] Office: what drives it
-- [ ] Multifamily: what drives it
-- [ ] Industrial: what drives it
-- [ ] Retail: what drives it
-- [ ] Hotels as a property type
-- [ ] Self-storage
-- [ ] Senior and student housing
-- [ ] Life science
-- [ ] Data centers
-- [ ] Medical office
-- [ ] Single-family rental
+- [x] Office: what drives it
+- [x] Multifamily: what drives it
+- [x] Industrial: what drives it
+- [x] Retail: what drives it
+- [x] Hotels as a property type
+- [x] Self-storage
+- [x] Senior and student housing
+- [x] Life science
+- [x] Data centers
+- [x] Medical office
+- [x] Single-family rental
 - [x] Fee simple vs leasehold and ground leases
-- [ ] Building classes (A, B, C)
+- [x] Building classes (A, B, C)
 - [x] Core, core-plus, value-add and opportunistic: risk, leverage, returns
 - [x] How real estate differs from corporate finance (NOI vs EBITDA, cap rates vs multiples)
-- [ ] Who does what: sponsor, LP, GP, operator, property manager, asset manager, broker, lender, REIT, fund
-- [ ] Asset vs property vs portfolio management vs acquisitions
-- [ ] How interest rates affect real estate values
-- [ ] Stabilized vs non-stabilized assets
-- [ ] Why investors own real estate (income, inflation protection, diversification)
+- [x] Who does what: sponsor, LP, GP, operator, property manager, asset manager, broker, lender, REIT, fund
+- [x] Asset vs property vs portfolio management vs acquisitions
+- [x] How interest rates affect real estate values
+- [x] Stabilized vs non-stabilized assets
+- [x] Why investors own real estate (income, inflation protection, diversification)
 
 ### `re-leases` Leases and rent rolls
 Target: 45 · Written: 2 · Classic: 2 · Status: seeded
@@ -417,82 +417,82 @@ Target: 45 · Written: 2 · Classic: 2 · Status: seeded
 - [ ] Lease abstracts
 
 ### `re-noi` Operating statement and NOI
-Target: 35 · Written: 4 · Classic: 3 · Status: seeded
+Target: 35 · Written: 35 · Classic: 8 · Status: complete
 
 - [x] The build from GPR through vacancy and credit loss, concessions and other income to EGI
 - [x] Operating expenses to NOI
-- [ ] Below NOI: capex, reserves, TI/LC, cash flow before debt service
-- [ ] Debt service and levered cash flow
+- [x] Below NOI: capex, reserves, TI/LC, cash flow before debt service
+- [x] Debt service and levered cash flow
 - [x] What sits above and below NOI, and why
-- [ ] Controllable vs non-controllable expenses
+- [x] Controllable vs non-controllable expenses
 - [x] T-12, annualized T-3, budget and pro forma
 - [x] Buyer normalizations: tax reassessment on sale, insurance, market management fee, one-time items
-- [ ] Expense ratios; per-unit and per-SF benchmarks
-- [ ] Operating leverage
-- [ ] Management fees as a share of EGI
-- [ ] Replacement reserves
-- [ ] In-place vs stabilized vs mark-to-market NOI
-- [ ] Bad debt and delinquency
+- [x] Expense ratios; per-unit and per-SF benchmarks
+- [x] Operating leverage
+- [x] Management fees as a share of EGI
+- [x] Replacement reserves
+- [x] In-place vs stabilized vs mark-to-market NOI
+- [x] Bad debt and delinquency
 
 ### `re-val` Valuation
-Target: 40 · Written: 4 · Classic: 3 · Status: seeded
+Target: 40 · Written: 41 · Classic: 12 · Status: complete
 
 - [x] Direct capitalization
 - [x] What drives cap rates
 - [x] Cap rate ≈ discount rate − growth
 - [x] Going-in vs exit cap, and why exit is usually higher
-- [ ] Property DCF: hold period, reversion, discount rate
+- [x] Property DCF: hold period, reversion, discount rate
 - [x] Reversion on forward NOI, net of selling costs
-- [ ] The three appraisal approaches: income, sales comparison, cost
-- [ ] Price per SF, unit or key vs replacement cost
-- [ ] Land value and highest and best use
-- [ ] Sensitivities (exit cap, rent growth, vacancy)
-- [ ] REIT valuation: FFO, AFFO, NAV, implied cap rate, P/FFO
-- [ ] Nominal vs economic cap rate (after reserves)
-- [ ] In-place vs mark-to-market cap rate
-- [ ] Cap rates vs interest rates: the spread and when it compresses
+- [x] The three appraisal approaches: income, sales comparison, cost
+- [x] Price per SF, unit or key vs replacement cost
+- [x] Land value and highest and best use
+- [x] Sensitivities (exit cap, rent growth, vacancy)
+- [x] REIT valuation: FFO, AFFO, NAV, implied cap rate, P/FFO
+- [x] Nominal vs economic cap rate (after reserves)
+- [x] In-place vs mark-to-market cap rate
+- [x] Cap rates vs interest rates: the spread and when it compresses
 
 ### `re-returns` Returns
-Target: 30 · Written: 3 · Classic: 2 · Status: seeded
+Target: 30 · Written: 30 · Classic: 8 · Status: complete
 
 - [x] Unlevered vs levered IRR
-- [ ] Equity multiple
-- [ ] Cash-on-cash
-- [ ] Yield on cost (returns view)
-- [ ] NPV
-- [ ] IRR pitfalls: timing, reinvestment, early distributions
+- [x] Equity multiple
+- [x] Cash-on-cash
+- [x] Yield on cost (returns view)
+- [x] NPV
+- [x] IRR pitfalls: timing, reinvestment, early distributions
 - [x] When IRR and multiple disagree
 - [x] Positive vs negative leverage
-- [ ] Income vs appreciation returns
-- [ ] Rough target returns by strategy
-- [ ] Unlevered IRR ≈ going-in cap rate + growth
-- [ ] Gross vs net returns (fees and promote)
-- [ ] Hold-period decisions
+- [x] Income vs appreciation returns
+- [x] Rough target returns by strategy
+- [x] Unlevered IRR ≈ going-in cap rate + growth
+- [x] Gross vs net returns (fees and promote)
+- [x] Hold-period decisions
 
 ### `re-debt` Debt, capital markets and credit
-Target: 55 · Written: 5 · Classic: 3 · Status: seeded
+Target: 55 · Written: 55 · Classic: 15 · Status: complete
 
-- [ ] Lender types: banks, life companies, CMBS conduit and SASB, agencies, debt funds, HUD
-- [ ] Construction, bridge and permanent loans
+- [x] Lender types: banks, life companies, CMBS conduit and SASB, agencies, debt funds, HUD
+- [x] Construction, bridge and permanent loans
 - [x] Mezzanine and preferred equity
 - [x] The capital stack
-- [ ] Intercreditor basics: UCC vs mortgage foreclosure
+- [x] Intercreditor basics: UCC vs mortgage foreclosure
 - [x] LTV, LTC, DSCR and debt yield
 - [x] Sizing on the binding constraint
-- [ ] Amortization, interest-only periods and mortgage constants
-- [ ] Fixed vs floating, SOFR spreads, rate caps and swaps
+- [x] Amortization, interest-only periods and mortgage constants
+- [x] Fixed vs floating, SOFR spreads, rate caps and swaps
 - [x] Prepayment: lockout, yield maintenance, defeasance, step-downs
-- [ ] Recourse vs non-recourse; bad-boy carve-outs and guarantees
-- [ ] Reserves and escrows
-- [ ] Cash management: lockboxes and sweep triggers
-- [ ] Extension tests
-- [ ] Refinancing and maturity risk
-- [ ] Cash-out refis and recaps
-- [ ] How a lender underwrites vs how equity underwrites
-- [ ] Special servicing and workouts: modifications, extensions, discounted payoffs
-- [ ] Deed-in-lieu vs foreclosure
-- [ ] A/B notes and loan participations (brief)
-- [ ] Loan assumptions
+- [x] Recourse vs non-recourse; bad-boy carve-outs and guarantees
+- [x] Reserves and escrows
+- [x] Cash management: lockboxes and sweep triggers
+- [x] Extension tests
+- [x] Refinancing and maturity risk
+- [x] Cash-out refis and recaps
+- [x] How a lender underwrites vs how equity underwrites
+- [x] Special servicing and workouts: modifications, extensions, discounted payoffs
+- [x] Deed-in-lieu vs foreclosure
+- [x] A/B notes and loan participations (brief)
+- [x] Loan assumptions
 
 ### `re-deals` Deal structures and waterfalls
 Target: 40 · Written: 2 · Classic: 1 · Status: seeded
@@ -621,19 +621,19 @@ Target: 25 · Written: 2 · Classic: 1 · Status: seeded
 - [ ] Demand drivers and the hotel cycle
 
 ### `hotel-metrics` Performance metrics
-Target: 35 · Written: 3 · Classic: 2 · Status: seeded
+Target: 35 · Written: 35 · Classic: 9 · Status: complete
 
 - [x] Occupancy, ADR and RevPAR
-- [ ] TRevPAR
-- [ ] GOPPAR
-- [ ] NOI per key
-- [ ] Available vs sold rooms: out-of-order and complimentary rooms
+- [x] TRevPAR
+- [x] GOPPAR
+- [x] NOI per key
+- [x] Available vs sold rooms: out-of-order and complimentary rooms
 - [x] Comp sets and the penetration indices (MPI, ARI, RGI)
-- [ ] Fair share
-- [ ] Per-occupied-room vs per-available-room metrics
+- [x] Fair share
+- [x] Per-occupied-room vs per-available-room metrics
 - [x] RevPAR growth from ADR vs occupancy
-- [ ] Seasonality and day-of-week patterns
-- [ ] Supply growth and its effect on RevPAR
+- [x] Seasonality and day-of-week patterns
+- [x] Supply growth and its effect on RevPAR
 
 ### `hotel-rm` Demand and revenue management
 Target: 25 · Written: 0 · Classic: 0 · Status: planned
@@ -650,20 +650,20 @@ Target: 25 · Written: 0 · Classic: 0 · Status: planned
 - [ ] Total revenue management
 
 ### `hotel-usali` USALI and the hotel P&L
-Target: 35 · Written: 2 · Classic: 1 · Status: seeded
+Target: 35 · Written: 35 · Classic: 9 · Status: complete
 
 - [x] Operated departments: rooms, F&B, other operated departments, miscellaneous income
-- [ ] Departmental expenses and profit
+- [x] Departmental expenses and profit
 - [x] Undistributed expenses: A&G, IT and telecom, sales and marketing, property operations and maintenance, utilities
 - [x] GOP
-- [ ] Management fees
-- [ ] Non-operating items: rent, property taxes, insurance
-- [ ] EBITDA, FF&E reserve and EBITDA less reserve
-- [ ] Department margins
-- [ ] Fixed vs variable costs
+- [x] Management fees
+- [x] Non-operating items: rent, property taxes, insurance
+- [x] EBITDA, FF&E reserve and EBITDA less reserve
+- [x] Department margins
+- [x] Fixed vs variable costs
 - [x] Flow-through and flex
-- [ ] Cost per occupied room and labor productivity
-- [ ] F&B and banquet metrics
+- [x] Cost per occupied room and labor productivity
+- [x] F&B and banquet metrics
 
 ### `hotel-agreements` Management and franchise agreements
 Target: 30 · Written: 1 · Classic: 0 · Status: seeded
@@ -685,17 +685,17 @@ Target: 30 · Written: 1 · Classic: 0 · Status: seeded
 - [ ] Encumbered vs unencumbered hotels
 
 ### `hotel-val` Valuation and investment
-Target: 30 · Written: 1 · Classic: 1 · Status: seeded
+Target: 30 · Written: 30 · Classic: 8 · Status: complete
 
 - [x] Stabilized NOI after the FF&E reserve
-- [ ] Hotel cap rates and why they're wider
-- [ ] Price per key
-- [ ] Hotel DCF: ramp-up, RevPAR-driven projections, reversion
-- [ ] Business enterprise value vs real property
-- [ ] Hotel REITs and the TRS structure
-- [ ] Lodging C-corps and EV/EBITDA
-- [ ] How a buyer underwrites a hotel acquisition
-- [ ] Deducting a PIP or deferred maintenance from price
+- [x] Hotel cap rates and why they're wider
+- [x] Price per key
+- [x] Hotel DCF: ramp-up, RevPAR-driven projections, reversion
+- [x] Business enterprise value vs real property
+- [x] Hotel REITs and the TRS structure
+- [x] Lodging C-corps and EV/EBITDA
+- [x] How a buyer underwrites a hotel acquisition
+- [x] Deducting a PIP or deferred maintenance from price
 
 ### `hotel-capex` Capex, PIPs and reserves
 Target: 20 · Written: 0 · Classic: 0 · Status: planned
@@ -761,39 +761,39 @@ Drills generate fresh numbers every time. `--update-coverage` ticks the ones tha
 
 - [x] `drill-re-noi-build` NOI build from GPR to NOI
 - [x] `drill-re-cap-rate` Cap rate, value and NOI (any two give the third)
-- [ ] `drill-re-exit-value` Exit value from forward NOI and exit cap, net of selling costs
-- [ ] `drill-re-price-per` Price per SF and per unit
+- [x] `drill-re-exit-value` Exit value from forward NOI and exit cap, net of selling costs
+- [x] `drill-re-price-per` Price per SF and per unit
 - [x] `drill-re-loan-sizing` Loan sizing on LTV, DSCR and debt yield
-- [ ] `drill-re-mortgage` Amortizing payment and mortgage constant
-- [ ] `drill-re-credit-metrics` DSCR, debt yield, LTV and LTC
-- [ ] `drill-re-coc` Cash-on-cash
-- [ ] `drill-re-equity-multiple` Equity multiple
-- [ ] `drill-re-irr` Unlevered vs levered IRR
-- [ ] `drill-re-leverage` Positive vs negative leverage
-- [ ] `drill-re-ner` Net effective rent with free rent and TI/LC
-- [ ] `drill-re-recoveries` Expense-stop and base-year recoveries
-- [ ] `drill-re-loss-to-lease` Loss-to-lease
-- [ ] `drill-re-yoc` Yield on cost and development spread
-- [ ] `drill-re-value-add` Value created by a value-add renovation
-- [ ] `drill-re-breakeven` Break-even occupancy
-- [ ] `drill-re-cash-out-refi` Cash-out refinance proceeds
+- [x] `drill-re-mortgage` Amortizing payment and mortgage constant
+- [x] `drill-re-credit-metrics` DSCR, debt yield, LTV and LTC
+- [x] `drill-re-coc` Cash-on-cash
+- [x] `drill-re-equity-multiple` Equity multiple
+- [x] `drill-re-irr` Unlevered vs levered IRR
+- [x] `drill-re-leverage` Positive vs negative leverage
+- [x] `drill-re-ner` Net effective rent with free rent and TI/LC
+- [x] `drill-re-recoveries` Expense-stop and base-year recoveries
+- [x] `drill-re-loss-to-lease` Loss-to-lease
+- [x] `drill-re-yoc` Yield on cost and development spread
+- [x] `drill-re-value-add` Value created by a value-add renovation
+- [x] `drill-re-breakeven` Break-even occupancy
+- [x] `drill-re-cash-out-refi` Cash-out refinance proceeds
 - [x] `drill-re-waterfall` Two-tier waterfall with a pref (simple and compounding) and promote
-- [ ] `drill-re-gp-take` Total GP take (co-invest plus promote)
-- [ ] `drill-re-residual-land` Residual land value (extra)
-- [ ] `drill-re-walt` WALT from a rent roll (extra)
+- [x] `drill-re-gp-take` Total GP take (co-invest plus promote)
+- [x] `drill-re-residual-land` Residual land value (extra)
+- [x] `drill-re-walt` WALT from a rent roll (extra)
 
 ### Hotels
 
 - [x] `drill-hotel-revpar` Occupancy, ADR and RevPAR (any two give the third)
-- [ ] `drill-hotel-rooms-revenue` Rooms revenue from keys, days, occupancy and ADR
+- [x] `drill-hotel-rooms-revenue` Rooms revenue from keys, days, occupancy and ADR
 - [x] `drill-hotel-penetration` MPI, ARI and RGI against a comp set
-- [ ] `drill-hotel-trevpar` TRevPAR and GOPPAR
-- [ ] `drill-hotel-gop-margin` GOP margin
-- [ ] `drill-hotel-flow-through` Flow-through
-- [ ] `drill-hotel-mgmt-fees` Base and incentive management fees
-- [ ] `drill-hotel-franchise-fees` Franchise fees (royalty plus program fees)
-- [ ] `drill-hotel-ffe` FF&E reserve and NOI after reserve
-- [ ] `drill-hotel-value-per-key` Value per key from NOI and cap rate
-- [ ] `drill-hotel-pip` PIP cost per key and return
-- [ ] `drill-hotel-loan-sizing` Hotel loan sizing on debt yield
-- [ ] `drill-hotel-cpor` Cost per occupied room
+- [x] `drill-hotel-trevpar` TRevPAR and GOPPAR
+- [x] `drill-hotel-gop-margin` GOP margin
+- [x] `drill-hotel-flow-through` Flow-through
+- [x] `drill-hotel-mgmt-fees` Base and incentive management fees
+- [x] `drill-hotel-franchise-fees` Franchise fees (royalty plus program fees)
+- [x] `drill-hotel-ffe` FF&E reserve and NOI after reserve
+- [x] `drill-hotel-value-per-key` Value per key from NOI and cap rate
+- [x] `drill-hotel-pip` PIP cost per key and return
+- [x] `drill-hotel-loan-sizing` Hotel loan sizing on debt yield
+- [x] `drill-hotel-cpor` Cost per occupied room

@@ -92,6 +92,7 @@ icons/                app icons (regenerate with node tools/icons.js)
 tools/validate.js     checks cards, visuals, drills, files and COVERAGE.md
 tools/bump.js         version bump before each deploy
 tools/icons.js        draws the icons
+tools/cards.js        one-line index of the deck (--topics, --grep, --next)
 COVERAGE.md           the content map and progress; resume from here
 CLAUDE.md             notes for future Claude sessions
 WRITING.md            house style for cards and drills

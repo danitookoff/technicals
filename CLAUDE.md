@@ -12,7 +12,7 @@ Phase 2 is done and approved (owner feedback, 2026-09-23: keep the current style
 - `data/<module>.js`: one file per module, each `Deck.add([...])`. File name = module slug.
 - `drills/engine.js` (RNG, formatting, IRR solver), `drills/{ib,re,hotel}.js` (one file per track).
 - `visuals.js`, `app.js`, `styles.css`, `index.html`, `sw.js`, `manifest.webmanifest`, `icons/`.
-- `tools/validate.js`, `tools/bump.js`, `tools/icons.js`.
+- `tools/validate.js`, `tools/bump.js`, `tools/icons.js`, and `tools/cards.js` (one line per card; `--topics`, `--grep <words>`, `--next <module>` for the next free ID).
 
 ## Card schema
 
@@ -43,7 +43,7 @@ Accuracy over volume; US GAAP by default with IFRS noted where it changes the an
 
 ## Workflows
 
-- **"Add 30 cards on hotel management agreements":** edit `data/hotel-agreements.js`, continue from the highest existing ID, write the cards, recompute every number, run `node tools/validate.js --update-coverage`, tick the covered subtopics and update the Status in COVERAGE.md, then bump, commit, push.
+- **"Add 30 cards on hotel management agreements":** edit `data/hotel-agreements.js`, continue from the next free ID (`node tools/cards.js --next hotel-agreements`), write the cards, recompute every number, run `node tools/validate.js --update-coverage`, tick the covered subtopics and update the Status in COVERAGE.md, then bump, commit, push.
 - **"Fix these flagged cards: ...":** flags arrive as `id: question` plus `Note:` lines (drills include a seed). Edit the card in place, keeping its ID. For a drill, reproduce with `Drills.run(id, seed)` in Node.
 - **New module file:** add `<script defer src="data/<slug>.js">` to index.html before `drills/engine.js`; `bump.js` adds it to the service worker cache.
 - **New drill:** `Drills.add({ id: 'drill-<track>-<name>', track, module, topic, level, ranges, make(r), check(p) })` in `drills/<track>.js`. `make` returns `{ q, a, why, formula, steps, visual?, values }`; `check` must re-derive the answer a different way. List the ID in COVERAGE.md's drill list.

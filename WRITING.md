@@ -69,7 +69,7 @@ State the tax rate in the answer (default 25%). Give income statement, cash flow
 2. **Every number ties.** Before you finish, recompute every figure in every `example`, `a` and visual with a scratch Node script and fix anything that doesn't reconcile. Waterfalls must add up; three-statement visuals must balance.
 3. **Fictional companies and properties only** ("a 200-unit apartment building", "Company A"). Generic references to real institutions or programs are fine where they are the subject (agency lenders, CMBS, STR comp-set reports, Section 382, 1031 exchanges). Don't use real public companies as examples.
 4. **Never state current market levels as fact** (rates, spreads, cap rates, fee levels). Present typical ranges as rough ("often", "roughly", "commonly around"), and prefer mechanics over market commentary. Conventions such as a 4% FF&E reserve are described as conventions, not rules.
-5. **One idea per card, no near-duplicates, no trivia.** Before writing, skim the other `data/*.js` files so you don't repeat a card that exists in another module. A family of related walk-throughs is fine.
+5. **One idea per card, no near-duplicates, no trivia.** Before writing, check what exists: `node tools/cards.js --topics` lists every module's topics, `node tools/cards.js --grep <words>` finds cards on a subject, and `node tools/cards.js <module>` lists a module's questions. Open a neighboring file only when you need a card's full text. A family of related walk-throughs is fine.
 6. **Tag levels consistently** and set `classic: true` only on the most commonly asked questions.
 
 Common conventions to get right: DSCR divides NOI by total debt service (interest and principal); debt yield divides NOI by the loan amount; cap rates are quoted on forward or trailing NOI (say which); equity multiple is total distributions ÷ equity invested; cash-on-cash is annual cash flow after debt service ÷ equity; unlevered free cash flow is EBIT × (1 − t) + D&A − capex − increase in NWC; equity value uses diluted shares; Gordon growth terminal value uses next year's cash flow; hotel management base fees are on total revenue; RevPAR = occupancy × ADR.
@@ -89,7 +89,7 @@ Look at the existing cards for working examples of every kind.
 
 ## Process for a module
 
-1. Read this guide, the module's section in `COVERAGE.md` (its subtopics are the floor, not the ceiling) and the cards already in `data/<module>.js`. Skim the other data files for overlap.
+1. Read this guide, the module's section in `COVERAGE.md` (its subtopics are the floor, not the ceiling) and the cards already in `data/<module>.js`. Check overlap with `node tools/cards.js --topics` and `--grep` rather than reading every data file.
 2. Plan the cards: map every subtopic to one or more cards, add any standard technical that's missing, and aim for roughly the module's target count.
 3. Write the cards into `data/<module>.js`, appending to the array.
 4. Recompute every number with a scratch script (keep scratch files outside the repo).
@@ -111,7 +111,7 @@ Drills.add({
 ```
 
 - `r` is the seeded RNG: `r.int(lo, hi)`, `r.step(lo, hi, step)` (a value on a grid), `r.pick(array)`, `r.chance(p)`, `r.shuffle(array)`. Never use `Math.random`; the same seed must give the same problem.
-- Formatting (`Drills.fmt`): `money(x, dp?)` ($850K, $4.45M, $19.5M), `inM(x)` (always $M), `millions(x)` (x already in millions: $9,230M), `dollars(x, dp?)`, `pct(x, dp?)` (0.065 → 6.5%), `mult(x, dp?)` (1.25x), `bps(x)`, `num(x, dp?)`, `signed(x, dp?)`. Helpers: `Drills.round`, `Drills.near`, `Drills.irr(cashflows)`, `Drills.npv`, `Drills.constant(rate, years)`.
+- Formatting (`Drills.fmt`): `money(x, dp?)` ($850K, $4.45M, $19.5M), `inM(x)` (always $M), `millions(x)` (x already in millions: $9,230M), `dollars(x, dp?)`, `pct(x, dp?)` (0.065 → 6.5%), `mult(x, dp?)` (1.25x), `bps(x)`, `num(x, dp?)`, `signed(x, dp?)`, and `an(text)`, the article for a figure as it's spoken (`an('8.5%')` → "an", `an('$180K')` → "a"). Use it wherever "a" or "an" precedes a generated number. Helpers: `Drills.round`, `Drills.near`, `Drills.irr(cashflows)`, `Drills.npv`, `Drills.constant(rate, years)`.
 - Inputs are realistic and rounded like real deals. Compute from the rounded inputs you display, so the reader can reproduce every step.
 - `q` ≤ 260 characters with every given input in `[[ ]]`. `a` gives the answer first. `steps` shows the full working, one line per step, inputs in `[[ ]]`, results rounded the way a professional would. `why` teaches the idea. `values` holds the key numeric results for `check` and `ranges`.
 - `check` must confirm the answer a second way (rebuild value from NOI and cap rate, solve an IRR numerically, test the covenant at the chosen loan), not repeat the same arithmetic.

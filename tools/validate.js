@@ -435,7 +435,9 @@ function selfTest(Drills) {
     [fmt.pct(0.0625), '6.25%'], [fmt.pct(0.065), '6.5%'], [fmt.pct(0.07), '7.0%'], [fmt.pct(0.07, 0), '7%'],
     [fmt.mult(1.25, 2), '1.25x'], [fmt.millions(9230), '$9,230M'], [fmt.inM(520000), '$0.52M'],
     [fmt.dollars(212.5, 2), '$212.50'], [fmt.signed(-7.5, 1), '−7.5'], [fmt.signed(2.5, 1), '+2.5'],
-    [fmt.bps(0.0125), '125 bps'], [String(round(1.005, 2)), '1.01'], [String(round(-2.5, 0)), '-3']
+    [fmt.bps(0.0125), '125 bps'], [String(round(1.005, 2)), '1.01'], [String(round(-2.5, 0)), '-3'],
+    [String(round(7.45e-9, 2)), '0'], [String(round(3.2e-7, 8)), '3.2e-7'],
+    [fmt.an('8.5%'), 'an'], [fmt.an('$11.2M'), 'an'], [fmt.an('$18,000'), 'an'], [fmt.an('$180K'), 'a'], [fmt.an('12%'), 'a'], [fmt.an('interest-only'), 'an']
   ];
   cases.forEach(([got, want]) => { if (got !== want) err(`drills/engine.js formatting: expected "${want}", got "${got}"`); });
   const r = irr([-100, 0, 0, 0, 0, 200]);

@@ -56,8 +56,21 @@
     const ax = Math.abs(x);
     if (!isFinite(x) || ax >= 1e15) return x;
     if (ax < 1e-9) return 0;
-    const r = Number(Math.round(Number(ax + 'e' + dp)) + 'e-' + dp);
+    const s = String(ax);
+    // Tiny values print in exponent form (7.45e-9), which the string trick can't shift.
+    const r = s.includes('e') ? Math.round(ax * Math.pow(10, dp)) / Math.pow(10, dp) : Number(Math.round(Number(s + 'e' + dp)) + 'e-' + dp);
     return x < 0 ? -r : r;
+  }
+
+  // The article before a figure follows how it's spoken: "an 8.5% cap rate", "an $11.2M loan",
+  // "a $180K fee". Words fall back to a vowel test.
+  function an(text) {
+    const t = String(text).replace(/\[\[|\]\]/g, '').trim();
+    if (/^[$€£]?\d/.test(t)) {
+      const whole = t.replace(/^[$€£]/, '').replace(/,/g, '').split('.')[0].replace(/\D.*$/, '');
+      return /^8/.test(whole) || /^1[18](\d{3})*$/.test(whole) ? 'an' : 'a';
+    }
+    return /^[aeiou]/i.test(t) && !/^(uni|use|usu|one|eu)/i.test(t) ? 'an' : 'a';
   }
 
   const MINUS = '−';
@@ -164,6 +177,6 @@
     npv,
     irr,
     constant,
-    fmt: { num, money, dollars, millions, inM, pct, mult, bps, signed }
+    fmt: { num, money, dollars, millions, inM, pct, mult, bps, signed, an }
   };
 })(typeof window !== 'undefined' ? window : globalThis);

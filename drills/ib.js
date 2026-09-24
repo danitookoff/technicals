@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const { fmt, near, round } = Drills;
-  const { pct, mult, dollars, millions, num, signed } = fmt;
+  const { pct, mult, dollars, millions, num, signed, an } = fmt;
 
   // ---------------------------------------------------------------- EV bridge and back
   Drills.add({
@@ -108,7 +108,7 @@
       const diluted = basic + net + rsu;
       steps.push(`Diluted shares: [[${num(basic)}M]] + ${num(net, 2)}M${rsu ? ` + ${num(rsu, 1)}M` : ''} = ${num(diluted, 2)}M`);
 
-      const opts = tranches.map((t) => `[[${num(t.count, 1)}M]] at a [[$${t.strike}]] strike`).join(', ');
+      const opts = tranches.map((t) => `[[${num(t.count, 1)}M]] at ${an('$' + t.strike)} [[$${t.strike}]] strike`).join(', ');
       return {
         q: `[[${num(basic)}M]] basic shares at [[$${price}]]. Options: ${opts}.${rsu ? ` RSUs: [[${num(rsu, 1)}M]].` : ''} How many diluted shares?`,
         a: `${num(diluted, 2)}M. In-the-money options add ${num(net, 2)}M net of the buyback${rsu ? `, RSUs add ${num(rsu, 1)}M` : ''}, and out-of-the-money options add nothing.`,
