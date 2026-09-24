@@ -1,0 +1,795 @@
+# Coverage
+
+The content map for Technicals. Each module lists its subtopics as checkboxes, a target card count and a status line. Tick a subtopic once cards cover it well. To resume in a new session, say "Continue from COVERAGE.md".
+
+- Targets are approximate. Covering every subtopic matters more than hitting the number.
+- Status values: `planned`, `seeded` (sample cards only), `in progress`, `complete`.
+- `node tools/validate.js --update-coverage` refreshes the Written and Classic counts, the drill checkboxes and the summary table. Status and subtopic ticks are edited by hand.
+
+## Where things stand
+
+- Phase 1 (plan) is done.
+- Phase 2 (app, sample deck, validator, first deploy) is done and waiting for feedback on style, answer length and difficulty. Don't start Phase 3 until that feedback is in.
+- Phase 3 order: `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, then the remaining real estate and hotel modules, then IB. Batches of 40–60 cards; build the remaining drills along the way.
+- Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
+
+<!-- summary:start -->
+| Track | Modules | Target | Written | Classic | Drills built |
+|---|---:|---:|---:|---:|---:|
+| IB | 17 | 560 | 15 | 12 | 4 of 18 |
+| Real estate | 13 | 440 | 26 | 17 | 4 of 22 |
+| Hotels | 9 | 250 | 9 | 5 | 2 of 13 |
+| **Total** | **39** | **1250** | **50** | **34** | **10 of 53** |
+<!-- summary:end -->
+
+---
+
+## IB
+
+### `ib-acct` Accounting and the three statements
+Target: 60 · Written: 3 · Classic: 2 · Status: seeded
+
+- [ ] What the income statement, balance sheet and cash flow statement each show
+- [ ] How the three statements link (net income, D&A, working capital, capex, debt, cash, retained earnings)
+- [ ] Revenue recognition basics under ASC 606 (five steps; point in time vs over time)
+- [ ] Gross vs net revenue (principal vs agent)
+- [ ] COGS, gross profit and operating expenses
+- [ ] EBITDA vs EBIT vs net income, and what each is used for
+- [ ] Non-recurring items and how to treat them
+- [ ] Basic vs diluted EPS
+- [ ] Balance sheet structure: current vs non-current; assets = liabilities + equity
+- [ ] Working-capital accounts (AR, inventory, prepaids, AP, accrued expenses, deferred revenue); operating working capital excludes cash and debt
+- [ ] PP&E, depreciation and accumulated depreciation
+- [ ] Intangible assets and goodwill: where they come from
+- [ ] Debt accounts: revolver, current portion, long-term debt
+- [ ] Equity accounts: common stock and APIC, retained earnings, treasury stock, AOCI
+- [ ] Contra accounts (allowance for doubtful accounts, accumulated depreciation)
+- [ ] The indirect cash flow statement: operating, investing, financing
+- [ ] Non-cash add-backs (D&A, SBC, impairments, deferred taxes, gains and losses)
+- [ ] Sign logic of working-capital changes on the cash flow statement
+- [ ] Accrual vs cash accounting
+- [ ] Inventory methods: FIFO vs LIFO vs weighted average, in rising and falling prices; LIFO not allowed under IFRS
+- [ ] Where D&A hides (inside COGS and opex) and why it matters for EBITDA
+- [ ] Capitalizing vs expensing, and the effect on each statement
+- [ ] Prepaid expenses, accrued expenses and deferred revenue
+- [ ] FCF vs unlevered FCF vs levered FCF
+- [ ] The "only one statement" and "only two statements" questions
+- [ ] Profitable but cash-poor, and cash-rich but unprofitable
+- [ ] Interest and dividends on the cash flow statement: US GAAP vs IFRS classification
+- [ ] Gains and losses on asset sales
+- [ ] The statement of shareholders' equity
+
+### `ib-walk` Walk-throughs
+Target: 35 · Written: 3 · Classic: 3 · Status: seeded
+
+State the tax rate on every card (default 25%) and use the `threeStatement` visual.
+
+- [x] Depreciation up
+- [ ] Inventory bought with cash
+- [ ] Inventory bought on credit
+- [ ] Inventory write-down
+- [ ] Revenue booked on credit, then AR collected
+- [ ] Prepaid expense paid, then expensed
+- [ ] Deferred revenue received, then earned
+- [ ] Bonus accrued, then paid
+- [x] Stock-based compensation (and the deferred-tax nuance)
+- [x] Debt raised, then interest paid
+- [ ] Debt repaid
+- [ ] PIK interest
+- [ ] Capex
+- [ ] Asset sold at a gain
+- [ ] Asset sold at a loss
+- [ ] PP&E impairment
+- [ ] Goodwill impairment (usually not tax-deductible)
+- [ ] Dividends
+- [ ] Share buybacks
+- [ ] Equity issuance
+- [ ] Operating lease payment under ASC 842
+- [ ] Finance lease payment under ASC 842
+- [ ] Deferred tax liability from accelerated tax depreciation
+- [ ] Using an NOL
+- [ ] AP paid down
+- [ ] Bad debt written off
+- [ ] Convertible bond converted into equity
+- [ ] Unrealized gain on an equity investment
+- [ ] Two-step walk-throughs (buy then sell inventory; accrue then pay)
+
+### `ib-acct-adv` Advanced accounting
+Target: 35 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Deferred tax liabilities: book vs tax depreciation
+- [ ] Deferred tax assets: NOLs, accruals, stock comp
+- [ ] Valuation allowances
+- [ ] NOL mechanics: carryforwards and usage limits (post-2017 US rules)
+- [ ] Leases under ASC 842: operating vs finance classification and presentation
+- [ ] IFRS 16: one lease model and its effect on EBITDA, EBIT and debt
+- [ ] Leases and EV/EBITDA consistency (EBITDAR)
+- [ ] Stock-based compensation: expense, add-back, dilution, tax timing
+- [ ] Goodwill and intangibles: creation, amortization, impairment testing
+- [ ] Equity method vs consolidation (rough 20% and 50% thresholds)
+- [ ] Noncontrolling interest on the income statement and balance sheet
+- [ ] Debt accounting: OID, issuance costs, PIK
+- [ ] Convertible bonds: accounting and dilution (if-converted)
+- [ ] Preferred stock: dividends, EPS, liquidation preference
+- [ ] Pensions: funded status and where they show up
+- [ ] Adjusted EBITDA and normalization, and its red flags
+- [ ] Capitalized software and R&D (US GAAP vs IFRS development costs)
+- [ ] Contingent consideration (earnouts)
+- [ ] Discontinued operations
+- [ ] IFRS vs US GAAP: impairment reversals, revaluation model
+- [ ] Foreign currency translation basics (CTA in AOCI)
+
+### `ib-ratios` Financial statement analysis
+Target: 20 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Gross, EBITDA, EBIT and net margins
+- [ ] ROE and the DuPont breakdown
+- [ ] ROA and ROIC; ROIC vs WACC and value creation
+- [ ] DSO, DIO, DPO and the cash conversion cycle
+- [ ] Liquidity ratios: current and quick
+- [ ] Leverage: debt/EBITDA, net debt/EBITDA, debt/capital
+- [ ] Coverage: EBITDA/interest, (EBITDA − capex)/interest, fixed-charge coverage
+- [ ] Asset turnover and operating leverage
+- [ ] Earnings-quality red flags (AR outgrowing revenue, capitalized costs, one-off gains, growing adjustments)
+
+### `ib-ev` Enterprise and equity value
+Target: 40 · Written: 3 · Classic: 2 · Status: seeded
+
+- [x] Definitions, and why EV is capital-structure neutral
+- [ ] Equity value vs market cap vs fully diluted equity value
+- [ ] The bridge item by item: debt, preferred, NCI, leases, pensions, cash, non-operating assets, equity investments
+- [ ] Why add NCI and subtract equity investments (consistency with EBITDA)
+- [x] Cash: why subtract it; trapped and minimum cash
+- [ ] Leases in the bridge (practice varies)
+- [ ] Unfunded pensions and other debt-like items
+- [ ] NOLs in the bridge
+- [ ] Diluted shares: treasury stock method
+- [ ] RSUs, PSUs and warrants
+- [ ] Convertibles: if-converted vs treated as debt
+- [x] Which transactions change EV vs equity value
+- [ ] Negative EV and negative equity value
+- [ ] Matching numerators to denominators
+- [ ] EV/EBITDA vs P/E vs EV/revenue: when each fits
+- [ ] Market vs book values
+- [ ] Implied share price from EV
+
+### `ib-val` Valuation overview
+Target: 25 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] The methods: comps, precedents, DCF, LBO, sum-of-the-parts, liquidation, dividend discount, NAV
+- [ ] Intrinsic vs relative valuation
+- [ ] When each method fits
+- [ ] The football field
+- [ ] Which methods usually come out highest or lowest, and why
+- [ ] Valuing unprofitable or early-stage companies
+- [ ] Valuing cyclical companies (normalized, mid-cycle earnings)
+- [ ] Valuing distressed companies
+- [ ] Sum-of-the-parts and conglomerate discounts
+- [ ] Liquidation value
+- [ ] Replacement cost
+
+### `ib-comps` Trading comps
+Target: 25 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Choosing peers (business model, size, growth, margins, geography)
+- [ ] LTM and calendarization
+- [ ] Normalizing one-off items
+- [ ] Choosing multiples (EV/EBITDA, EV/EBIT, P/E, EV/revenue, PEG, sector metrics)
+- [ ] LTM vs forward multiples
+- [ ] Mean vs median; outliers
+- [ ] Applying the multiples to the target
+- [ ] Why a company trades at a premium or discount
+- [ ] Negative earnings in comps
+- [ ] Spreading comps in practice
+
+### `ib-precedents` Precedent transactions
+Target: 15 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Selecting deals (size, sector, date, buyer type)
+- [ ] Control premiums and premiums-paid analysis
+- [ ] Synergies built into the price
+- [ ] Why precedents usually run higher than comps
+- [ ] Limitations (stale deals, different markets, deal-specific terms)
+
+### `ib-dcf` DCF
+Target: 55 · Written: 2 · Classic: 2 · Status: seeded
+
+- [x] The steps of a DCF
+- [ ] Projection length
+- [ ] Building unlevered FCF, and why it's unlevered
+- [ ] Why D&A is added back and capex subtracted
+- [ ] Mid-year convention
+- [ ] Stub periods
+- [x] Terminal value: Gordon growth vs exit multiple
+- [x] Implied exit multiple and implied growth cross-checks
+- [ ] Discounting terminal value (including under the mid-year convention)
+- [ ] Terminal value's share of total value
+- [ ] Normalizing the terminal year (capex vs D&A, working capital, margins)
+- [ ] Sensitivity tables
+- [ ] Levered DCF: FCFE and cost of equity
+- [ ] NOLs in a DCF
+- [ ] Stock-based compensation in a DCF (practice varies)
+- [ ] Companies with negative cash flow
+- [ ] Which inputs move value most
+- [ ] What-ifs: growth up 1%, discount rate up 1%, more debt, capex changes
+- [ ] Adjusted present value (APV) basics
+- [ ] DCF limitations
+
+### `ib-wacc` Cost of capital
+Target: 30 · Written: 1 · Classic: 1 · Status: seeded
+
+- [x] What WACC represents and how to calculate it
+- [ ] Weights: target vs current structure; market values
+- [ ] CAPM: risk-free rate, beta, equity risk premium
+- [ ] Size and country risk premiums
+- [ ] Levered vs unlevered beta; relevering
+- [ ] Where betas come from (regression, adjusted beta, peer betas)
+- [ ] After-tax cost of debt; yield vs coupon
+- [ ] Cost of preferred
+- [ ] How leverage changes WACC; optimal capital structure
+- [ ] Why equity costs more than debt
+- [ ] WACC for a private company
+- [ ] Cost of debt without traded debt
+
+### `ib-lbo` LBO
+Target: 55 · Written: 2 · Classic: 1 · Status: seeded
+
+- [x] What an LBO is and why leverage lifts returns
+- [ ] Ideal LBO candidates
+- [ ] The steps of an LBO model
+- [x] Sources and uses
+- [ ] Debt tranches: revolver, term loans A and B, senior secured and unsecured notes, subordinated notes, high yield, mezzanine, PIK, seller notes, unitranche
+- [ ] Maintenance vs incurrence covenants
+- [ ] Cash sweeps and optional prepayment
+- [x] Returns drivers: EBITDA growth, multiple expansion, debt paydown
+- [ ] Returns attribution
+- [ ] IRR vs MOIC and the rule-of-thumb table
+- [ ] Paper LBOs
+- [ ] Dividend recaps
+- [ ] Management rollover and option pools
+- [ ] Transaction fees vs financing fees
+- [ ] Interest circularity
+- [ ] Exit assumptions and exit routes
+- [ ] Hold-period effects on IRR and MOIC
+- [ ] The LBO as a valuation floor; solving for the max price at a target IRR
+- [ ] Strategic vs financial buyers
+- [ ] Add-on acquisitions and multiple arbitrage
+- [ ] Minimum cash and the revolver
+
+### `ib-ma` M&A and merger models
+Target: 50 · Written: 1 · Classic: 1 · Status: seeded
+
+- [ ] Why companies buy
+- [ ] Revenue vs cost synergies and how to value them
+- [ ] Accretion/dilution step by step
+- [ ] Cash vs stock vs debt consideration
+- [x] Cost of funds vs earnings yield shortcut
+- [ ] Break-even synergies
+- [ ] Purchase price allocation: write-ups, new DTLs, goodwill
+- [ ] Stock vs asset deals; 338(h)(10) and the step-up
+- [ ] NOLs after a deal (Section 382)
+- [ ] Exchange ratios: fixed ratio vs fixed price; collars
+- [ ] Contribution analysis
+- [ ] Pro forma ownership
+- [ ] Earnouts
+- [ ] Break fees and reverse break fees
+- [ ] Tender offers vs mergers
+- [ ] Hostile takeovers and defenses
+- [ ] Fairness opinions
+- [ ] Why accretion isn't value creation
+- [ ] Divestitures: spin-offs, carve-outs, split-offs
+
+### `ib-process` Deal process and ECM
+Target: 25 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Sell-side process: teaser, NDA, CIM, IOIs, management presentations, data room, LOI, purchase agreement, signing to close
+- [ ] Broad vs targeted auctions; negotiated sales
+- [ ] Buy-side mandates
+- [ ] Purchase agreement terms: reps and warranties, MAC, go-shop vs no-shop
+- [ ] Purchase price adjustments: working-capital peg; locked box vs completion accounts
+- [ ] IPO process: S-1, roadshow, bookbuilding, pricing, greenshoe, lock-ups
+- [ ] Follow-on offerings
+- [ ] Convertibles: why issue them; conversion premium
+- [ ] SPACs and direct listings (brief)
+- [ ] Antitrust review basics (HSR)
+
+### `ib-credit` Debt and leveraged finance
+Target: 30 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Credit metrics and ratings (investment grade vs high yield)
+- [ ] Secured vs unsecured, and priority
+- [ ] Bonds vs loans
+- [ ] Fixed vs floating (SOFR)
+- [ ] The price–yield relationship; duration and convexity basics
+- [ ] Yield to maturity, yield to worst, current yield
+- [ ] Spreads
+- [ ] Call protection: non-call periods, make-whole, call schedules
+- [ ] OID
+- [ ] Refinancing analysis
+- [ ] Covenant packages: maintenance, incurrence, covenant-lite, baskets
+- [ ] Recovery analysis
+- [ ] Asset-based lending and the borrowing base
+
+### `ib-rx` Restructuring basics
+Target: 15 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Chapter 11 vs Chapter 7
+- [ ] Absolute priority rule
+- [ ] DIP financing
+- [ ] Debt-for-equity swaps
+- [ ] The fulcrum security
+- [ ] Distressed exchanges
+- [ ] 363 sales
+- [ ] Prepackaged vs pre-negotiated vs free-fall filings
+- [ ] Plan of reorganization and cramdown
+- [ ] Liability management: uptiers and drop-downs (brief)
+
+### `ib-sectors` Sector-specific valuation
+Target: 25 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Banks: P/BV, P/TBV, P/E, dividend discount; why EV doesn't work
+- [ ] Bank metrics: NIM, efficiency ratio, CET1, ROTCE
+- [ ] Insurance: combined ratio, float, P/BV
+- [ ] REITs: FFO, AFFO, NAV
+- [ ] Energy: EV/EBITDAX, reserves, NAV
+- [ ] Software: ARR, net revenue retention, rule of 40, CAC payback
+- [ ] Retail: same-store sales, EBITDAR, sales per SF
+- [ ] Hotels from the corporate side: RevPAR, EBITDAR, asset-light vs owners
+- [ ] Healthcare: pipelines and risk-adjusted NPV, payor mix
+- [ ] Industrials: backlog, book-to-bill
+- [ ] Utilities: rate base and allowed ROE
+
+### `ib-model` Modeling mechanics and Excel
+Target: 20 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Three-statement build order
+- [ ] The revolver as the plug
+- [ ] Circular references and circuit breakers
+- [ ] Tracking down an unbalanced balance sheet
+- [ ] Projecting working capital
+- [ ] Debt schedules
+- [ ] Formatting conventions: blue inputs, black formulas, green links
+- [ ] NPV vs XNPV; IRR vs XIRR
+- [ ] PMT and IPMT
+- [ ] SUMIFS, INDEX/MATCH, XLOOKUP
+- [ ] Data tables
+- [ ] How to run a timed modeling test
+
+---
+
+## Real estate
+
+### `re-basics` Foundations
+Target: 30 · Written: 4 · Classic: 2 · Status: seeded
+
+- [ ] Office: what drives it
+- [ ] Multifamily: what drives it
+- [ ] Industrial: what drives it
+- [ ] Retail: what drives it
+- [ ] Hotels as a property type
+- [ ] Self-storage
+- [ ] Senior and student housing
+- [ ] Life science
+- [ ] Data centers
+- [ ] Medical office
+- [ ] Single-family rental
+- [x] Fee simple vs leasehold and ground leases
+- [ ] Building classes (A, B, C)
+- [x] Core, core-plus, value-add and opportunistic: risk, leverage, returns
+- [x] How real estate differs from corporate finance (NOI vs EBITDA, cap rates vs multiples)
+- [ ] Who does what: sponsor, LP, GP, operator, property manager, asset manager, broker, lender, REIT, fund
+- [ ] Asset vs property vs portfolio management vs acquisitions
+- [ ] How interest rates affect real estate values
+- [ ] Stabilized vs non-stabilized assets
+- [ ] Why investors own real estate (income, inflation protection, diversification)
+
+### `re-leases` Leases and rent rolls
+Target: 45 · Written: 2 · Classic: 2 · Status: seeded
+
+- [x] Gross, modified gross, net and NNN leases
+- [ ] Base rent and escalations (fixed, CPI, steps)
+- [ ] Free rent
+- [ ] TI allowances
+- [ ] Leasing commissions
+- [ ] Renewal, expansion and termination options
+- [ ] Recoveries: CAM and pro-rata share
+- [ ] Base years and expense stops
+- [ ] Gross-ups, caps and CAM reconciliations
+- [ ] Percentage rent and breakpoints
+- [ ] Co-tenancy
+- [ ] Estoppels and SNDAs
+- [ ] WALT and rollover schedules
+- [ ] In-place vs market rent: mark-to-market and loss-to-lease
+- [ ] Tenant credit and concentration
+- [x] Net effective rent
+- [ ] Market leasing assumptions: renewal probability, downtime, new vs renewal TI/LC
+- [ ] Multifamily: unit mix, concessions, physical vs economic occupancy, other income, turnover
+- [ ] Office: rentable vs usable area and the load factor
+- [ ] Retail: sales per SF, occupancy cost, anchors
+- [ ] Industrial basics: clear height, loading, bulk vs flex
+- [ ] Security deposits and letters of credit
+- [ ] Assignment, subletting and holdover
+- [ ] Radius restrictions, exclusives, go-dark and kick-out clauses
+- [ ] Lease abstracts
+
+### `re-noi` Operating statement and NOI
+Target: 35 · Written: 4 · Classic: 3 · Status: seeded
+
+- [x] The build from GPR through vacancy and credit loss, concessions and other income to EGI
+- [x] Operating expenses to NOI
+- [ ] Below NOI: capex, reserves, TI/LC, cash flow before debt service
+- [ ] Debt service and levered cash flow
+- [x] What sits above and below NOI, and why
+- [ ] Controllable vs non-controllable expenses
+- [x] T-12, annualized T-3, budget and pro forma
+- [x] Buyer normalizations: tax reassessment on sale, insurance, market management fee, one-time items
+- [ ] Expense ratios; per-unit and per-SF benchmarks
+- [ ] Operating leverage
+- [ ] Management fees as a share of EGI
+- [ ] Replacement reserves
+- [ ] In-place vs stabilized vs mark-to-market NOI
+- [ ] Bad debt and delinquency
+
+### `re-val` Valuation
+Target: 40 · Written: 4 · Classic: 3 · Status: seeded
+
+- [x] Direct capitalization
+- [x] What drives cap rates
+- [x] Cap rate ≈ discount rate − growth
+- [x] Going-in vs exit cap, and why exit is usually higher
+- [ ] Property DCF: hold period, reversion, discount rate
+- [x] Reversion on forward NOI, net of selling costs
+- [ ] The three appraisal approaches: income, sales comparison, cost
+- [ ] Price per SF, unit or key vs replacement cost
+- [ ] Land value and highest and best use
+- [ ] Sensitivities (exit cap, rent growth, vacancy)
+- [ ] REIT valuation: FFO, AFFO, NAV, implied cap rate, P/FFO
+- [ ] Nominal vs economic cap rate (after reserves)
+- [ ] In-place vs mark-to-market cap rate
+- [ ] Cap rates vs interest rates: the spread and when it compresses
+
+### `re-returns` Returns
+Target: 30 · Written: 3 · Classic: 2 · Status: seeded
+
+- [x] Unlevered vs levered IRR
+- [ ] Equity multiple
+- [ ] Cash-on-cash
+- [ ] Yield on cost (returns view)
+- [ ] NPV
+- [ ] IRR pitfalls: timing, reinvestment, early distributions
+- [x] When IRR and multiple disagree
+- [x] Positive vs negative leverage
+- [ ] Income vs appreciation returns
+- [ ] Rough target returns by strategy
+- [ ] Unlevered IRR ≈ going-in cap rate + growth
+- [ ] Gross vs net returns (fees and promote)
+- [ ] Hold-period decisions
+
+### `re-debt` Debt, capital markets and credit
+Target: 55 · Written: 5 · Classic: 3 · Status: seeded
+
+- [ ] Lender types: banks, life companies, CMBS conduit and SASB, agencies, debt funds, HUD
+- [ ] Construction, bridge and permanent loans
+- [x] Mezzanine and preferred equity
+- [x] The capital stack
+- [ ] Intercreditor basics: UCC vs mortgage foreclosure
+- [x] LTV, LTC, DSCR and debt yield
+- [x] Sizing on the binding constraint
+- [ ] Amortization, interest-only periods and mortgage constants
+- [ ] Fixed vs floating, SOFR spreads, rate caps and swaps
+- [x] Prepayment: lockout, yield maintenance, defeasance, step-downs
+- [ ] Recourse vs non-recourse; bad-boy carve-outs and guarantees
+- [ ] Reserves and escrows
+- [ ] Cash management: lockboxes and sweep triggers
+- [ ] Extension tests
+- [ ] Refinancing and maturity risk
+- [ ] Cash-out refis and recaps
+- [ ] How a lender underwrites vs how equity underwrites
+- [ ] Special servicing and workouts: modifications, extensions, discounted payoffs
+- [ ] Deed-in-lieu vs foreclosure
+- [ ] A/B notes and loan participations (brief)
+- [ ] Loan assumptions
+
+### `re-deals` Deal structures and waterfalls
+Target: 40 · Written: 2 · Classic: 1 · Status: seeded
+
+- [ ] JV structures: LP/GP, co-GP, programmatic
+- [ ] GP co-invest
+- [ ] Fees: acquisition, asset management, disposition, development
+- [x] Preferred return: simple vs compounding, cumulative
+- [ ] IRR vs multiple hurdles
+- [ ] Catch-ups
+- [x] Promote tiers
+- [ ] Deal-by-deal vs whole-fund waterfalls
+- [ ] Clawbacks
+- [ ] Calculating total GP take
+- [ ] Major decisions, buy-sell and removal rights
+- [ ] Capital calls and dilution of a non-funding partner
+- [ ] Fund basics: closed- vs open-end, commitment period, capital calls, dry powder, J-curve, NAV
+- [ ] REIT basics: distribution requirement, asset and income tests, UPREITs and OP units, traded vs non-traded
+- [ ] Sale-leasebacks
+- [ ] Tax at interview depth: depreciation shield, 1031 exchanges, recapture
+
+### `re-acq` Acquisitions process
+Target: 30 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Sourcing on and off market
+- [ ] Offering memorandums and broker opinions of value
+- [ ] The underwriting flow
+- [ ] Broker pro forma vs your underwriting
+- [ ] Bid rounds and best-and-final
+- [ ] LOI
+- [ ] PSA
+- [ ] Soft vs hard deposits
+- [ ] Due diligence: property condition, Phase I and II environmental, title, survey, zoning
+- [ ] Due diligence: estoppels, lease audit, financial audit
+- [ ] Closing and prorations; closing costs and transfer taxes
+- [ ] Assuming existing debt
+- [ ] The IC memo
+- [ ] Defending key assumptions
+- [ ] Red flags
+
+### `re-am` Asset management on the job
+Target: 50 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Business plans and tracking execution
+- [ ] Annual budgets and reforecasts
+- [ ] Budget-vs-actual variance analysis
+- [ ] Monthly and quarterly reporting and KPIs
+- [ ] Evaluating lease proposals: net effective rent, NPV, TI/LC, downtime
+- [ ] Capex planning: ROI vs maintenance vs life-safety; reserves
+- [ ] Overseeing property managers; management agreements
+- [ ] Tax appeals
+- [ ] Insurance renewals
+- [ ] Lender reporting and covenant compliance
+- [ ] Hold/sell analysis: forward IRR from today's value
+- [ ] Refinance vs hold
+- [ ] Running a disposition
+- [ ] Quarterly valuations
+- [ ] Watchlist assets
+- [ ] Tenant credit monitoring
+
+### `re-dev` Development and feasibility
+Target: 35 · Written: 2 · Classic: 1 · Status: seeded
+
+- [x] The development budget: land, hard, soft, financing costs, contingency, developer fee
+- [x] Sources and uses
+- [ ] Capitalized interest and the interest reserve
+- [ ] Construction loans: equity first, draws, completion guarantees
+- [ ] Lease-up and stabilization
+- [x] Yield on cost vs exit cap: the development spread
+- [ ] Development margin (profit on cost)
+- [ ] Residual land value
+- [ ] Entitlement and construction risk
+- [ ] Hard-cost contracts: GMP vs cost-plus
+- [ ] Zoning basics: FAR, density, parking
+- [ ] Merchant build vs build-to-hold
+- [ ] What a feasibility study contains
+- [ ] Break-even rent
+
+### `re-market` Market analysis
+Target: 15 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Supply, demand and absorption
+- [ ] The construction pipeline
+- [ ] Vacancy and rent trends
+- [ ] Submarkets
+- [ ] Demand drivers: jobs, population, household formation, incomes
+- [ ] Barriers to entry
+- [ ] How underwriting uses market data
+
+### `re-acct` Real estate accounting
+Target: 15 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Straight-line vs cash rent
+- [ ] Depreciation, and why FFO adds it back
+- [ ] AFFO adjustments
+- [ ] Above- and below-market lease intangibles
+- [ ] Impairments
+- [ ] Lessor accounting basics
+- [ ] Capitalized interest and development costs
+
+### `re-model` Building a real estate model
+Target: 20 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] The order to build a property pro forma
+- [ ] Rent roll to cash flow
+- [ ] Debt tab
+- [ ] Waterfall tab
+- [ ] Sensitivity tables
+- [ ] Circularity from construction interest
+- [ ] XIRR and XNPV
+- [ ] How real estate modeling tests are structured, and what graders check
+
+---
+
+## Hotels
+
+### `hotel-basics` Hotel fundamentals
+Target: 25 · Written: 2 · Classic: 1 · Status: seeded
+
+- [x] Why hotels are operating businesses (nightly "leases", volatile cash flow, wider cap rates)
+- [ ] Chain scales: luxury to economy
+- [ ] Service levels: full, select and limited service; extended stay
+- [ ] Resorts, lifestyle hotels, independents and soft brands
+- [x] Owner vs brand vs operator
+- [ ] Management vs franchise vs lease structures (leases more common outside the US)
+- [ ] Demand drivers and the hotel cycle
+
+### `hotel-metrics` Performance metrics
+Target: 35 · Written: 3 · Classic: 2 · Status: seeded
+
+- [x] Occupancy, ADR and RevPAR
+- [ ] TRevPAR
+- [ ] GOPPAR
+- [ ] NOI per key
+- [ ] Available vs sold rooms: out-of-order and complimentary rooms
+- [x] Comp sets and the penetration indices (MPI, ARI, RGI)
+- [ ] Fair share
+- [ ] Per-occupied-room vs per-available-room metrics
+- [x] RevPAR growth from ADR vs occupancy
+- [ ] Seasonality and day-of-week patterns
+- [ ] Supply growth and its effect on RevPAR
+
+### `hotel-rm` Demand and revenue management
+Target: 25 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Segments: transient (retail, discount, negotiated, qualified)
+- [ ] Segments: group (corporate, association, SMERF) and contract
+- [ ] Channels and their costs: brand.com, OTAs, GDS, wholesale
+- [ ] BAR
+- [ ] Length-of-stay controls
+- [ ] Overbooking
+- [ ] Pace and pickup
+- [ ] Group contracts: attrition and cancellation
+- [ ] Displacement analysis
+- [ ] Total revenue management
+
+### `hotel-usali` USALI and the hotel P&L
+Target: 35 · Written: 2 · Classic: 1 · Status: seeded
+
+- [x] Operated departments: rooms, F&B, other operated departments, miscellaneous income
+- [ ] Departmental expenses and profit
+- [x] Undistributed expenses: A&G, IT and telecom, sales and marketing, property operations and maintenance, utilities
+- [x] GOP
+- [ ] Management fees
+- [ ] Non-operating items: rent, property taxes, insurance
+- [ ] EBITDA, FF&E reserve and EBITDA less reserve
+- [ ] Department margins
+- [ ] Fixed vs variable costs
+- [x] Flow-through and flex
+- [ ] Cost per occupied room and labor productivity
+- [ ] F&B and banquet metrics
+
+### `hotel-agreements` Management and franchise agreements
+Target: 30 · Written: 1 · Classic: 0 · Status: seeded
+
+- [ ] HMA term and renewals
+- [x] Base fee
+- [x] Incentive fee and the owner's priority
+- [ ] Performance tests
+- [ ] Termination rights, including on sale
+- [ ] Budget approval
+- [ ] Reserves under the HMA
+- [ ] Key money
+- [ ] Area of protection
+- [ ] Franchise agreements: royalty, marketing, loyalty and reservation fees
+- [ ] PIPs in franchise agreements
+- [ ] Liquidated damages
+- [ ] Brand-managed vs franchised with a third-party operator
+- [ ] Conversions and rebranding
+- [ ] Encumbered vs unencumbered hotels
+
+### `hotel-val` Valuation and investment
+Target: 30 · Written: 1 · Classic: 1 · Status: seeded
+
+- [x] Stabilized NOI after the FF&E reserve
+- [ ] Hotel cap rates and why they're wider
+- [ ] Price per key
+- [ ] Hotel DCF: ramp-up, RevPAR-driven projections, reversion
+- [ ] Business enterprise value vs real property
+- [ ] Hotel REITs and the TRS structure
+- [ ] Lodging C-corps and EV/EBITDA
+- [ ] How a buyer underwrites a hotel acquisition
+- [ ] Deducting a PIP or deferred maintenance from price
+
+### `hotel-capex` Capex, PIPs and reserves
+Target: 20 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] The FF&E reserve (commonly about 4% of total revenue, often stepped up in a new hotel's early years; a convention, not a rule)
+- [ ] PIPs on a sale or rebrand
+- [ ] Soft goods vs case goods cycles
+- [ ] ROI capex
+- [ ] Cost per key
+- [ ] Renovation displacement
+
+### `hotel-debt` Hotel financing
+Target: 20 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Why lenders size hotels on debt yield
+- [ ] Higher DSCR requirements and cash management triggers
+- [ ] FF&E reserve requirements
+- [ ] Franchise comfort letters
+- [ ] Seasonality and covenant tests
+- [ ] Single-asset CMBS for hotels
+
+### `hotel-am` Hotel asset management and development
+Target: 30 · Written: 0 · Classic: 0 · Status: planned
+
+- [ ] Reviewing the operator's budget
+- [ ] The monthly P&L review: flow-through, GOP margin, variances, labor
+- [ ] Benchmarking
+- [ ] Enforcing performance tests
+- [ ] ADR vs occupancy strategy
+- [ ] Group vs transient mix
+- [ ] Brand selection and repositioning
+- [ ] Hotel development: cost per key, pre-opening costs, ramp to stabilization
+- [ ] What a hotel feasibility study contains
+
+---
+
+## Drills
+
+Drills generate fresh numbers every time. `--update-coverage` ticks the ones that are registered.
+
+### IB
+
+- [x] `drill-ib-ev-bridge` EV to equity value bridge and back
+- [ ] `drill-ib-share-price` Implied share price from a multiple
+- [x] `drill-ib-tsm` Diluted shares by the treasury stock method
+- [ ] `drill-ib-ufcf` Unlevered FCF build
+- [ ] `drill-ib-tv-gordon` Gordon growth terminal value with the implied exit multiple
+- [ ] `drill-ib-tv-exit` Exit-multiple terminal value with the implied growth rate
+- [ ] `drill-ib-discount` Discount factors with the mid-year convention
+- [ ] `drill-ib-capm` CAPM cost of equity
+- [ ] `drill-ib-wacc` WACC
+- [ ] `drill-ib-beta` Unlevering and relevering beta
+- [x] `drill-ib-paper-lbo` Paper LBO: MOIC and IRR
+- [ ] `drill-ib-moic-irr` MOIC to IRR conversion
+- [ ] `drill-ib-accretion` Accretion/dilution funded with cash, stock or debt, with the earnings-yield shortcut
+- [x] `drill-ib-walk` Three-statement walk-through generator
+- [ ] `drill-ib-wc-days` Working-capital days and the cash conversion cycle
+- [ ] `drill-ib-leverage` Leverage and coverage ratios
+- [ ] `drill-ib-goodwill` Goodwill from a purchase price allocation
+- [ ] `drill-ib-ltm` LTM and calendarization
+
+### Real estate
+
+- [x] `drill-re-noi-build` NOI build from GPR to NOI
+- [x] `drill-re-cap-rate` Cap rate, value and NOI (any two give the third)
+- [ ] `drill-re-exit-value` Exit value from forward NOI and exit cap, net of selling costs
+- [ ] `drill-re-price-per` Price per SF and per unit
+- [x] `drill-re-loan-sizing` Loan sizing on LTV, DSCR and debt yield
+- [ ] `drill-re-mortgage` Amortizing payment and mortgage constant
+- [ ] `drill-re-credit-metrics` DSCR, debt yield, LTV and LTC
+- [ ] `drill-re-coc` Cash-on-cash
+- [ ] `drill-re-equity-multiple` Equity multiple
+- [ ] `drill-re-irr` Unlevered vs levered IRR
+- [ ] `drill-re-leverage` Positive vs negative leverage
+- [ ] `drill-re-ner` Net effective rent with free rent and TI/LC
+- [ ] `drill-re-recoveries` Expense-stop and base-year recoveries
+- [ ] `drill-re-loss-to-lease` Loss-to-lease
+- [ ] `drill-re-yoc` Yield on cost and development spread
+- [ ] `drill-re-value-add` Value created by a value-add renovation
+- [ ] `drill-re-breakeven` Break-even occupancy
+- [ ] `drill-re-cash-out-refi` Cash-out refinance proceeds
+- [x] `drill-re-waterfall` Two-tier waterfall with a pref (simple and compounding) and promote
+- [ ] `drill-re-gp-take` Total GP take (co-invest plus promote)
+- [ ] `drill-re-residual-land` Residual land value (extra)
+- [ ] `drill-re-walt` WALT from a rent roll (extra)
+
+### Hotels
+
+- [x] `drill-hotel-revpar` Occupancy, ADR and RevPAR (any two give the third)
+- [ ] `drill-hotel-rooms-revenue` Rooms revenue from keys, days, occupancy and ADR
+- [x] `drill-hotel-penetration` MPI, ARI and RGI against a comp set
+- [ ] `drill-hotel-trevpar` TRevPAR and GOPPAR
+- [ ] `drill-hotel-gop-margin` GOP margin
+- [ ] `drill-hotel-flow-through` Flow-through
+- [ ] `drill-hotel-mgmt-fees` Base and incentive management fees
+- [ ] `drill-hotel-franchise-fees` Franchise fees (royalty plus program fees)
+- [ ] `drill-hotel-ffe` FF&E reserve and NOI after reserve
+- [ ] `drill-hotel-value-per-key` Value per key from NOI and cap rate
+- [ ] `drill-hotel-pip` PIP cost per key and return
+- [ ] `drill-hotel-loan-sizing` Hotel loan sizing on debt yield
+- [ ] `drill-hotel-cpor` Cost per occupied room
