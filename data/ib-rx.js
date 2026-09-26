@@ -1,2 +1,253 @@
 Deck.add([
+  {
+    id: "ib-rx-001",
+    track: "ib",
+    module: "ib-rx",
+    topic: "How restructuring works",
+    level: 1,
+    type: "primer",
+    q: "Primer: restructuring and Chapter 11",
+    a: "A company restructures when its debt outgrows what the business can support: it can't pay interest, refinance a maturity or meet its covenants. The fix usually cuts the debt, often by swapping part of it for equity, and pushes out maturities. Out of court is cheaper and faster but needs nearly every creditor to agree. Chapter 11 can bind holdouts, freezes collection and lets the company borrow with priority. Either way, value is split by priority, and the class where it runs out usually ends up owning the company.",
+    why: "Chapter 11: court-supervised reorganization; the business keeps running. Chapter 7: liquidation by a trustee. Debtor in possession: the company in Chapter 11, still run by its managers. Automatic stay: the freeze on collection that starts at filing. DIP financing: new loans to a company in Chapter 11, repaid ahead of existing debt. Class: similar claims grouped to vote on a plan. Impaired: a class whose rights the plan changes. Absolute priority rule: seniors are paid in full before juniors get anything. Fulcrum security: the most senior class not paid in full. Cramdown: confirming a plan over a class's objection. Liability management: out-of-court debt deals, often at some lenders' expense.",
+    visual: { kind: "flow", steps: [
+      { label: "Out-of-court fixes", note: "Covenant waivers, amend and extend, new money, asset sales" },
+      { label: "Distressed exchange", note: "Bonds swapped for less debt, later maturities or equity" },
+      { label: "Prepackaged or pre-negotiated Chapter 11", note: "Deal agreed before filing; the court binds holdouts" },
+      { label: "Free-fall Chapter 11", note: "Deal negotiated in court, or a court-approved sale of the business" },
+      { label: "Chapter 7", note: "A trustee sells the assets and pays creditors by priority" }
+    ], caption: "The options, roughly from least to most costly and disruptive" }
+  },
+  {
+    id: "ib-rx-002",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Why companies file",
+    level: 1,
+    type: "qa",
+    q: "Why would a company file for Chapter 11 rather than restructure out of court?",
+    a: "To use tools only the court provides. The automatic stay freezes lawsuits and collection. A plan can bind creditors who vote no, while an out-of-court deal needs nearly everyone. The company can also raise DIP financing with priority and sell assets free and clear of liens and claims. And it can reject burdensome contracts and leases.",
+    why: "Out of court, each bondholder must agree to any change to its principal, interest or maturity, so holdouts can block a deal or free-ride on others' concessions. In Chapter 11 a class accepts by a supermajority of those voting and binds its dissenters, and a plan can be confirmed over a whole class's objection. New lenders fund a bankrupt company because the court ranks them first. The costs are real: heavy professional fees, lost management time and less control, while customers and suppliers may walk away. Companies usually try out of court first, filing when holdouts, a cash crunch or contracts they must shed leave no better option.",
+    trap: "The follow-up: what does the automatic stay stop? From the moment of filing, lawsuits, foreclosures, lien enforcement, setoffs and most other collection efforts. Creditors can ask the court to lift it, for example when their collateral isn't adequately protected."
+  },
+  {
+    id: "ib-rx-003",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Chapter 11 vs Chapter 7",
+    level: 1,
+    type: "qa",
+    classic: true,
+    q: "What's the difference between Chapter 11 and Chapter 7?",
+    a: "Chapter 11 reorganizes: the company keeps operating, usually under its own management, and either emerges with less debt or is sold as a going concern. Chapter 7 liquidates: a trustee takes over, shuts the business down, sells the assets and pays creditors in order of priority. Chapter 11 fits when the business is worth more running than broken up.",
+    why: "The choice turns on value. If the business's cash flows are worth more than its assets would fetch in a sale, keeping it running preserves value for creditors, and Chapter 11 gives it the time and tools to cut its debt. If not, or if it can't fund its operations and the case, liquidation is the better path. Chapter 7 also anchors every Chapter 11 case: each creditor in an impaired class that doesn't accept the plan must receive at least what it would get in a Chapter 7 liquidation, the best-interests test. And a failing Chapter 11 case can be converted to Chapter 7.",
+    trap: "Chapter 11 doesn't guarantee survival. Many cases end in a sale of the business under Section 363 or a liquidating plan, often preferred to Chapter 7 because the company and its advisers, not a trustee new to the business, run the sale.",
+    visual: { kind: "table", headers: ["", "Chapter 11", "Chapter 7"], rows: [
+      ["Purpose", "Reorganize, or sell as a going concern", "Liquidate"],
+      ["Who runs it", "Existing management, as debtor in possession", "An independent trustee"],
+      ["Operations", "Continue", "Usually stop"],
+      ["Creditors receive", "What the plan provides: cash, new debt or equity", "Cash from asset sales, by priority"],
+      ["Fits when", "Going-concern value beats liquidation value", "The assets are worth more sold, or there's no cash to reorganize"]
+    ]}
+  },
+  {
+    id: "ib-rx-004",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Absolute priority rule",
+    level: 1,
+    type: "qa",
+    classic: true,
+    q: "What is the absolute priority rule, and in what order are claims paid in bankruptcy?",
+    a: "A senior class must be paid in full before any junior class receives anything, unless the senior class agrees otherwise. The order runs roughly: the DIP loan; secured claims, up to the value of their collateral; administrative costs of the case and priority claims such as certain wages and taxes; general unsecured claims; subordinated claims; preferred stock; then common stock.",
+    why: "Priority enforces the bargains investors made: secured lenders took collateral, subordinated holders agreed to rank behind and shareholders own only what's left after every debt. Holders within a class share pro rata. Chapter 7 applies the order strictly. In Chapter 11 it's the protection a class that votes no can insist on, so classes can agree to depart from it, which is how junior classes sometimes get a small recovery. Recovery math usually deducts administrative claims up front: a plan must pay them in full in cash, and secured lenders often agree to carve them out of their collateral.",
+    example: "Distributable value [[$600M]]. The [[$100M]] DIP loan, [[$250M]] first-lien loan and [[$50M]] of administrative claims are paid in full: $400M. The $200M left is shared pro rata by [[$300M]] of senior notes and [[$100M]] of trade claims, 50 cents on the dollar each. Shareholders get nothing.",
+    trap: "Secured status reaches only as far as the collateral. A lender owed $300M on collateral worth $200M has a $200M secured claim and a $100M unsecured deficiency claim, which shares pro rata with the notes and trade claims.",
+    visual: { kind: "waterfall", unit: "$M", dp: 0, start: { label: "Distributable value", value: 600 }, steps: [
+      { label: "DIP loan", delta: -100 },
+      { label: "First-lien loan", delta: -250 },
+      { label: "Administrative claims", delta: -50 },
+      { label: "Notes and trade claims (50%)", delta: -200 }
+    ], end: { label: "Left for shareholders", value: 0 }, caption: "Each class is paid in full before the next gets anything; value runs out at the unsecured claims." }
+  },
+  {
+    id: "ib-rx-005",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Shareholders in Chapter 11",
+    level: 1,
+    type: "qa",
+    q: "What usually happens to a company's shareholders in Chapter 11?",
+    a: "They're usually wiped out. When the company is worth less than its debts, the absolute priority rule leaves nothing for equity: the old shares are cancelled and the new ones go to creditors. Shareholders keep value only if the company proves solvent, or if creditors hand them a sliver, often warrants, to speed up a deal.",
+    why: "Equity is the residual claim, and most companies file because value has already fallen below the debt. Creditors sometimes concede a small stake anyway: shareholders can slow a case with objections and valuation fights, and a few percent of the equity can cost less than months of delay. Old owners can also buy in by putting up new money, but courts expect that chance to be open to competing offers. And when value does exceed the claims, as in some filings driven by litigation or a short-term cash squeeze, creditors are paid in full and shareholders keep the rest.",
+    trap: "Cancelling the shares always needs a cramdown, since a class that gets nothing is deemed to reject the plan. It's routine: nothing ranks below common stock, so the priority rule is met as long as no senior class gets more than full payment."
+  },
+  {
+    id: "ib-rx-006",
+    track: "ib",
+    module: "ib-rx",
+    topic: "The Chapter 11 process",
+    level: 2,
+    type: "walk",
+    q: "Walk me through a Chapter 11 case, from filing to emergence.",
+    a: "The company files, and the automatic stay halts collection. First-day motions keep it running, letting it borrow, use its cash, pay wages and pay critical suppliers. A creditors' committee forms, claims are filed by a bar date and contracts are kept or rejected. The company proposes a plan and disclosure statement, impaired classes vote and the court confirms the plan if it meets the Code's tests. On the effective date, the company emerges with its new capital structure.",
+    why: "Each step solves a problem. The stay and first-day orders stop a run on the company. The committee gives scattered unsecured creditors one voice, with advisers paid by the company. The bar date fixes the size of each class, which you need before dividing value. The company alone can propose a plan for the first 120 days, extendable up to 18 months, which gives management leverage. Confirmation checks that dissenting creditors get at least what a liquidation would pay and that the new company is unlikely to need another restructuring. A free fall can take a year or more; a prepack can finish in weeks.",
+    trap: "The follow-up: what's a critical vendor motion? Court permission to pay some suppliers' pre-filing bills ahead of other unsecured creditors, because the business can't run without them. Courts want evidence the supplier would otherwise stop shipping.",
+    visual: { kind: "flow", steps: [
+      { label: "Filing", note: "The automatic stay starts" },
+      { label: "First-day motions", note: "DIP financing, cash use, wages, critical suppliers" },
+      { label: "Running the case", note: "Committee forms, claims bar date, contracts kept or rejected" },
+      { label: "Plan and disclosure statement", note: "The company has the first right to propose" },
+      { label: "Vote and confirmation", note: "Impaired classes vote; the court applies the Code's tests" },
+      { label: "Emergence", note: "New capital structure on the effective date" }
+    ]}
+  },
+  {
+    id: "ib-rx-007",
+    track: "ib",
+    module: "ib-rx",
+    topic: "DIP financing",
+    level: 2,
+    type: "qa",
+    classic: true,
+    q: "What is DIP financing, and why would anyone lend to a company in bankruptcy?",
+    a: "It's a court-approved loan to a company in Chapter 11 that funds operations and the case. Lenders make it because the court puts it first in line: a superpriority claim ahead of other administrative costs, plus liens, sometimes priming existing ones. With a short term, tight milestones and generous fees, it's often among the safer loans a lender can make.",
+    why: "No one lends to a bankrupt company on ordinary terms, so the Code lets the court grant escalating protection, each step only if the one before isn't enough: superpriority over other administrative claims, liens on unencumbered assets, junior liens and finally priming liens that rank ahead of existing ones. Priming needs the existing lenders' consent or proof they're adequately protected, which is hard to show, so existing lenders often provide the DIP themselves. That lets them defend their collateral, steer the case through milestones and sometimes roll their pre-filing debt into the DIP, lifting it to the DIP's priority.",
+    trap: "The follow-up: what's adequate protection? Compensation for any fall in the value of a secured lender's collateral during the case, such as cash payments, replacement liens or a superpriority claim. Existing lenders usually get it in return for consenting to priming."
+  },
+  {
+    id: "ib-rx-008",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Fulcrum security",
+    level: 2,
+    type: "qa",
+    classic: true,
+    q: "A company worth $500M has $300M of first-lien debt, $250M of second-lien notes and $200M of unsecured notes. Which is the fulcrum security, and what does it get?",
+    a: "The second-lien notes. The first lien is paid in full, leaving $200M for the $250M of second-lien claims: 80 cents on the dollar. The unsecured notes get nothing. As the most senior class not paid in full, the second lien usually gets most of the reorganized company's equity, and with it control of the restructuring.",
+    why: "Classes above the fulcrum are paid in full, so they're usually repaid, reinstated or given new debt rather than equity. Classes below it are out of the money. The fulcrum's recovery depends on what the business turns out to be worth, so it takes the equity: the upside and the risk. That's why distressed investors buy it. Holding more than a third of a class lets an investor block that class's acceptance, and a larger stake can shape the plan and the board of the company that emerges.",
+    example: "Value [[$500M]]. First lien [[$300M]]: paid in full, leaving $200M. Second lien [[$250M]]: gets $200M, 80%. If the first lien is reinstated, the second lien's recovery is the new equity, worth $500M − $300M = $200M. Unsecured notes [[$200M]]: nothing. At a value of [[$600M]], the second lien is paid in full and the unsecured notes, recovering $50M or 25%, become the fulcrum.",
+    trap: "The follow-up: why do junior creditors argue for a higher valuation and senior ones for a lower one? Value decides the fulcrum. A low valuation hands the seniors the equity cheaply; a high one pulls the juniors into the money.",
+    visual: { kind: "bars", unit: "%", dp: 0, items: [
+      { label: "First lien", value: 100 },
+      { label: "Second lien", value: 80, highlight: true },
+      { label: "Unsecured notes", value: 0 }
+    ], caption: "Recoveries at a $500M value: the fulcrum is the first class not paid in full" }
+  },
+  {
+    id: "ib-rx-009",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Debt-for-equity swaps",
+    level: 2,
+    type: "qa",
+    q: "A company worth $700M has $100M of EBITDA, $400M of term loans and $600M of notes. If the notes swap into 95% of the equity, what happens to leverage, and what do noteholders recover?",
+    a: "Leverage drops from 10.0x to 4.0x, since only the $400M of loans remains. The equity is then worth $700M − $400M = $300M, so the noteholders' 95% is worth $285M, 47.5 cents per dollar of notes. They trade a claim the company couldn't pay for ownership of a business that can now carry its debt, and they get the upside.",
+    why: "Debt should match what the business can service. At 10.0x, interest swallows almost all of EBITDA before any capex, so the notes were never going to be paid in full. Turning them into equity sets leverage at a level the company can carry and frees cash, while letting creditors share in any recovery. The swap can be an out-of-court exchange offer or part of a Chapter 11 plan that binds holdouts. The cost falls on old shareholders. Out of court they usually keep a sliver, because their approval is often needed to issue the new shares; in Chapter 11 they're often wiped out.",
+    example: "EBITDA [[$100M]]. Loans of [[$400M]] at [[8%]] and notes of [[$600M]] at [[10%]]: $1,000M of debt (10.0x) and $92M of interest. After the swap: $400M of debt (4.0x) and $32M of interest. At a [[$700M]] value the equity is worth $300M: the noteholders' [[95%]] is $285M and the old shareholders' 5% is $15M.",
+    trap: "The follow-up is tax. Cancelled debt is taxable income, though bankruptcy and insolvency exceptions shelter it at the cost of NOLs. And handing creditors control is an ownership change, so Section 382 caps the NOLs that survive.",
+    visual: { kind: "table", headers: ["", "Before", "After"], rows: [
+      ["Term loans", "[[$400M]]", "$400M"],
+      ["Notes", "[[$600M]]", "$0"],
+      ["Debt ÷ EBITDA", "10.0x", "4.0x"],
+      ["Annual interest", "$92M", "$32M"],
+      ["Noteholders' ownership", "0%", "[[95%]]"]
+    ]}
+  },
+  {
+    id: "ib-rx-010",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Distressed exchanges",
+    level: 2,
+    type: "qa",
+    q: "What is a distressed exchange, and why would bondholders agree to take less than they're owed?",
+    a: "It's an out-of-court swap of existing bonds for new securities worth less than the original promise: less principal, a later maturity, equity or a mix. Holders accept when the package is worth more than they'd expect to recover in bankruptcy after its costs and delays, especially when the new debt ranks ahead of the bonds left behind.",
+    why: "The obstacle is holdouts. A bond's payment terms can't change without each holder's consent, so anyone who refuses keeps a full claim while others take the loss. Companies push back in several ways. The offer often requires a high minimum participation. Holders who exchange vote to strip the old bonds' covenants, known as exit consents. The new securities often rank ahead of the old ones. And the company may solicit votes for a prepackaged Chapter 11 at the same time, so holdouts know a court can bind them.",
+    example: "Holders of [[$400M]] of notes due next year, trading at [[50]], are offered [[$600]] of new secured notes due in [[5]] years per [[$1,000]] of old notes. If the new notes trade at [[90]], each old bond becomes $540 of value, up from $500. If everyone accepts, debt falls by $160M and the maturity moves out four years.",
+    trap: "Rating agencies usually treat a distressed exchange as a default, often with a temporary selective default rating, even though no payment was missed. And the cancelled principal can be taxable income to the company."
+  },
+  {
+    id: "ib-rx-011",
+    track: "ib",
+    module: "ib-rx",
+    topic: "363 sales and credit bidding",
+    level: 3,
+    type: "qa",
+    q: "What is a 363 sale, and how does credit bidding let a secured lender end up owning the business?",
+    a: "A 363 sale sells assets in Chapter 11, with court approval, free and clear of liens and claims, which attach to the proceeds. It's usually faster than a plan. A secured lender can credit bid, offering its claim, up to its full amount, instead of cash. Outsiders must beat that in cash, so the lender often wins the business.",
+    why: "Buyers pay more for clean title and a court order that's hard to overturn on appeal, and a quick sale saves going-concern value before customers and staff drift away. The process usually starts with a stalking horse, a first bidder who sets the floor in return for a break-up fee if outbid, followed by an auction. Credit bidding protects secured lenders from a sale at a depressed price: if bids are low, they take the collateral instead. It's also the loan-to-own playbook: buy secured debt at a discount, then credit bid.",
+    example: "A fund buys [[$300M]] of first-lien debt at [[60]], for $180M. At the 363 auction the best cash bid is [[$220M]]. The fund credit bids [[$230M]], paying cash only for claims ranking ahead of it, and wins. It owns a business that bidders valued at about $220M for $180M, and its unpaid $70M survives as an unsecured claim.",
+    trap: "A lender can credit bid only for its own collateral; assets outside its liens need cash. And the court can limit a credit bid for cause, for example when the lender's liens are disputed."
+  },
+  {
+    id: "ib-rx-012",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Prepackaged vs free-fall filings",
+    level: 2,
+    type: "qa",
+    q: "What's the difference between a prepackaged, a pre-negotiated and a free-fall Chapter 11?",
+    a: "It's how much is agreed before filing. A prepack files with its plan already accepted by creditors, often emerging within weeks. A pre-negotiated case files with key creditors signed up and solicits votes in court, usually over a few months. A free fall files with no deal, often in a cash crisis, and can take a year or more.",
+    why: "The more that's agreed up front, the less the case costs and the less the business suffers from uncertainty. A prepack works best when only funded debt is affected: trade creditors are paid in full, so they don't vote and the business runs normally. Pre-negotiated deals are locked in with a restructuring support agreement, in which creditors commit to vote for the plan; it suits cases with too many classes or holders to solicit before filing. A free fall is the default when there's no time or no agreement: the company files to get the automatic stay and DIP financing, then negotiates under court supervision.",
+    trap: "The follow-up: why not always prepack? It needs enough of each impaired class to agree before filing, plus time to solicit votes, which a company running out of cash may not have.",
+    visual: { kind: "table", headers: ["", "Prepackaged", "Pre-negotiated", "Free fall"], rows: [
+      ["Deal before filing", "Agreed and voted", "Agreed with key creditors", "None"],
+      ["Votes", "Before filing", "After filing", "After filing"],
+      ["Typical length", "Weeks", "A few months", "A year or more"],
+      ["Cost and disruption", "Lowest", "Moderate", "Highest"]
+    ], caption: "Timelines are rough and vary widely by case." }
+  },
+  {
+    id: "ib-rx-013",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Plan voting",
+    level: 2,
+    type: "qa",
+    q: "A class of $300M of notes has 100 holders. Holders of $240M, 60 in number, vote; 35 of them, holding $180M, accept. Does the class accept the plan?",
+    a: "Yes. A class accepts if at least two-thirds by amount and more than half by number of those who vote say yes. By amount, $180M ÷ $240M = 75%; by number, 35 ÷ 60 = 58%. Both clear the bar. Holders who didn't vote don't count, and the result binds every holder in the class, including those who voted no.",
+    why: "The two tests guard against different abuses. The amount test gives weight to money at stake; the number test stops one large holder from overriding many small ones. Counting only votes cast keeps apathetic holders from sinking a plan. Only impaired classes vote: a class the plan leaves unaltered is deemed to accept, and a class that gets nothing is deemed to reject. The court can also disqualify votes cast in bad faith, such as by a competitor buying claims to block a plan.",
+    formula: "Accepts if yes amount ÷ amount voted ≥ 2/3\nand yes holders ÷ holders voting > 1/2",
+    example: "The 25 holders voting no hold $240M − $180M = $60M. To block the class, rejecting holders need more than a third of the [[$240M]] voted, over $80M, which is why distressed investors count blocking positions.",
+    trap: "Don't divide by the whole class. Using all $300M and 100 holders gives 60% and 35%, a wrong no. Only votes cast count."
+  },
+  {
+    id: "ib-rx-014",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Cramdown",
+    level: 3,
+    type: "qa",
+    q: "An unsecured class votes against a Chapter 11 plan. Can the court still confirm it?",
+    a: "Yes, through a cramdown, if at least one impaired class accepts and the plan is fair and equitable to the dissenting class and doesn't discriminate unfairly against it. For unsecured creditors, fair and equitable means the absolute priority rule: they're paid in full, or no junior class, including old shareholders, keeps anything.",
+    why: "Cramdown stops a class from holding out for more than its priority entitles it to, while protecting it from being leapfrogged. The accepting impaired class, counted without insiders' votes, shows that some real creditor supports the plan. Unfair discrimination compares classes of equal rank: a plan can't pay one unsecured class 60 cents and another 20 without a good reason. Secured classes can be crammed down too, if they keep their liens and receive payments worth at least their collateral. Every cramdown invites a valuation fight, because value decides who's entitled to what.",
+    example: "Value [[$400M]]; secured claims of [[$250M]] get new debt, leaving $150M of equity. The plan gives the [[$200M]] unsecured class [[90%]] of it ($135M, or 67.5 cents) and old shareholders 10%. If the class votes no, the plan can't be crammed down: shareholders keep value while unsecured creditors aren't paid in full. Giving the class all the equity, $150M or 75 cents, fixes that.",
+    trap: "The follow-up: what's the best-interests test? Each holder in an impaired class who doesn't accept the plan must get at least what it would in a Chapter 7 liquidation. It applies even when the class as a whole accepts."
+  },
+  {
+    id: "ib-rx-015",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Buying distressed debt",
+    level: 2,
+    type: "qa",
+    q: "A company's unsecured notes trade at 40. How would a distressed investor decide whether to buy them?",
+    a: "By comparing the price with the expected recovery and its timing. Value the business, run the claims through the priority waterfall to see what the notes get in each scenario, weight the scenarios and compute the return. Buy if it clears your target with room for error, and check whether the notes are the fulcrum, which brings control.",
+    why: "You recover on the claim, not on what you paid: the claim is face value plus interest unpaid before the filing, so every point of recovery above 40 is profit. Time is the enemy. Unsecured claims stop earning interest once the company files, so a long case erodes the return. The documents matter as much as the model: liens, guarantees and which entity owes the debt decide what the notes rank behind. And check who else holds the class, since a group with a blocking position will shape the plan.",
+    example: "Price [[40]], with an outcome in [[18]] months. Scenario A, [[60%]] likely: a reorganization gives the notes equity worth [[70]]. Scenario B, [[40%]] likely: a sale pays [[25]]. Expected recovery: 0.6 × 70 + 0.4 × 25 = 52, a 1.30x multiple. Over 1.5 years that's an IRR of about 19%, before costs.",
+    trap: "Don't treat the recovery as cash. It's often paid in new equity or take-back debt, valued at the plan's valuation, and the market may price it lower once the company emerges."
+  },
+  {
+    id: "ib-rx-016",
+    track: "ib",
+    module: "ib-rx",
+    topic: "Uptiers and drop-downs",
+    level: 3,
+    type: "qa",
+    q: "What are uptier and drop-down transactions?",
+    a: "They're liability management deals that raise money or cut debt at some existing lenders' expense. In an uptier, a majority of lenders amend the credit agreement to create a tranche ranking ahead of the old loans and swap into it. In a drop-down, the company moves valuable assets to a subsidiary outside the lenders' reach and borrows against them.",
+    why: "Both exploit the loan documents. Many credit agreements let a simple majority of lenders approve most amendments, and older ones didn't require every lender's consent to subordinate the loans, so a majority could create a senior tranche and move into it. Drop-downs use covenant baskets that permit investments in unrestricted or non-guarantor subsidiaries; lenders to that subsidiary then have first claim on the assets moved, a form of structural subordination. The company gets liquidity or a discount on its debt, the participating lenders get priority and the excluded lenders pay for both.",
+    example: "A company worth [[$800M]] has a [[$1.0B]] first-lien term loan, so every lender expects 80 cents. Lenders holding [[$550M]] swap into a new tranche that ranks first. Ignoring any new money, they now recover in full, and the other $450M shares the remaining $250M: about 56 cents. The majority's $110M gain is the minority's loss.",
+    trap: "Treat them as time bought, not a fix: many companies that do one still file later. Newer loan agreements often add 'blockers' barring both, and courts have ruled differently on some uptiers depending on the documents' wording, so the law is still developing."
+  }
 ]);

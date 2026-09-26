@@ -3,7 +3,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = 11;
+  const APP_VERSION = 12;
   const STORE_KEY = 'technicals.progress.v1';
   const INTERVALS = [0, 1, 3, 7, 16, 35, 90]; // days until due, by Leitner box
   const MASTERED_BOX = 4;

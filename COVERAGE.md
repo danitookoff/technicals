@@ -14,7 +14,7 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
   - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
   - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
-  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`; being written `ib-process`, `ib-rx`, `ib-sectors`, `ib-model`.
+  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`, `ib-rx`; being written `ib-process`, `ib-sectors`, `ib-model`.
 - **Phase 4 (audit) has started on real estate and hotels**, which are final: most-asked questions checked (gaps filled: opportunity zones, LIHTC, rent regulation), legal wording reviewed, math re-verified on a random 10%.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
@@ -22,10 +22,10 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 479 | 129 | 18 of 18 |
+| IB | 17 | 560 | 495 | 133 | 18 of 18 |
 | Real estate | 13 | 440 | 453 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **1183** | **313** | **53 of 53** |
+| **Total** | **39** | **1250** | **1199** | **317** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -317,18 +317,18 @@ Target: 30 · Written: 30 · Classic: 8 · Status: complete
 - [x] Asset-based lending and the borrowing base
 
 ### `ib-rx` Restructuring basics
-Target: 15 · Written: 0 · Classic: 0 · Status: planned
+Target: 15 · Written: 16 · Classic: 4 · Status: complete
 
-- [ ] Chapter 11 vs Chapter 7
-- [ ] Absolute priority rule
-- [ ] DIP financing
-- [ ] Debt-for-equity swaps
-- [ ] The fulcrum security
-- [ ] Distressed exchanges
-- [ ] 363 sales
-- [ ] Prepackaged vs pre-negotiated vs free-fall filings
-- [ ] Plan of reorganization and cramdown
-- [ ] Liability management: uptiers and drop-downs (brief)
+- [x] Chapter 11 vs Chapter 7
+- [x] Absolute priority rule
+- [x] DIP financing
+- [x] Debt-for-equity swaps
+- [x] The fulcrum security
+- [x] Distressed exchanges
+- [x] 363 sales
+- [x] Prepackaged vs pre-negotiated vs free-fall filings
+- [x] Plan of reorganization and cramdown
+- [x] Liability management: uptiers and drop-downs (brief)
 
 ### `ib-sectors` Sector-specific valuation
 Target: 25 · Written: 0 · Classic: 0 · Status: planned
