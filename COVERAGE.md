@@ -14,17 +14,17 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
   - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
   - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
-  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`; being written `ib-dcf`, `ib-lbo`, `ib-ma`, `ib-credit`, `ib-process`, `ib-rx`; still to start `ib-sectors`, `ib-model`.
+  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`; being written `ib-dcf`, `ib-lbo`, `ib-ma`, `ib-process`, `ib-rx`, `ib-sectors`; still to start `ib-model`.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
 
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 293 | 80 | 18 of 18 |
+| IB | 17 | 560 | 323 | 88 | 18 of 18 |
 | Real estate | 13 | 440 | 450 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **994** | **264** | **53 of 53** |
+| **Total** | **39** | **1250** | **1024** | **272** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -299,21 +299,21 @@ Target: 25 · Written: 0 · Classic: 0 · Status: planned
 - [ ] Antitrust review basics (HSR)
 
 ### `ib-credit` Debt and leveraged finance
-Target: 30 · Written: 0 · Classic: 0 · Status: planned
+Target: 30 · Written: 30 · Classic: 8 · Status: complete
 
-- [ ] Credit metrics and ratings (investment grade vs high yield)
-- [ ] Secured vs unsecured, and priority
-- [ ] Bonds vs loans
-- [ ] Fixed vs floating (SOFR)
-- [ ] The price–yield relationship; duration and convexity basics
-- [ ] Yield to maturity, yield to worst, current yield
-- [ ] Spreads
-- [ ] Call protection: non-call periods, make-whole, call schedules
-- [ ] OID
-- [ ] Refinancing analysis
-- [ ] Covenant packages: maintenance, incurrence, covenant-lite, baskets
-- [ ] Recovery analysis
-- [ ] Asset-based lending and the borrowing base
+- [x] Credit metrics and ratings (investment grade vs high yield)
+- [x] Secured vs unsecured, and priority
+- [x] Bonds vs loans
+- [x] Fixed vs floating (SOFR)
+- [x] The price–yield relationship; duration and convexity basics
+- [x] Yield to maturity, yield to worst, current yield
+- [x] Spreads
+- [x] Call protection: non-call periods, make-whole, call schedules
+- [x] OID
+- [x] Refinancing analysis
+- [x] Covenant packages: maintenance, incurrence, covenant-lite, baskets
+- [x] Recovery analysis
+- [x] Asset-based lending and the borrowing base
 
 ### `ib-rx` Restructuring basics
 Target: 15 · Written: 0 · Classic: 0 · Status: planned
