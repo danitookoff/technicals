@@ -14,7 +14,7 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
   - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
   - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
-  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`, `ib-rx`; being written `ib-process`, `ib-sectors`, `ib-model`.
+  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`, `ib-rx`, `ib-process`; being written `ib-sectors`, `ib-model`.
 - **Phase 4 (audit) has started on real estate and hotels**, which are final: most-asked questions checked (gaps filled: opportunity zones, LIHTC, rent regulation), legal wording reviewed, math re-verified on a random 10%.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
@@ -22,10 +22,10 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 495 | 133 | 18 of 18 |
+| IB | 17 | 560 | 525 | 141 | 18 of 18 |
 | Real estate | 13 | 440 | 453 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **1199** | **317** | **53 of 53** |
+| **Total** | **39** | **1250** | **1229** | **325** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -286,18 +286,19 @@ Target: 50 · Written: 50 · Classic: 14 · Status: complete
 - [x] Divestitures: spin-offs, carve-outs, split-offs
 
 ### `ib-process` Deal process and ECM
-Target: 25 · Written: 0 · Classic: 0 · Status: planned
+Target: 25 · Written: 30 · Classic: 8 · Status: complete
 
-- [ ] Sell-side process: teaser, NDA, CIM, IOIs, management presentations, data room, LOI, purchase agreement, signing to close
-- [ ] Broad vs targeted auctions; negotiated sales
-- [ ] Buy-side mandates
-- [ ] Purchase agreement terms: reps and warranties, MAC, go-shop vs no-shop
-- [ ] Purchase price adjustments: working-capital peg; locked box vs completion accounts
-- [ ] IPO process: S-1, roadshow, bookbuilding, pricing, greenshoe, lock-ups
-- [ ] Follow-on offerings
-- [ ] Convertibles: why issue them; conversion premium
-- [ ] SPACs and direct listings (brief)
-- [ ] Antitrust review basics (HSR)
+- [x] Sell-side process: teaser, NDA, CIM, IOIs, management presentations, data room, LOI, purchase agreement, signing to close
+- [x] Broad vs targeted auctions; negotiated sales
+- [x] Buy-side mandates
+- [x] Purchase agreement terms: reps and warranties, MAC, go-shop vs no-shop
+- [x] Purchase price adjustments: working-capital peg; locked box vs completion accounts
+- [x] IPO process: S-1, roadshow, bookbuilding, pricing, greenshoe, lock-ups
+- [x] Follow-on offerings
+- [x] Convertibles: why issue them; conversion premium
+- [x] SPACs and direct listings (brief)
+- [x] Antitrust review basics (HSR)
+- [x] Staple financing and dual-track processes (added in the Phase 4 audit)
 
 ### `ib-credit` Debt and leveraged finance
 Target: 30 · Written: 30 · Classic: 8 · Status: complete
