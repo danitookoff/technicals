@@ -13,18 +13,18 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 - **Phase 3 (full deck) is in progress.** Content is written in parallel waves, one module per writer, following WRITING.md. After each wave: validate, spot-check, tick subtopics, update counts, bump, commit, push.
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
   - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
-  - Wave C (in progress): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills.
-  - Wave D (next): `ib-comps`, `ib-precedents`, `ib-dcf`, `ib-wacc`, `ib-lbo`, `ib-ma`, `ib-process`, `ib-credit`, `ib-rx`, `ib-sectors`, `ib-model`.
+  - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
+  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`; being written `ib-dcf`, `ib-lbo`, `ib-ma`, `ib-credit`, `ib-process`, `ib-rx`; still to start `ib-sectors`, `ib-model`.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
 
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 239 | 65 | 18 of 18 |
+| IB | 17 | 560 | 293 | 80 | 18 of 18 |
 | Real estate | 13 | 440 | 450 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **940** | **249** | **53 of 53** |
+| **Total** | **39** | **1250** | **994** | **264** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -174,18 +174,18 @@ Target: 25 · Written: 26 · Classic: 7 · Status: complete
 - [x] Replacement cost
 
 ### `ib-comps` Trading comps
-Target: 25 · Written: 0 · Classic: 0 · Status: planned
+Target: 25 · Written: 25 · Classic: 7 · Status: complete
 
-- [ ] Choosing peers (business model, size, growth, margins, geography)
-- [ ] LTM and calendarization
-- [ ] Normalizing one-off items
-- [ ] Choosing multiples (EV/EBITDA, EV/EBIT, P/E, EV/revenue, PEG, sector metrics)
-- [ ] LTM vs forward multiples
-- [ ] Mean vs median; outliers
-- [ ] Applying the multiples to the target
-- [ ] Why a company trades at a premium or discount
-- [ ] Negative earnings in comps
-- [ ] Spreading comps in practice
+- [x] Choosing peers (business model, size, growth, margins, geography)
+- [x] LTM and calendarization
+- [x] Normalizing one-off items
+- [x] Choosing multiples (EV/EBITDA, EV/EBIT, P/E, EV/revenue, PEG, sector metrics)
+- [x] LTM vs forward multiples
+- [x] Mean vs median; outliers
+- [x] Applying the multiples to the target
+- [x] Why a company trades at a premium or discount
+- [x] Negative earnings in comps
+- [x] Spreading comps in practice
 
 ### `ib-precedents` Precedent transactions
 Target: 15 · Written: 16 · Classic: 4 · Status: complete
@@ -221,20 +221,20 @@ Target: 55 · Written: 2 · Classic: 2 · Status: seeded
 - [ ] DCF limitations
 
 ### `ib-wacc` Cost of capital
-Target: 30 · Written: 1 · Classic: 1 · Status: seeded
+Target: 30 · Written: 30 · Classic: 9 · Status: complete
 
 - [x] What WACC represents and how to calculate it
-- [ ] Weights: target vs current structure; market values
-- [ ] CAPM: risk-free rate, beta, equity risk premium
-- [ ] Size and country risk premiums
-- [ ] Levered vs unlevered beta; relevering
-- [ ] Where betas come from (regression, adjusted beta, peer betas)
-- [ ] After-tax cost of debt; yield vs coupon
-- [ ] Cost of preferred
-- [ ] How leverage changes WACC; optimal capital structure
-- [ ] Why equity costs more than debt
-- [ ] WACC for a private company
-- [ ] Cost of debt without traded debt
+- [x] Weights: target vs current structure; market values
+- [x] CAPM: risk-free rate, beta, equity risk premium
+- [x] Size and country risk premiums
+- [x] Levered vs unlevered beta; relevering
+- [x] Where betas come from (regression, adjusted beta, peer betas)
+- [x] After-tax cost of debt; yield vs coupon
+- [x] Cost of preferred
+- [x] How leverage changes WACC; optimal capital structure
+- [x] Why equity costs more than debt
+- [x] WACC for a private company
+- [x] Cost of debt without traded debt
 
 ### `ib-lbo` LBO
 Target: 55 · Written: 2 · Classic: 1 · Status: seeded
