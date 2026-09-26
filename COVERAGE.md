@@ -21,10 +21,10 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 15 | 12 | 4 of 18 |
+| IB | 17 | 560 | 223 | 63 | 4 of 18 |
 | Real estate | 13 | 440 | 450 | 118 | 22 of 22 |
-| Hotels | 9 | 250 | 155 | 41 | 13 of 13 |
-| **Total** | **39** | **1250** | **620** | **171** | **39 of 53** |
+| Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
+| **Total** | **39** | **1250** | **924** | **247** | **39 of 53** |
 <!-- summary:end -->
 
 ---
@@ -32,7 +32,7 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 ## IB
 
 ### `ib-acct` Accounting and the three statements
-Target: 60 · Written: 3 · Classic: 2 · Status: seeded
+Target: 60 · Written: 60 · Classic: 15 · Status: seeded
 
 - [ ] What the income statement, balance sheet and cash flow statement each show
 - [ ] How the three statements link (net income, D&A, working capital, capex, debt, cash, retained earnings)
@@ -65,113 +65,113 @@ Target: 60 · Written: 3 · Classic: 2 · Status: seeded
 - [ ] The statement of shareholders' equity
 
 ### `ib-walk` Walk-throughs
-Target: 35 · Written: 3 · Classic: 3 · Status: seeded
+Target: 35 · Written: 35 · Classic: 10 · Status: complete
 
 State the tax rate on every card (default 25%) and use the `threeStatement` visual.
 
 - [x] Depreciation up
-- [ ] Inventory bought with cash
-- [ ] Inventory bought on credit
-- [ ] Inventory write-down
-- [ ] Revenue booked on credit, then AR collected
-- [ ] Prepaid expense paid, then expensed
-- [ ] Deferred revenue received, then earned
-- [ ] Bonus accrued, then paid
+- [x] Inventory bought with cash
+- [x] Inventory bought on credit
+- [x] Inventory write-down
+- [x] Revenue booked on credit, then AR collected
+- [x] Prepaid expense paid, then expensed
+- [x] Deferred revenue received, then earned
+- [x] Bonus accrued, then paid
 - [x] Stock-based compensation (and the deferred-tax nuance)
 - [x] Debt raised, then interest paid
-- [ ] Debt repaid
-- [ ] PIK interest
-- [ ] Capex
-- [ ] Asset sold at a gain
-- [ ] Asset sold at a loss
-- [ ] PP&E impairment
-- [ ] Goodwill impairment (usually not tax-deductible)
-- [ ] Dividends
-- [ ] Share buybacks
-- [ ] Equity issuance
-- [ ] Operating lease payment under ASC 842
-- [ ] Finance lease payment under ASC 842
-- [ ] Deferred tax liability from accelerated tax depreciation
-- [ ] Using an NOL
-- [ ] AP paid down
-- [ ] Bad debt written off
-- [ ] Convertible bond converted into equity
-- [ ] Unrealized gain on an equity investment
-- [ ] Two-step walk-throughs (buy then sell inventory; accrue then pay)
+- [x] Debt repaid
+- [x] PIK interest
+- [x] Capex
+- [x] Asset sold at a gain
+- [x] Asset sold at a loss
+- [x] PP&E impairment
+- [x] Goodwill impairment (usually not tax-deductible)
+- [x] Dividends
+- [x] Share buybacks
+- [x] Equity issuance
+- [x] Operating lease payment under ASC 842
+- [x] Finance lease payment under ASC 842
+- [x] Deferred tax liability from accelerated tax depreciation
+- [x] Using an NOL
+- [x] AP paid down
+- [x] Bad debt written off
+- [x] Convertible bond converted into equity
+- [x] Unrealized gain on an equity investment
+- [x] Two-step walk-throughs (buy then sell inventory; accrue then pay)
 
 ### `ib-acct-adv` Advanced accounting
-Target: 35 · Written: 0 · Classic: 0 · Status: planned
+Target: 35 · Written: 35 · Classic: 10 · Status: complete
 
-- [ ] Deferred tax liabilities: book vs tax depreciation
-- [ ] Deferred tax assets: NOLs, accruals, stock comp
-- [ ] Valuation allowances
-- [ ] NOL mechanics: carryforwards and usage limits (post-2017 US rules)
-- [ ] Leases under ASC 842: operating vs finance classification and presentation
-- [ ] IFRS 16: one lease model and its effect on EBITDA, EBIT and debt
-- [ ] Leases and EV/EBITDA consistency (EBITDAR)
-- [ ] Stock-based compensation: expense, add-back, dilution, tax timing
-- [ ] Goodwill and intangibles: creation, amortization, impairment testing
-- [ ] Equity method vs consolidation (rough 20% and 50% thresholds)
-- [ ] Noncontrolling interest on the income statement and balance sheet
-- [ ] Debt accounting: OID, issuance costs, PIK
-- [ ] Convertible bonds: accounting and dilution (if-converted)
-- [ ] Preferred stock: dividends, EPS, liquidation preference
-- [ ] Pensions: funded status and where they show up
-- [ ] Adjusted EBITDA and normalization, and its red flags
-- [ ] Capitalized software and R&D (US GAAP vs IFRS development costs)
-- [ ] Contingent consideration (earnouts)
-- [ ] Discontinued operations
-- [ ] IFRS vs US GAAP: impairment reversals, revaluation model
-- [ ] Foreign currency translation basics (CTA in AOCI)
+- [x] Deferred tax liabilities: book vs tax depreciation
+- [x] Deferred tax assets: NOLs, accruals, stock comp
+- [x] Valuation allowances
+- [x] NOL mechanics: carryforwards and usage limits (post-2017 US rules)
+- [x] Leases under ASC 842: operating vs finance classification and presentation
+- [x] IFRS 16: one lease model and its effect on EBITDA, EBIT and debt
+- [x] Leases and EV/EBITDA consistency (EBITDAR)
+- [x] Stock-based compensation: expense, add-back, dilution, tax timing
+- [x] Goodwill and intangibles: creation, amortization, impairment testing
+- [x] Equity method vs consolidation (rough 20% and 50% thresholds)
+- [x] Noncontrolling interest on the income statement and balance sheet
+- [x] Debt accounting: OID, issuance costs, PIK
+- [x] Convertible bonds: accounting and dilution (if-converted)
+- [x] Preferred stock: dividends, EPS, liquidation preference
+- [x] Pensions: funded status and where they show up
+- [x] Adjusted EBITDA and normalization, and its red flags
+- [x] Capitalized software and R&D (US GAAP vs IFRS development costs)
+- [x] Contingent consideration (earnouts)
+- [x] Discontinued operations
+- [x] IFRS vs US GAAP: impairment reversals, revaluation model
+- [x] Foreign currency translation basics (CTA in AOCI)
 
 ### `ib-ratios` Financial statement analysis
-Target: 20 · Written: 0 · Classic: 0 · Status: planned
+Target: 20 · Written: 21 · Classic: 6 · Status: complete
 
-- [ ] Gross, EBITDA, EBIT and net margins
-- [ ] ROE and the DuPont breakdown
-- [ ] ROA and ROIC; ROIC vs WACC and value creation
-- [ ] DSO, DIO, DPO and the cash conversion cycle
-- [ ] Liquidity ratios: current and quick
-- [ ] Leverage: debt/EBITDA, net debt/EBITDA, debt/capital
-- [ ] Coverage: EBITDA/interest, (EBITDA − capex)/interest, fixed-charge coverage
-- [ ] Asset turnover and operating leverage
-- [ ] Earnings-quality red flags (AR outgrowing revenue, capitalized costs, one-off gains, growing adjustments)
+- [x] Gross, EBITDA, EBIT and net margins
+- [x] ROE and the DuPont breakdown
+- [x] ROA and ROIC; ROIC vs WACC and value creation
+- [x] DSO, DIO, DPO and the cash conversion cycle
+- [x] Liquidity ratios: current and quick
+- [x] Leverage: debt/EBITDA, net debt/EBITDA, debt/capital
+- [x] Coverage: EBITDA/interest, (EBITDA − capex)/interest, fixed-charge coverage
+- [x] Asset turnover and operating leverage
+- [x] Earnings-quality red flags (AR outgrowing revenue, capitalized costs, one-off gains, growing adjustments)
 
 ### `ib-ev` Enterprise and equity value
-Target: 40 · Written: 3 · Classic: 2 · Status: seeded
+Target: 40 · Written: 40 · Classic: 10 · Status: complete
 
 - [x] Definitions, and why EV is capital-structure neutral
-- [ ] Equity value vs market cap vs fully diluted equity value
-- [ ] The bridge item by item: debt, preferred, NCI, leases, pensions, cash, non-operating assets, equity investments
-- [ ] Why add NCI and subtract equity investments (consistency with EBITDA)
+- [x] Equity value vs market cap vs fully diluted equity value
+- [x] The bridge item by item: debt, preferred, NCI, leases, pensions, cash, non-operating assets, equity investments
+- [x] Why add NCI and subtract equity investments (consistency with EBITDA)
 - [x] Cash: why subtract it; trapped and minimum cash
-- [ ] Leases in the bridge (practice varies)
-- [ ] Unfunded pensions and other debt-like items
-- [ ] NOLs in the bridge
-- [ ] Diluted shares: treasury stock method
-- [ ] RSUs, PSUs and warrants
-- [ ] Convertibles: if-converted vs treated as debt
+- [x] Leases in the bridge (practice varies)
+- [x] Unfunded pensions and other debt-like items
+- [x] NOLs in the bridge
+- [x] Diluted shares: treasury stock method
+- [x] RSUs, PSUs and warrants
+- [x] Convertibles: if-converted vs treated as debt
 - [x] Which transactions change EV vs equity value
-- [ ] Negative EV and negative equity value
-- [ ] Matching numerators to denominators
-- [ ] EV/EBITDA vs P/E vs EV/revenue: when each fits
-- [ ] Market vs book values
-- [ ] Implied share price from EV
+- [x] Negative EV and negative equity value
+- [x] Matching numerators to denominators
+- [x] EV/EBITDA vs P/E vs EV/revenue: when each fits
+- [x] Market vs book values
+- [x] Implied share price from EV
 
 ### `ib-val` Valuation overview
-Target: 25 · Written: 0 · Classic: 0 · Status: planned
+Target: 25 · Written: 26 · Classic: 7 · Status: complete
 
-- [ ] The methods: comps, precedents, DCF, LBO, sum-of-the-parts, liquidation, dividend discount, NAV
-- [ ] Intrinsic vs relative valuation
-- [ ] When each method fits
-- [ ] The football field
-- [ ] Which methods usually come out highest or lowest, and why
-- [ ] Valuing unprofitable or early-stage companies
-- [ ] Valuing cyclical companies (normalized, mid-cycle earnings)
-- [ ] Valuing distressed companies
-- [ ] Sum-of-the-parts and conglomerate discounts
-- [ ] Liquidation value
-- [ ] Replacement cost
+- [x] The methods: comps, precedents, DCF, LBO, sum-of-the-parts, liquidation, dividend discount, NAV
+- [x] Intrinsic vs relative valuation
+- [x] When each method fits
+- [x] The football field
+- [x] Which methods usually come out highest or lowest, and why
+- [x] Valuing unprofitable or early-stage companies
+- [x] Valuing cyclical companies (normalized, mid-cycle earnings)
+- [x] Valuing distressed companies
+- [x] Sum-of-the-parts and conglomerate discounts
+- [x] Liquidation value
+- [x] Replacement cost
 
 ### `ib-comps` Trading comps
 Target: 25 · Written: 0 · Classic: 0 · Status: planned
@@ -637,18 +637,18 @@ Target: 35 · Written: 35 · Classic: 9 · Status: complete
 - [x] Supply growth and its effect on RevPAR
 
 ### `hotel-rm` Demand and revenue management
-Target: 25 · Written: 0 · Classic: 0 · Status: planned
+Target: 25 · Written: 25 · Classic: 7 · Status: complete
 
-- [ ] Segments: transient (retail, discount, negotiated, qualified)
-- [ ] Segments: group (corporate, association, SMERF) and contract
-- [ ] Channels and their costs: brand.com, OTAs, GDS, wholesale
-- [ ] BAR
-- [ ] Length-of-stay controls
-- [ ] Overbooking
-- [ ] Pace and pickup
-- [ ] Group contracts: attrition and cancellation
-- [ ] Displacement analysis
-- [ ] Total revenue management
+- [x] Segments: transient (retail, discount, negotiated, qualified)
+- [x] Segments: group (corporate, association, SMERF) and contract
+- [x] Channels and their costs: brand.com, OTAs, GDS, wholesale
+- [x] BAR
+- [x] Length-of-stay controls
+- [x] Overbooking
+- [x] Pace and pickup
+- [x] Group contracts: attrition and cancellation
+- [x] Displacement analysis
+- [x] Total revenue management
 
 ### `hotel-usali` USALI and the hotel P&L
 Target: 35 · Written: 35 · Classic: 9 · Status: complete
@@ -699,27 +699,27 @@ Target: 30 · Written: 30 · Classic: 8 · Status: complete
 - [x] Deducting a PIP or deferred maintenance from price
 
 ### `hotel-capex` Capex, PIPs and reserves
-Target: 20 · Written: 0 · Classic: 0 · Status: planned
+Target: 20 · Written: 21 · Classic: 5 · Status: complete
 
-- [ ] The FF&E reserve (commonly about 4% of total revenue, often stepped up in a new hotel's early years; a convention, not a rule)
-- [ ] PIPs on a sale or rebrand
-- [ ] Soft goods vs case goods cycles
-- [ ] ROI capex
-- [ ] Cost per key
-- [ ] Renovation displacement
+- [x] The FF&E reserve (commonly about 4% of total revenue, often stepped up in a new hotel's early years; a convention, not a rule)
+- [x] PIPs on a sale or rebrand
+- [x] Soft goods vs case goods cycles
+- [x] ROI capex
+- [x] Cost per key
+- [x] Renovation displacement
 
 ### `hotel-debt` Hotel financing
-Target: 20 · Written: 0 · Classic: 0 · Status: planned
+Target: 20 · Written: 20 · Classic: 5 · Status: complete
 
-- [ ] Why lenders size hotels on debt yield
-- [ ] Higher DSCR requirements and cash management triggers
-- [ ] FF&E reserve requirements
-- [ ] Franchise comfort letters
-- [ ] Seasonality and covenant tests
-- [ ] Single-asset CMBS for hotels
+- [x] Why lenders size hotels on debt yield
+- [x] Higher DSCR requirements and cash management triggers
+- [x] FF&E reserve requirements
+- [x] Franchise comfort letters
+- [x] Seasonality and covenant tests
+- [x] Single-asset CMBS for hotels
 
 ### `hotel-am` Hotel asset management and development
-Target: 30 · Written: 0 · Classic: 0 · Status: planned
+Target: 30 · Written: 30 · Classic: 8 · Status: planned
 
 - [ ] Reviewing the operator's budget
 - [ ] The monthly P&L review: flow-through, GOP margin, variances, labor
