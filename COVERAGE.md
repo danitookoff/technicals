@@ -14,7 +14,7 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
   - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
   - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
-  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`, `ib-rx`, `ib-process`; being written `ib-sectors`, `ib-model`.
+  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`, `ib-rx`, `ib-process`, `ib-sectors`; being written `ib-model`.
 - **Phase 4 (audit) has started on real estate and hotels**, which are final: most-asked questions checked (gaps filled: opportunity zones, LIHTC, rent regulation), legal wording reviewed, math re-verified on a random 10%.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
@@ -22,10 +22,10 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 525 | 141 | 18 of 18 |
+| IB | 17 | 560 | 551 | 148 | 18 of 18 |
 | Real estate | 13 | 440 | 453 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **1229** | **325** | **53 of 53** |
+| **Total** | **39** | **1250** | **1255** | **332** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -332,19 +332,19 @@ Target: 15 · Written: 16 · Classic: 4 · Status: complete
 - [x] Liability management: uptiers and drop-downs (brief)
 
 ### `ib-sectors` Sector-specific valuation
-Target: 25 · Written: 0 · Classic: 0 · Status: planned
+Target: 25 · Written: 26 · Classic: 7 · Status: complete
 
-- [ ] Banks: P/BV, P/TBV, P/E, dividend discount; why EV doesn't work
-- [ ] Bank metrics: NIM, efficiency ratio, CET1, ROTCE
-- [ ] Insurance: combined ratio, float, P/BV
-- [ ] REITs: FFO, AFFO, NAV
-- [ ] Energy: EV/EBITDAX, reserves, NAV
-- [ ] Software: ARR, net revenue retention, rule of 40, CAC payback
-- [ ] Retail: same-store sales, EBITDAR, sales per SF
-- [ ] Hotels from the corporate side: RevPAR, EBITDAR, asset-light vs owners
-- [ ] Healthcare: pipelines and risk-adjusted NPV, payor mix
-- [ ] Industrials: backlog, book-to-bill
-- [ ] Utilities: rate base and allowed ROE
+- [x] Banks: P/BV, P/TBV, P/E, dividend discount; why EV doesn't work
+- [x] Bank metrics: NIM, efficiency ratio, CET1, ROTCE
+- [x] Insurance: combined ratio, float, P/BV
+- [x] REITs: FFO, AFFO, NAV
+- [x] Energy: EV/EBITDAX, reserves, NAV
+- [x] Software: ARR, net revenue retention, rule of 40, CAC payback
+- [x] Retail: same-store sales, EBITDAR, sales per SF
+- [x] Hotels from the corporate side: RevPAR, EBITDAR, asset-light vs owners
+- [x] Healthcare: pipelines and risk-adjusted NPV, payor mix
+- [x] Industrials: backlog, book-to-bill
+- [x] Utilities: rate base and allowed ROE
 
 ### `ib-model` Modeling mechanics and Excel
 Target: 20 · Written: 0 · Classic: 0 · Status: planned
