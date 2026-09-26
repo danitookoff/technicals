@@ -244,7 +244,7 @@ Deck.add([
     topic: "Earnouts and other deal terms",
     level: 3,
     type: "qa",
-    q: "A precedent's headline price is $600M on $50M of LTM EBITDA, but $100M of it is an earnout paid only if the business hits targets. What multiple do you show?",
+    q: "A precedent's headline price is $600M on $50M of LTM EBITDA, but $100M of it is an earnout paid only if the business hits agreed goals. What multiple do you show?",
     a: "Show both: 10.0x on the $500M paid at closing and 12.0x including the full earnout, and treat every deal the same way. The upfront figure is usually the cleaner comparison, because the earnout pays for results the business hasn't delivered yet; if it's paid in full, EBITDA will have grown too.",
     why: "Headline prices bundle terms that don't all buy today's EBITDA. Practice varies: some tables use the upfront price, some the headline and some add the earnout at the fair value the buyer booked, which lands in between. Other terms distort the headline as well. A tax step-up in an asset deal gives the buyer deductions worth paying for, so part of the price buys a tax asset rather than EBITDA. Assumed pensions or other debt-like items add to the real price even when the headline leaves them out.",
     example: "The buyer books the earnout at a fair value of [[$40M]]: $540M ÷ $50M = 10.8x, between the 10.0x paid at closing and the 12.0x headline.",

@@ -56,9 +56,10 @@
     const ax = Math.abs(x);
     if (!isFinite(x) || ax >= 1e15) return x;
     if (ax < 1e-9) return 0;
-    const s = String(ax);
+    // Clear float noise first: 0.05625 × 100 is 5.624999999999999, which should round to 5.63.
+    const s = String(Number(ax.toPrecision(15)));
     // Tiny values print in exponent form (7.45e-9), which the string trick can't shift.
-    const r = s.includes('e') ? Math.round(ax * Math.pow(10, dp)) / Math.pow(10, dp) : Number(Math.round(Number(s + 'e' + dp)) + 'e-' + dp);
+    const r = s.includes('e') ? Math.round(Number(s) * Math.pow(10, dp)) / Math.pow(10, dp) : Number(Math.round(Number(s + 'e' + dp)) + 'e-' + dp);
     return x < 0 ? -r : r;
   }
 

@@ -8,9 +8,9 @@
   // $M with only the decimals a figure needs, so every figure shows exactly: 1240 → "$1,240M", 219.4 → "$219.4M".
   const dpOf = (x) => (Math.abs(x - round(x, 0)) < 1e-7 ? 0 : Math.abs(x - round(x, 1)) < 1e-7 ? 1 : 2);
   const M = (x) => millions(x, dpOf(x));
-  // A result rounded to $0.1M, the precision the working shows; later steps continue from it.
   // Rounding that first clears float noise, so exact halves round up: 7.5% × 0.75 = 5.625% → 5.63%, not 5.62%.
   const rd = (x, dp) => round(round(x, 9), dp);
+  // A result rounded to $0.1M, the precision the working shows; later steps continue from it.
   const r1 = (x) => rd(x, 1);
   // Capitalized article for the start of a sentence.
   const An = (t) => (an(t) === 'an' ? 'An' : 'A');
@@ -1165,6 +1165,513 @@
     }
   });
 
+  // ---------------------------------------------------------------- MOIC and IRR
+  Drills.add({
+    id: 'drill-ib-moic-irr',
+    track: 'ib',
+    module: 'ib-lbo',
+    topic: 'MOIC and IRR',
+    level: 2,
+    ranges: { moic: [1.2, 6], irr: [0.03, 0.6] },
+    make(r) {
+      const mode = r.pick(['toIrr', 'toIrr', 'toMoic', 'dividend', 'dividend']);
+      const why = "MOIC counts dollars: cash back ÷ cash in, whenever it arrives. IRR is the annual compound return that turns the money in into the money out, so it rewards getting cash back sooner. With a single exit they're tied by IRR = MOIC^(1 ÷ years) − 1, which gives the rules of thumb: over five years, 2.0x is about 15%, 2.5x about 20% and 3.0x about 25%. An early payout such as a dividend recap lifts IRR without changing MOIC, and a longer hold lowers IRR for the same MOIC, which is why sponsors quote both.";
+      const formula = 'MOIC = total cash returned ÷ equity invested\nIRR with a single exit = MOIC^(1 ÷ years) − 1\nRequired MOIC = (1 + target IRR)^years';
+      // The growth factor is shown to four decimals and the IRR comes from it, so the working reproduces.
+      const irrOf = (m, y) => rd(Math.pow(m, 1 / y), 4) - 1;
+
+      if (mode === 'toIrr') {
+        const moic = r.step(1.5, 4, 0.1);
+        const years = r.pick([3, 4, 5, 5, 6, 7]);
+        const root = rd(Math.pow(moic, 1 / years), 4);
+        const irr = root - 1;
+        const ys = [Math.max(2, years - 2), years, years + 2];
+        const ms = [Math.max(1.5, moic - 0.5), moic, moic + 0.5].filter((x, i, a) => a.indexOf(x) === i);
+        const short = irrOf(moic, ys[0]), long = irrOf(moic, ys[2]);
+        return {
+          q: `A sponsor's equity returns [[${mult(moic, 1)}]] its money in a single exit after [[${years}]] years. What's the IRR, and what would the same multiple return over ${ys[0]} or ${ys[2]} years?`,
+          a: `About ${pct(irr, 1)}. The same ${mult(moic, 1)} is ${pct(short, 1)} over ${ys[0]} years but only ${pct(long, 1)} over ${ys[2]}: time dilutes a fixed multiple.`,
+          why, formula,
+          steps: [
+            `IRR = [[${mult(moic, 1)}]]^(1/[[${years}]]) − 1 = ${num(root, 4)} − 1 = ${pct(irr, 1)}`,
+            `Over ${ys[0]} years: ${num(moic, 1)}^(1/${ys[0]}) − 1 = ${pct(short, 1)}; over ${ys[2]} years: ${num(moic, 1)}^(1/${ys[2]}) − 1 = ${pct(long, 1)}`,
+            `Check: ${num(root, 4)}^${years} = ${num(Math.pow(root, years), 2)}, back to about [[${mult(moic, 1)}]]`,
+            'Rules of thumb over five years: 2.0x ≈ 15%, 2.5x ≈ 20%, 3.0x ≈ 25%'
+          ],
+          visual: { kind: 'table', headers: ['MOIC'].concat(ys.map((y) => `${y} years`)),
+            rows: ms.map((m) => [m === moic ? `[[${mult(m, 1)}]]` : mult(m, 1)].concat(ys.map((y) => pct(irrOf(m, y), 1)))),
+            caption: 'IRR by multiple and hold period; the question is the middle column' },
+          values: { mode: 1, moic, irr, years, root }
+        };
+      }
+
+      if (mode === 'toMoic') {
+        let years = r.pick([3, 4, 5, 5, 6, 7]);
+        const target = r.pick([0.15, 0.18, 0.2, 0.2, 0.22, 0.25, 0.3]);
+        while (Math.pow(1 + target, years) > 5) years--;
+        const equity = r.step(100, 2000, 10);
+        const fac = rd(Math.pow(1 + target, years), 4);
+        const exitEq = r1(equity * fac);
+        const ys = [Math.max(2, years - 2), years, years + 2];
+        return {
+          q: `A sponsor invests [[${M(equity)}]] of equity and targets ${an(pct(target, 0))} [[${pct(target, 0)}]] IRR over [[${years}]] years, with everything returned at exit. What MOIC does that take, and what must the equity be worth at exit?`,
+          a: `${mult(fac, 2)}: the equity must be worth about ${M(exitEq)} at exit, from ${M(equity)} invested.`,
+          why, formula,
+          steps: [
+            `Required MOIC: (1 + [[${pct(target, 0)}]])^[[${years}]] = ${num(fac, 4)}, about ${mult(fac, 2)}`,
+            `Exit equity: [[${M(equity)}]] × ${num(fac, 4)} = ${M(exitEq)}`,
+            `Profit: ${M(exitEq)} − [[${M(equity)}]] = ${M(r1(exitEq - equity))}`,
+            `A longer hold needs a bigger multiple for the same IRR: ${ys.filter((y) => y !== years).map((y) => `${y} years ${mult(Math.pow(1 + target, y), 2)}`).join(', ')}`
+          ],
+          visual: { kind: 'bars', unit: 'x', dp: 2, caption: `MOIC needed for ${an(pct(target, 0))} ${pct(target, 0)} IRR`, items: ys.map((y) => ({
+            label: `${y} years`, value: rd(Math.pow(1 + target, y), 2), highlight: y === years })) },
+          values: { mode: 2, moic: fac, irr: target, years, equity, exitEq }
+        };
+      }
+
+      const equity = r.step(200, 2000, 10);
+      const years = r.pick([4, 5, 5, 6]);
+      const k = r.int(1, Math.min(3, years - 1));
+      const div = Math.max(10, Math.round(equity * r.step(0.2, 0.6, 0.05) / 10) * 10);
+      const exit = Math.round(equity * r.step(1.2, 3.5, 0.05) / 10) * 10;
+      const moic = (div + exit) / equity;
+      const cfs = [-equity];
+      for (let y = 1; y <= years; y++) cfs.push((y === k ? div : 0) + (y === years ? exit : 0));
+      const irr = Drills.irr(cfs);
+      // The single-exit comparison works from the MOIC as shown, to two decimals.
+      const single = Math.pow(rd(moic, 2), 1 / years) - 1;
+      const pts = rd(rd(irr * 100, 1) - rd(single * 100, 1), 1);
+      // Check the IRR by discounting at it, to two decimals.
+      const q4 = rd(1 + irr, 4);
+      const pvD = r1(div / Math.pow(q4, k)), pvX = r1(exit / Math.pow(q4, years));
+      return {
+        q: `A sponsor invests [[${M(equity)}]], takes ${an(M(div))} [[${M(div)}]] dividend recap in year [[${k}]] and sells its stake for [[${M(exit)}]] in year [[${years}]]. What are the MOIC and IRR, and how much does the dividend add to the IRR?`,
+        a: `MOIC ${mult(moic, 2)} and IRR ${pct(irr, 1)}. The same ${mult(moic, 2)} paid only at exit would be ${pct(single, 1)}, so taking ${M(div)} out in year ${k} adds about ${num(pts, 1)} points of IRR without changing the MOIC.`,
+        why, formula,
+        steps: [
+          `MOIC: ([[${M(div)}]] + [[${M(exit)}]]) ÷ [[${M(equity)}]] = ${M(div + exit)} ÷ [[${M(equity)}]] = ${mult(moic, 2)}`,
+          `IRR: the rate that sets −[[${M(equity)}]] + [[${M(div)}]] ÷ (1 + r)^${k} + [[${M(exit)}]] ÷ (1 + r)^${years} to zero (Excel's IRR, or trial and error): ${pct(irr, 2)}`,
+          `Check at ${pct(irr, 2)}: [[${M(div)}]] ÷ ${num(q4, 4)}^${k} + [[${M(exit)}]] ÷ ${num(q4, 4)}^${years} = ${millions(pvD, 1)} + ${millions(pvX, 1)} ≈ [[${M(equity)}]] invested`,
+          `The same ${mult(moic, 2)} in one payment at year ${years}: ${num(moic, 2)}^(1/${years}) − 1 = ${pct(single, 1)}`,
+          `The dividend comes back ${years - k} year${years - k > 1 ? 's' : ''} early, so it lifts IRR by about ${num(pts, 1)} points; the MOIC can't see timing`
+        ],
+        visual: { kind: 'bars', unit: '%', dp: 1, caption: `IRR on the same ${mult(moic, 2)}`, items: [
+          { label: `Dividend in year ${k}`, value: rd(irr * 100, 1), highlight: true },
+          { label: `All at exit in year ${years}`, value: rd(single * 100, 1) }
+        ] },
+        values: { mode: 3, moic, irr, single, years, equity, cfs }
+      };
+    },
+    // Second way: price the cash flows at the IRR (NPV must be zero) with Drills.npv, and for the single-exit forms
+    // solve the IRR numerically with Drills.irr.
+    check(p) {
+      const v = p.values;
+      if (v.mode === 1) return Math.abs(Drills.irr([-1].concat(new Array(v.years - 1).fill(0), [v.moic])) - v.irr) <= 5e-5 + 1e-9;
+      if (v.mode === 2) return Math.abs(Drills.irr([-v.equity].concat(new Array(v.years - 1).fill(0), [v.exitEq])) - v.irr) <= 1e-4;
+      const npv = Drills.npv(v.irr, v.cfs);
+      const back = v.cfs.slice(1).reduce((s, x) => s + x, 0);
+      return Math.abs(npv) < 1e-6 * v.equity && near(back / v.equity, v.moic, 1e-9) && v.irr > v.single;
+    }
+  });
+
+  // ---------------------------------------------------------------- Accretion/dilution
+  // Share of the purchase price paid in new stock (s), cash on hand (c) and new debt (d).
+  const FUNDING = [
+    { s: 1, c: 0, d: 0, name: 'stock' }, { s: 0, c: 1, d: 0, name: 'cash' }, { s: 0, c: 0, d: 1, name: 'debt' },
+    { s: 0.5, c: 0, d: 0.5, name: 'stock and debt' }, { s: 0, c: 0.5, d: 0.5, name: 'cash and debt' }, { s: 0.6, c: 0.4, d: 0, name: 'stock and cash' }
+  ];
+  // One draw of a deal. Every figure in the working is rounded as shown ($0.1M, 0.1M shares, cents) and later steps use it.
+  function accretionCase(r) {
+    const eps = r.step(2, 9, 0.01);
+    const P = rd(eps * r.step(11, 24, 0.1), 2);
+    const N = r.step(60, 900, 10);
+    const niA = r1(eps * N);
+    const f = r.pick(FUNDING);
+    // Paying from cash on hand limits the size: a balance sheet rarely holds more than a modest share of market value in cash.
+    const price = Math.round(P * N * (f.c ? r.step(0.05, 0.15, 0.01) : r.step(0.1, 0.45, 0.01)) / 10) * 10;
+    const niT = Math.max(5, Math.round(price / r.step(10, 28, 0.5)));
+    const t = r.pick([0.21, 0.25, 0.25]);
+    const rDebt = r.step(0.05, 0.09, 0.0025), rCash = r.step(0.02, 0.05, 0.0025);
+    const syn = r.chance(0.35) ? Math.max(5, Math.round(price * r.step(0.005, 0.02, 0.001) / 5) * 5) : 0;
+    const stock = price * f.s, cash = price * f.c, debt = price * f.d;
+    const newSh = r1(stock / P);
+    const costC = r1(cash * rCash * (1 - t)), costD = r1(debt * rDebt * (1 - t)), synAT = r1(syn * (1 - t));
+    const pfNI = r1(niA + niT + synAT - costC - costD);
+    const pfN = r1(N + newSh);
+    const pfEps = rd(pfNI / pfN, 2);
+    const acc = pfEps / eps - 1;
+    const exact = (niA + niT + syn * (1 - t) - (cash * rCash + debt * rDebt) * (1 - t)) / (N + stock / P) / eps - 1;
+    // The shortcut: the target's earnings yield against the blended after-tax cost of the funding.
+    const cS = rd(eps / P, 4), cC = rd(rCash * (1 - t), 4), cD = rd(rDebt * (1 - t), 4);
+    const yT = rd((niT + synAT) / price, 4);
+    const b = rd(f.s * cS + f.c * cC + f.d * cD, 4);
+    return { eps, P, N, niA, price, niT, f, t, rDebt, rCash, syn, stock, cash, debt, newSh, costC, costD, synAT, pfNI, pfN, pfEps, acc, exact, cS, cC, cD, yT, b };
+  }
+  Drills.add({
+    id: 'drill-ib-accretion',
+    track: 'ib',
+    module: 'ib-ma',
+    topic: 'Accretion/dilution',
+    level: 2,
+    ranges: { acc: [-0.35, 0.35], pfEps: [1, 40] },
+    make(r) {
+      const $ = (x) => dollars(x, 2), p2 = (x) => pct(x, 2), F = (x) => millions(x, 1);
+      let x, q;
+      // Redraw until the verdict is clear-cut and realistic (1% to 15% either way, with the shortcut agreeing as shown) and the question fits.
+      for (let k = 0; k < 200; k++) {
+        x = accretionCase(r);
+        const { f, rCash, rDebt } = x;
+        const cashS = `cash earning [[${rate(rCash)}]]`, debtS = `new debt at [[${rate(rDebt)}]]`;
+        const fund = f.s === 1 ? 'all in new stock' : f.c === 1 ? `all from ${cashS}` : f.d === 1 ? `all with ${debtS}`
+          : f.s && f.d ? `[[${pct(f.s, 0)}]] in stock and [[${pct(f.d, 0)}]] with ${debtS}`
+            : f.c && f.d ? `[[${pct(f.c, 0)}]] from ${cashS} and [[${pct(f.d, 0)}]] with ${debtS}`
+              : `[[${pct(f.s, 0)}]] in stock and [[${pct(f.c, 0)}]] from ${cashS}`;
+        q = `Acquirer: [[${$(x.P)}]] share price, [[${$(x.eps)}]] EPS, [[${num(x.N)}M]] shares. It buys a target for [[${M(x.price)}]] of equity; the target earns [[${M(x.niT)}]]. It pays ${fund}. Tax rate [[${pct(x.t, 0)}]].${x.syn ? ` Pre-tax synergies [[${M(x.syn)}]].` : ''} Accretive or dilutive, and by how much?`;
+        const clear = Math.abs(x.exact) >= 0.01 && Math.abs(x.exact) <= 0.15 && Math.sign(x.acc) === Math.sign(x.exact) && x.yT !== x.b && (x.yT > x.b) === (x.acc > 0);
+        if (clear && q.replace(/\[\[|\]\]/g, '').length <= 260) break;
+      }
+      const { eps, P, N, niA, price, niT, f, t, rDebt, rCash, syn, stock, cash, debt, newSh, costC, costD, synAT, pfNI, pfN, pfEps, acc, cS, cC, cD, yT, b } = x;
+      const tS = `[[${pct(t, 0)}]]`, priceS = `[[${M(price)}]]`, epsS = `[[${$(eps)}]]`, pS = `[[${$(P)}]]`;
+      const part = (w, amt) => (w < 1 ? `${M(amt)} ([[${pct(w, 0)}]] of ${priceS})` : priceS);
+      const steps = [`Acquirer net income: ${epsS} × [[${num(N)}M]] = ${F(niA)}; its P/E is ${pS} ÷ ${epsS} = ${mult(P / eps, 1)}`];
+      if (f.s) steps.push(`New shares: ${part(f.s, stock)} ÷ ${pS} = ${num(newSh, 1)}M`);
+      if (f.c) steps.push(`Interest lost on the cash, after tax: ${part(f.c, cash)} × [[${rate(rCash)}]] × (1 − ${tS}) = ${F(costC)}`);
+      if (f.d) steps.push(`Interest on the new debt, after tax: ${part(f.d, debt)} × [[${rate(rDebt)}]] × (1 − ${tS}) = ${F(costD)}`);
+      if (syn) steps.push(`Synergies after tax: [[${M(syn)}]] × (1 − ${tS}) = ${F(synAT)}`);
+      steps.push(`Pro forma net income: ${F(niA)} + [[${M(niT)}]]${syn ? ` + ${F(synAT)}` : ''}${f.c ? ` − ${F(costC)}` : ''}${f.d ? ` − ${F(costD)}` : ''} = ${F(pfNI)}`);
+      steps.push(`Pro forma EPS: ${F(pfNI)} ÷ ${f.s ? `(${num(N)}M + ${num(newSh, 1)}M) = ${F(pfNI)} ÷ ${num(pfN, 1)}M` : `[[${num(N)}M]]`} = ${$(pfEps)}`);
+      steps.push(`Against ${epsS} standalone: ${$(pfEps)} ÷ ${epsS} − 1 = ${acc < 0 ? '−' : '+'}${pct(Math.abs(acc), 1)}, so ${acc > 0 ? 'accretive' : 'dilutive'}`);
+      const costs = [];
+      if (f.s) costs.push(`stock ${epsS} ÷ ${pS} = ${p2(cS)}, its earnings yield`);
+      if (f.c) costs.push(`cash [[${rate(rCash)}]] × (1 − ${tS}) = ${p2(cC)}`);
+      if (f.d) costs.push(`debt [[${rate(rDebt)}]] × (1 − ${tS}) = ${p2(cD)}`);
+      steps.push(`After-tax cost of each source: ${costs.join('; ')}`);
+      const mix = [[f.s, cS], [f.c, cC], [f.d, cD]].filter(([w]) => w > 0 && w < 1).map(([w, c]) => `${pct(w, 0)} × ${p2(c)}`);
+      const yText = `${syn ? `([[${M(niT)}]] + ${F(synAT)})` : `[[${M(niT)}]]`} ÷ ${priceS} = ${p2(yT)}`;
+      steps.push(`Shortcut: the target yields ${yText} on the price, against ${mix.length ? `a blended ${mix.join(' + ')} = ${p2(b)}` : `the ${p2(b)} cost of ${f.name}`}. ${yT > b ? `${p2(yT)} beats ${p2(b)}, so accretive` : `${p2(b)} is more than ${p2(yT)}, so dilutive`}`);
+      let pre = 0;
+      if (acc < 0) {
+        const need = r1(eps * pfN), gap = r1(need - pfNI);
+        pre = r1(gap / (1 - t));
+        steps.push(`Break-even: ${epsS} on ${num(pfN, f.s ? 1 : 0)}M shares needs ${F(need)} of net income, ${F(gap)} more, or ${F(pre)} of ${syn ? 'extra ' : ''}pre-tax synergies (${F(gap)} ÷ (1 − ${tS}))`);
+      }
+      const items = [{ label: syn ? 'Target yield, with synergies' : 'Target earnings yield', value: rd(yT * 100, 2), highlight: true }];
+      if (f.s) items.push({ label: 'Cost of stock', value: rd(cS * 100, 2) });
+      if (f.c) items.push({ label: 'Cost of cash, after tax', value: rd(cC * 100, 2) });
+      if (f.d) items.push({ label: 'Cost of debt, after tax', value: rd(cD * 100, 2) });
+      if (mix.length) items.push({ label: 'Blended cost of funds', value: rd(b * 100, 2) });
+      return {
+        q,
+        a: acc > 0
+          ? `Accretive: EPS rises from ${$(eps)} to ${$(pfEps)}, about ${pct(acc, 1)}. The target's ${p2(yT)} earnings yield${syn ? ' (synergies included)' : ''} beats ${f.s === 1 ? `the ${p2(b)} cost of the stock, the acquirer's own earnings yield` : `the ${p2(b)} after-tax cost of the ${f.name} used to pay for it`}.`
+          : `Dilutive: EPS falls from ${$(eps)} to ${$(pfEps)}, about ${pct(-acc, 1)}. ${f.s === 1 ? `The stock costs its ${p2(b)} earnings yield` : `The funding (${f.name}) costs ${p2(b)} after tax`}, more than the target's ${p2(yT)} earnings yield${syn ? ' with synergies' : ''}; it would take about ${F(pre)} of ${syn ? 'extra ' : ''}pre-tax synergies to break even.`,
+        why: "EPS rises when the earnings you buy beat what you give up to pay for them. Each source of funds has an after-tax cost per dollar: new debt costs its interest after tax, cash costs the interest it would have earned, and new stock costs the acquirer's own earnings yield (EPS ÷ share price, the inverse of its P/E), because the new shares claim earnings at that rate. If the target's earnings yield at the purchase price beats the blended cost, the deal is accretive. Accretion isn't value creation, though: cheap debt can make an overpriced deal accretive.",
+        formula: 'Pro forma EPS = (acquirer NI + target NI + synergies × (1 − t) − after-tax interest cost) ÷ (acquirer shares + new shares)\nTarget earnings yield = (target NI + after-tax synergies) ÷ purchase price\nCost of stock = EPS ÷ share price; of cash or debt = interest rate × (1 − t)\nAccretive when the yield beats the blended cost',
+        steps,
+        visual: { kind: 'bars', unit: '%', dp: 2, caption: 'The shortcut: what the target earns on the price against what the funding costs', items },
+        values: { acc, pfEps, eps, P, N, niT, price, syn, t, rDebt, rCash, s: f.s, c: f.c, d: f.d, yT, b }
+      };
+    },
+    // Second way: the change in EPS in closed form, (target NI + after-tax synergies − after-tax funding cost − EPS × new shares)
+    // ÷ pro forma shares, from the unrounded inputs; and the shortcut's verdict must match.
+    check(p) {
+      const v = p.values;
+      const newSh = v.s * v.price / v.P;
+      const dEps = (v.niT + v.syn * (1 - v.t) - v.price * (v.c * v.rCash + v.d * v.rDebt) * (1 - v.t) - v.eps * newSh) / (v.N + newSh);
+      const exact = dEps / v.eps;
+      return Math.abs(exact - v.acc) <= 0.005 / v.eps + 0.001 && Math.sign(exact) === Math.sign(v.acc) && (v.yT > v.b) === (v.acc > 0);
+    }
+  });
+
+  // ---------------------------------------------------------------- Goodwill from a purchase price allocation
+  Drills.add({
+    id: 'drill-ib-goodwill',
+    track: 'ib',
+    module: 'ib-ma',
+    topic: 'Goodwill and purchase price allocation',
+    level: 3,
+    ranges: { gw: [10, 40000], share: [0.05, 0.9] },
+    make(r) {
+      const mode = r.pick(['stock', 'stock', 'offer', 'asset']);
+      // Write-ups on a grid that keeps the new DTL to $0.1M at each tax rate.
+      const [t, grid] = r.pick([[0.21, 10], [0.25, 4], [0.25, 4], [0.26, 5]]);
+      const BV = r.step(200, 4000, 10);
+      const GW0 = r.chance(0.6) ? Math.max(10, Math.round(BV * r.step(0.1, 0.4, 0.05) / 10) * 10) : 0;
+      const aim = BV * r.step(1.4, 3.5, 0.05);
+      let price, offer = 0, shares = 0;
+      if (mode === 'offer') {
+        offer = r.step(20, 120, 0.5);
+        shares = Math.max(10, Math.round(aim / offer));
+        price = r1(offer * shares);
+      } else {
+        price = Math.round(aim / 10) * 10;
+      }
+      const adj = BV - GW0;
+      const W = (price - adj) * r.step(0.2, 0.6, 0.05);
+      const WP = Math.max(grid, Math.round(W * r.step(0.3, 0.7, 0.05) / grid) * grid);
+      const WI = Math.max(grid, Math.round((W - WP) / grid) * grid);
+      const Wt = WP + WI;
+      const asset = mode === 'asset';
+      const dtlIf = r1(Wt * t);
+      const dtl = asset ? 0 : dtlIf;
+      const gw = r1(price - adj - Wt + dtl);
+      const alt = asset ? r1(gw + dtlIf) : r1(gw - dtlIf);
+      const fv = r1(adj + Wt - dtl);
+      // The target's liabilities aren't needed for goodwill; check() uses them to rebuild the consolidated balance sheet.
+      const L = Math.round(BV * r.step(0.5, 2, 0.1) / 10) * 10;
+      // Shared decimals for the main working; the closing what-if line uses its own.
+      const dpW = Math.max(...[price, dtl, gw, fv].map(dpOf));
+      const F = (x) => millions(x, dpW);
+      const tS = `[[${pct(t, 0)}]]`;
+      const priceRef = mode === 'offer' ? F(price) : `[[${M(price)}]]`;
+      const book = GW0 ? `Target book equity [[${M(BV)}]], including [[${M(GW0)}]] of existing goodwill` : `Target book equity [[${M(BV)}]]`;
+      const ups = `Write-ups: PP&E [[${M(WP)}]], new intangibles [[${M(WI)}]]`;
+      let q;
+      if (mode === 'offer') {
+        q = `An acquirer pays [[${dollars(offer, 2)}]] for each of a target's [[${num(shares)}M]] shares. ${book}. ${ups}. Tax rate ${tS}; a stock deal, so no tax step-up. How much goodwill is created?`;
+      } else {
+        q = `Purchase equity value [[${M(price)}]]. ${book}. ${ups}. Tax rate ${tS}; ${asset ? 'an asset deal, so the tax basis steps up too' : 'a stock deal, so no tax step-up'}. How much goodwill is created?`;
+      }
+      const steps = [];
+      if (mode === 'offer') steps.push(`Purchase equity value: [[${dollars(offer, 2)}]] × [[${num(shares)}M]] = ${F(price)}`);
+      steps.push(GW0 ? `Net assets at book, without the old goodwill: [[${M(BV)}]] − [[${M(GW0)}]] = ${M(adj)}. The old goodwill is written off; new goodwill replaces it` : `Net assets at book: [[${M(BV)}]], with no old goodwill to write off`);
+      steps.push(`Write-ups: [[${M(WP)}]] + [[${M(WI)}]] = ${M(Wt)}`);
+      steps.push(asset
+        ? 'No new deferred tax liability: in an asset deal the tax basis steps up along with the book values'
+        : `New deferred tax liability: ${M(Wt)} × ${tS} = ${F(dtl)}. Book values step up but the tax basis doesn't, so book depreciation and amortization will exceed the tax deductions`);
+      steps.push(`Goodwill: ${priceRef} − ${M(adj)} − ${M(Wt)}${asset ? '' : ` + ${F(dtl)}`} = ${F(gw)}, ${pct(gw / price, 0)} of the price`);
+      steps.push(`Check: net identifiable assets at fair value are ${M(adj)} + ${M(Wt)}${asset ? '' : ` − ${F(dtl)}`} = ${F(fv)}; add ${F(gw)} of goodwill and you're back to the ${F(price)} price`);
+      steps.push(asset
+        ? `In a stock deal the write-ups would create ${an(M(dtlIf))} ${M(dtlIf)} DTL and goodwill would be ${M(alt)}`
+        : `In an asset deal (or with a 338(h)(10) election) there'd be no DTL: goodwill would be ${M(alt)}, and deductible for tax over 15 years`);
+      const wf = [{ label: 'Book equity', delta: -BV }];
+      if (GW0) wf.push({ label: 'Old goodwill written off', delta: GW0 });
+      wf.push({ label: 'PP&E write-up', delta: -WP }, { label: 'New intangibles', delta: -WI });
+      if (!asset) wf.push({ label: 'New DTL', delta: dtl });
+      return {
+        q,
+        a: asset
+          ? `${F(gw)}: the ${F(price)} price less ${M(adj)} of book value${GW0 ? ' (after writing off the old goodwill)' : ''} and ${M(Wt)} of write-ups. The tax basis steps up too, so there's no new deferred tax liability to add back.`
+          : `${F(gw)}: the ${F(price)} price less ${M(adj)} of book value${GW0 ? ' (after writing off the old goodwill)' : ''} and ${M(Wt)} of write-ups, plus the ${F(dtl)} deferred tax liability the write-ups create.`,
+        why: "Goodwill is the part of the price you can't pin to identifiable assets. Start from the purchase equity value and subtract the target's net assets at fair value: book equity with its old goodwill removed (it's written off and replaced), plus the write-ups to PP&E and newly recognized intangibles such as customer relationships. In a stock deal the tax basis doesn't step up, so the write-ups create a deferred tax liability; that liability reduces net assets, so it adds to goodwill. Under US GAAP goodwill isn't amortized; it's tested for impairment.",
+        formula: 'Goodwill = purchase equity value − (book equity − existing goodwill) − write-ups + new DTL\nNew DTL = write-ups × tax rate in a stock deal; none in an asset deal or 338(h)(10) election\nFair value of net assets + goodwill = purchase equity value',
+        steps,
+        visual: { kind: 'waterfall', unit: '$M', dp: dpW, start: { label: 'Purchase equity value', value: price }, steps: wf, end: { label: 'Goodwill', value: gw } },
+        values: { gw, share: gw / price, price, BV, GW0, WP, WI, dtl, t, L, asset: asset ? 1 : 0, alt }
+      };
+    },
+    // Second way: consolidate. The acquirer records the target's assets at fair value (book assets without the old goodwill,
+    // plus write-ups) and the new goodwill; against them sit the target's liabilities, the new DTL and the price paid.
+    check(p) {
+      const v = p.values;
+      const assets = (v.BV + v.L - v.GW0) + v.WP + v.WI + v.gw;
+      const claims = v.L + v.dtl + v.price;
+      const dtlOk = v.asset ? v.dtl === 0 && near(v.alt - v.gw, v.t * (v.WP + v.WI), 1e-9) : near(v.dtl, v.t * (v.WP + v.WI), 1e-9) && near(v.gw - v.alt, v.dtl, 1e-9);
+      return Math.abs(assets - claims) < 1e-6 && dtlOk && v.gw > 0;
+    }
+  });
+
+  // ---------------------------------------------------------------- Working-capital days and the cash conversion cycle
+  Drills.add({
+    id: 'drill-ib-wc-days',
+    track: 'ib',
+    module: 'ib-ratios',
+    topic: 'Working-capital days',
+    level: 2,
+    ranges: { ccc: [-40, 220], dso: [10, 120] },
+    make(r) {
+      const mode = r.pick(['days', 'days', 'free', 'project']);
+      const rev = r.step(200, 8000, 10);
+      const cogs = Math.round(rev * r.step(0.45, 0.8, 0.01));
+      const ar = Math.max(1, Math.round(rev * r.step(25, 80, 0.1) / 365));
+      const inv = Math.max(1, Math.round(cogs * r.step(20, 120, 0.1) / 365));
+      const ap = Math.max(1, Math.round(cogs * r.step(20, 75, 0.1) / 365));
+      // Days to one decimal; the cycle adds up the days as shown.
+      const dso = rd(ar / rev * 365, 1), dio = rd(inv / cogs * 365, 1), dpo = rd(ap / cogs * 365, 1);
+      const ccc = rd(dso + dio - dpo, 1);
+      const d1 = (x) => `${num(x, 1)} days`;
+      const F = (x) => millions(x, 1);
+      const revS = `[[${M(rev)}]]`, cogsS = `[[${M(cogs)}]]`, arS = `[[${M(ar)}]]`, invS = `[[${M(inv)}]]`, apS = `[[${M(ap)}]]`;
+      const why = "The cash conversion cycle counts the days between paying suppliers and collecting from customers. Inventory sits for DIO days and receivables take DSO days to collect, while payables let the company hold its suppliers' cash for DPO days. Each day in the cycle ties up about a day of sales or COGS in working capital, so shortening it releases cash once, and a growing business with a long cycle keeps absorbing cash. DSO is measured against revenue; DIO and DPO against COGS, because inventory and payables are carried at cost. Practice varies: some use average balances or a 360-day year.";
+      const formula = 'DSO = receivables ÷ revenue × 365\nDIO = inventory ÷ COGS × 365; DPO = payables ÷ COGS × 365\nCash conversion cycle = DSO + DIO − DPO\nCash freed by cutting DSO = revenue ÷ 365 × days cut';
+      const daySteps = [
+        `DSO: ${arS} ÷ ${revS} × 365 = ${d1(dso)}`,
+        `DIO: ${invS} ÷ ${cogsS} × 365 = ${d1(dio)}`,
+        `DPO: ${apS} ÷ ${cogsS} × 365 = ${d1(dpo)}`,
+        `Cash conversion cycle: ${num(dso, 1)} + ${num(dio, 1)} − ${num(dpo, 1)} = ${d1(ccc)}`
+      ];
+      const read = ccc > 0
+        ? `cash is tied up for about ${num(ccc, 0)} days between paying suppliers and collecting from customers`
+        : 'suppliers fund the business: it collects from customers before it pays for what it sold';
+      const dayViz = { kind: 'waterfall', unit: 'days', dp: 1, start: { label: 'DSO', value: dso },
+        steps: [{ label: 'DIO', delta: dio }, { label: 'DPO', delta: -dpo }], end: { label: 'Cash conversion cycle', value: ccc } };
+      const given = `Revenue ${revS}, COGS ${cogsS}; year-end receivables ${arS}, inventory ${invS} and payables ${apS}.`;
+
+      if (mode === 'free') {
+        const T = Math.max(15, Math.floor(dso) - r.int(4, 15));
+        const newAR = r1(rev * T / 365);
+        const freed = r1(ar - newAR);
+        const ccc2 = rd(T + dio - dpo, 1);
+        return {
+          q: `${given} What's the cash conversion cycle, and how much cash is freed if DSO falls to [[${T}]] days?`,
+          a: `The cycle is ${d1(ccc)}. Cutting DSO to ${T} days frees about ${F(freed)} of cash, once, and shortens the cycle to ${d1(ccc2)}.`,
+          why, formula,
+          steps: daySteps.concat([
+            `Receivables at [[${T}]] days: ${revS} × [[${T}]] ÷ 365 = ${F(newAR)}`,
+            `Cash freed: ${arS} − ${F(newAR)} = ${F(freed)}. It's a one-time release as receivables shrink, not a yearly saving`,
+            `New cycle: [[${T}]] + ${num(dio, 1)} − ${num(dpo, 1)} = ${d1(ccc2)}`
+          ]),
+          visual: dayViz,
+          values: { mode: 2, ccc, dso, dio, dpo, rev, cogs, ar, inv, ap, T, freed }
+        };
+      }
+
+      if (mode === 'project') {
+        const R1 = Math.round(rev * (1 + r.step(0.03, 0.15, 0.01)) / 10) * 10;
+        const C1 = Math.round(R1 * cogs / rev);
+        // Plans usually move the days a little, often toward faster collection and slower payment.
+        const s1 = Math.max(15, Math.round(dso) + r.int(-6, 4)), i1 = Math.max(10, Math.round(dio) + r.int(-8, 6)), p1 = Math.max(15, Math.round(dpo) + r.int(-4, 8));
+        const AR1 = r1(R1 * s1 / 365), INV1 = r1(C1 * i1 / 365), AP1 = r1(C1 * p1 / 365);
+        const NWC0 = ar + inv - ap, NWC1 = r1(AR1 + INV1 - AP1), dN = r1(NWC1 - NWC0);
+        const up = dN > 0;
+        return {
+          q: `This year-end: receivables ${arS}, inventory ${invS}, payables ${apS}. Next year's plan: revenue [[${M(R1)}]], COGS [[${M(C1)}]], DSO [[${s1}]], DIO [[${i1}]] and DPO [[${p1}]] days. What's next year's net working capital, and how does its change hit free cash flow?`,
+          a: `${F(NWC1)}, ${up ? 'up' : 'down'} ${F(Math.abs(dN))} from ${M(NWC0)}. The ${up ? 'increase is a use of cash that comes off' : 'decrease releases cash into'} next year's free cash flow.`,
+          why, formula,
+          steps: [
+            `Receivables: [[${M(R1)}]] × [[${s1}]] ÷ 365 = ${F(AR1)}`,
+            `Inventory: [[${M(C1)}]] × [[${i1}]] ÷ 365 = ${F(INV1)}`,
+            `Payables: [[${M(C1)}]] × [[${p1}]] ÷ 365 = ${F(AP1)}`,
+            `Net working capital: ${F(AR1)} + ${F(INV1)} − ${F(AP1)} = ${F(NWC1)}, against ${arS} + ${invS} − ${apS} = ${M(NWC0)} this year`,
+            `Change: ${F(NWC1)} − ${M(NWC0)} = ${up ? '+' : '−'}${F(Math.abs(dN))}, ${up ? 'an increase that reduces' : 'a decrease that adds to'} free cash flow by the same amount`,
+            `Next year's cycle: ${s1} + ${i1} − ${p1} = ${s1 + i1 - p1} days`
+          ],
+          visual: { kind: 'waterfall', unit: '$M', dp: 1, start: { label: 'Receivables', value: AR1 },
+            steps: [{ label: 'Inventory', delta: INV1 }, { label: 'Payables', delta: -AP1 }], end: { label: 'Net working capital', value: NWC1 },
+            caption: `Against ${M(NWC0)} this year` },
+          values: { mode: 3, ccc: s1 + i1 - p1, dso: s1, R1, C1, s1, i1, p1, NWC0, NWC1, dN }
+        };
+      }
+
+      const perDay = r1(rev / 365);
+      return {
+        q: `${given} What are DSO, DIO, DPO and the cash conversion cycle?`,
+        a: `DSO ${d1(dso)}, DIO ${d1(dio)} and DPO ${d1(dpo)}, so the cash conversion cycle is ${d1(ccc)}: ${read}.`,
+        why, formula,
+        steps: daySteps.concat([`Scale: a day of sales is ${revS} ÷ 365 = ${F(perDay)}, so each day cut from DSO frees about that much cash, once`]),
+        visual: dayViz,
+        values: { mode: 1, ccc, dso, dio, dpo, rev, cogs, ar, inv, ap }
+      };
+    },
+    // Second way: go back from days to balances. Days × daily revenue (or COGS) must rebuild each balance to within the
+    // rounding of the days, and the projected change must match the balances built from unrounded figures.
+    check(p) {
+      const v = p.values;
+      if (v.mode === 3) {
+        const exact = v.R1 * v.s1 / 365 + v.C1 * (v.i1 - v.p1) / 365 - v.NWC0;
+        return Math.abs(exact - v.dN) <= 0.2 && near(v.ccc, v.s1 + v.i1 - v.p1, 1e-9);
+      }
+      const back = (days, base, bal) => Math.abs(days * base / 365 - bal) <= 0.05 * base / 365 + 1e-9;
+      const ok = back(v.dso, v.rev, v.ar) && back(v.dio, v.cogs, v.inv) && back(v.dpo, v.cogs, v.ap) &&
+        Math.abs(v.ccc - (v.ar / v.rev + (v.inv - v.ap) / v.cogs) * 365) <= 0.15 + 1e-9;
+      return v.mode === 1 ? ok : ok && Math.abs((v.ar / v.rev * 365 - v.T) * v.rev / 365 - v.freed) <= 0.05 + 1e-9;
+    }
+  });
+
+  // ---------------------------------------------------------------- Leverage and coverage
+  Drills.add({
+    id: 'drill-ib-leverage',
+    track: 'ib',
+    module: 'ib-ratios',
+    topic: 'Leverage and coverage',
+    level: 2,
+    ranges: { lev: [0.8, 8], ebitda: [50, 5000] },
+    make(r) {
+      const mode = r.pick(['ratios', 'ratios', 'headroom', 'headroom']);
+      const ebitda = r.step(80, 2000, 5);
+      const cash = Math.max(5, Math.round(ebitda * r.step(0.1, 0.6, 0.05) / 5) * 5);
+      const eS = `[[${M(ebitda)}]]`, cS = `[[${M(cash)}]]`;
+      const why = "Leverage ratios ask how many years of EBITDA the debt represents; net leverage credits the cash that could repay part of it. Coverage ratios ask how comfortably earnings pay the interest. EBITDA ignores capex, which is a real cash need, so (EBITDA − capex) ÷ interest is the tougher test for capital-heavy businesses. Credit agreements turn these ratios into covenants, and the headroom (how far EBITDA can fall before a breach) is what lenders and borrowers watch. Covenants test EBITDA as the agreement defines it, often with add-backs, so read the definitions.";
+
+      if (mode === 'ratios') {
+        const debt = Math.round(ebitda * r.step(2, 6.5, 0.1) / 10) * 10;
+        const tl = Math.max(10, Math.round(debt * r.step(0.5, 0.75, 0.05) / 10) * 10);
+        const notes = debt - tl;
+        const rTL = r.step(0.065, 0.095, 0.0025), rN = r.step(0.055, 0.1, 0.0025);
+        const iTL = r1(tl * rTL), iN = r1(notes * rN), interest = r1(iTL + iN);
+        const capex = Math.round(ebitda * r.step(0.1, 0.35, 0.01));
+        const nd = debt - cash;
+        const total = debt / ebitda, net = nd / ebitda, cov = ebitda / interest, cov2 = (ebitda - capex) / interest;
+        const F = (x) => millions(x, 1);
+        return {
+          q: `EBITDA ${eS}, capex [[${M(capex)}]], cash ${cS}. Debt: ${an(M(tl))} [[${M(tl)}]] term loan at [[${rate(rTL)}]] and [[${M(notes)}]] of notes at [[${rate(rN)}]]. What are total and net leverage, EBITDA ÷ interest and (EBITDA − capex) ÷ interest?`,
+          a: `Total leverage ${mult(total, 1)} and net leverage ${mult(net, 1)}; EBITDA covers interest ${mult(cov, 1)}, and ${mult(cov2, 1)} after capex.`,
+          why,
+          formula: 'Total leverage = total debt ÷ EBITDA; net leverage = (debt − cash) ÷ EBITDA\nInterest coverage = EBITDA ÷ interest expense\n(EBITDA − capex) ÷ interest: coverage after the capex the business needs',
+          steps: [
+            `Total debt: [[${M(tl)}]] + [[${M(notes)}]] = ${M(debt)}; interest: [[${M(tl)}]] × [[${rate(rTL)}]] + [[${M(notes)}]] × [[${rate(rN)}]] = ${F(iTL)} + ${F(iN)} = ${F(interest)}`,
+            `Total leverage: ${M(debt)} ÷ ${eS} = ${mult(total, 1)}`,
+            `Net leverage: (${M(debt)} − ${cS}) ÷ ${eS} = ${M(nd)} ÷ ${eS} = ${mult(net, 1)}`,
+            `Interest coverage: ${eS} ÷ ${F(interest)} = ${mult(cov, 1)}`,
+            `After capex: (${eS} − [[${M(capex)}]]) ÷ ${F(interest)} = ${M(ebitda - capex)} ÷ ${F(interest)} = ${mult(cov2, 1)}`
+          ],
+          visual: { kind: 'table', headers: ['Metric', 'Formula', 'Result'], rows: [
+            ['Total leverage', 'Debt ÷ EBITDA', mult(total, 1)],
+            ['Net leverage', '(Debt − cash) ÷ EBITDA', mult(net, 1)],
+            ['Interest coverage', 'EBITDA ÷ interest', mult(cov, 1)],
+            ['After capex', '(EBITDA − capex) ÷ interest', mult(cov2, 1)]
+          ] },
+          values: { mode: 1, lev: total, ebitda, debt, cash, tl, notes, rTL, rN, interest, capex, total, net, cov, cov2 }
+        };
+      }
+
+      const netTest = r.chance(0.6);
+      const cap = r.pick([4, 4.5, 5, 5, 5.5, 6, 6.5]);
+      // Debt sized so leverage sits 5–40% inside the covenant.
+      const debt0 = Math.round((cap * r.step(0.6, 0.95, 0.01) * ebitda + (netTest ? cash : 0)) / 10) * 10;
+      const tested = netTest ? debt0 - cash : debt0;
+      const lev = tested / ebitda;
+      const floor = r1(tested / cap);
+      const cushion = 1 - floor / ebitda;
+      const room = r1(cap * ebitda - tested);
+      const name = netTest ? 'net leverage' : 'total leverage';
+      const Name = netTest ? 'Net leverage' : 'Total leverage';
+      const x2 = (x) => mult(x, 2);
+      const F = (x) => millions(x, 1);
+      const steps = [];
+      if (netTest) steps.push(`Net debt: [[${M(debt0)}]] − ${cS} = ${M(tested)}`);
+      steps.push(`${Name}: ${netTest ? M(tested) : `[[${M(debt0)}]]`} ÷ ${eS} = ${x2(lev)}, against the [[${x2(cap)}]] cap`);
+      steps.push(`EBITDA at the cap: ${netTest ? M(tested) : `[[${M(debt0)}]]`} ÷ [[${x2(cap)}]] = ${F(floor)}`);
+      steps.push(`Cushion: 1 − ${F(floor)} ÷ ${eS} = ${pct(cushion, 1)}, or ${F(r1(ebitda - floor))} of EBITDA`);
+      steps.push(`Debt capacity at today's EBITDA: [[${x2(cap)}]] × ${eS} − ${netTest ? M(tested) : `[[${M(debt0)}]]`} = ${F(room)}${netTest ? ' of net debt' : ''}`);
+      steps.push('Covenants test EBITDA as the credit agreement defines it, often with add-backs, and usually on the last four quarters');
+      return {
+        q: `EBITDA ${eS}, total debt [[${M(debt0)}]], cash ${cS}. The credit agreement caps ${name} at [[${x2(cap)}]]. What's ${name} today, how far can EBITDA fall before a breach, and how much more debt could the company take on?`,
+        a: `${Name} is ${x2(lev)} against the ${x2(cap)} cap. EBITDA can fall about ${pct(cushion, 1)} (${F(r1(ebitda - floor))}) before a breach, or the company could add about ${M(room)} of debt at today's EBITDA.`,
+        why,
+        formula: `${Name} = ${netTest ? '(debt − cash)' : 'total debt'} ÷ EBITDA\nEBITDA at the cap = ${netTest ? 'net debt' : 'debt'} ÷ covenant multiple\nCushion = 1 − EBITDA at the cap ÷ EBITDA today\nDebt capacity = covenant multiple × EBITDA − ${netTest ? 'net debt' : 'debt'}`,
+        steps,
+        visual: { kind: 'bars', unit: '$M', dp: 1, caption: `The cap bites when EBITDA falls to ${F(floor)}`, items: [
+          { label: 'EBITDA today', value: ebitda },
+          { label: `EBITDA at ${x2(cap)}`, value: floor, highlight: true }
+        ] },
+        values: { mode: 2, lev, ebitda, tested, cap, floor, cushion, room }
+      };
+    },
+    // Second way: rebuild each ratio's numerator from the answer (leverage × EBITDA = debt, coverage × interest = EBITDA)
+    // and, for the covenant, test leverage at the stressed EBITDA: it must land on the cap.
+    check(p) {
+      const v = p.values;
+      if (v.mode === 1) {
+        const interest = v.tl * v.rTL + v.notes * v.rN;
+        return near(v.total * v.ebitda, v.debt, 1e-9) && near(v.net * v.ebitda, v.debt - v.cash, 1e-9) &&
+          Math.abs(v.cov * v.interest - v.ebitda) < 1e-6 && Math.abs(interest - v.interest) <= 0.1 + 1e-9 && v.cov2 < v.cov;
+      }
+      const stressed = v.ebitda * (1 - v.cushion);
+      return Math.abs(v.tested / stressed - v.cap) <= v.cap * 0.05 / stressed + 1e-9 && Math.abs(v.room + v.tested - v.cap * v.ebitda) <= 0.05 + 1e-9 && v.lev < v.cap;
+    }
+  });
+
   // ---------------------------------------------------------------- Three-statement walk-through generator
   // Each item returns line-item changes as [label, value, isTotal]. Cash from the cash flow statement must
   // equal cash on the balance sheet, and the balance sheet must balance: check() tests both.
@@ -1292,7 +1799,7 @@
     },
     {
       sale: true,
-      q: (A) => `The company sells equipment with a [[${A.bookS}]] book value for [[${A.proceedsS}]] in cash`,
+      q: (A) => `The company sells equipment with ${an(A.bookS)} [[${A.bookS}]] book value for [[${A.proceedsS}]] in cash`,
       why: "The gain or loss hits the income statement, but the cash from the sale belongs in investing. So the cash flow statement reverses the gain or loss in operating cash flow and shows the full proceeds in investing. Cash moves by the proceeds adjusted for the tax on the gain or the tax saved on the loss.",
       build: (a, t, A) => {
         const g = A.proceeds - A.book;

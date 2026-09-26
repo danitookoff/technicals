@@ -437,7 +437,7 @@ function selfTest(Drills) {
     [fmt.dollars(212.5, 2), '$212.50'], [fmt.signed(-7.5, 1), '−7.5'], [fmt.signed(2.5, 1), '+2.5'],
     [fmt.bps(0.0125), '125 bps'], [String(round(1.005, 2)), '1.01'], [String(round(-2.5, 0)), '-3'],
     [String(round(7.45e-9, 2)), '0'], [String(round(3.2e-7, 8)), '3.2e-7'],
-    [fmt.an('8.5%'), 'an'], [fmt.an('$11.2M'), 'an'], [fmt.an('$18,000'), 'an'], [fmt.an('$180K'), 'a'], [fmt.an('12%'), 'a'], [fmt.an('interest-only'), 'an']
+    [fmt.pct(0.05625), '5.63%'], [String(round(0.1 + 0.2, 2)), '0.3'], [fmt.an('8.5%'), 'an'], [fmt.an('$11.2M'), 'an'], [fmt.an('$18,000'), 'an'], [fmt.an('$180K'), 'a'], [fmt.an('12%'), 'a'], [fmt.an('interest-only'), 'an']
   ];
   cases.forEach(([got, want]) => { if (got !== want) err(`drills/engine.js formatting: expected "${want}", got "${got}"`); });
   const r = irr([-100, 0, 0, 0, 0, 200]);

@@ -21,10 +21,10 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 239 | 65 | 13 of 18 |
+| IB | 17 | 560 | 239 | 65 | 18 of 18 |
 | Real estate | 13 | 440 | 450 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **940** | **249** | **48 of 53** |
+| **Total** | **39** | **1250** | **940** | **249** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -188,13 +188,13 @@ Target: 25 · Written: 0 · Classic: 0 · Status: planned
 - [ ] Spreading comps in practice
 
 ### `ib-precedents` Precedent transactions
-Target: 15 · Written: 16 · Classic: 4 · Status: planned
+Target: 15 · Written: 16 · Classic: 4 · Status: complete
 
-- [ ] Selecting deals (size, sector, date, buyer type)
-- [ ] Control premiums and premiums-paid analysis
-- [ ] Synergies built into the price
-- [ ] Why precedents usually run higher than comps
-- [ ] Limitations (stale deals, different markets, deal-specific terms)
+- [x] Selecting deals (size, sector, date, buyer type)
+- [x] Control premiums and premiums-paid analysis
+- [x] Synergies built into the price
+- [x] Why precedents usually run higher than comps
+- [x] Limitations (stale deals, different markets, deal-specific terms)
 
 ### `ib-dcf` DCF
 Target: 55 · Written: 2 · Classic: 2 · Status: seeded
@@ -750,12 +750,12 @@ Drills generate fresh numbers every time. `--update-coverage` ticks the ones tha
 - [x] `drill-ib-wacc` WACC
 - [x] `drill-ib-beta` Unlevering and relevering beta
 - [x] `drill-ib-paper-lbo` Paper LBO: MOIC and IRR
-- [ ] `drill-ib-moic-irr` MOIC to IRR conversion
-- [ ] `drill-ib-accretion` Accretion/dilution funded with cash, stock or debt, with the earnings-yield shortcut
+- [x] `drill-ib-moic-irr` MOIC to IRR conversion
+- [x] `drill-ib-accretion` Accretion/dilution funded with cash, stock or debt, with the earnings-yield shortcut
 - [x] `drill-ib-walk` Three-statement walk-through generator
-- [ ] `drill-ib-wc-days` Working-capital days and the cash conversion cycle
-- [ ] `drill-ib-leverage` Leverage and coverage ratios
-- [ ] `drill-ib-goodwill` Goodwill from a purchase price allocation
+- [x] `drill-ib-wc-days` Working-capital days and the cash conversion cycle
+- [x] `drill-ib-leverage` Leverage and coverage ratios
+- [x] `drill-ib-goodwill` Goodwill from a purchase price allocation
 - [x] `drill-ib-ltm` LTM and calendarization
 
 ### Real estate
