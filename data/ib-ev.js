@@ -31,7 +31,7 @@ Deck.add([
     q: "Why do you subtract cash when calculating enterprise value?",
     a: "Because enterprise value measures the core business, and cash isn't part of it. A buyer of the whole company gets the cash too, which effectively lowers the price of the operations. Subtracting it also keeps EV consistent with EBITDA, which excludes the interest income cash earns.",
     why: "Think of buying a house with $10K in a drawer: you'd pay $10K more, but the house itself is worth the same. Cash is a non-operating asset that could be distributed or used to repay debt. Subtracting it lets you compare businesses regardless of how much cash each happens to hold. The same logic applies to other non-operating assets, like investments unrelated to the business.",
-    trap: "Not all cash is excess. Cash trapped overseas, restricted cash, or the minimum needed to run the business is arguably operating, and some bankers subtract only excess cash. Raise the nuance if the interviewer pushes."
+    trap: "Not all cash is excess. Cash trapped overseas, restricted cash or the minimum needed to run the business is arguably operating, and some bankers subtract only excess cash. Raise the nuance if the interviewer pushes."
   },
   {
     id: "ib-ev-003",

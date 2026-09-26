@@ -4,7 +4,7 @@ A personal swipe feed of IB, real estate and hotel technicals: plain HTML/CSS/JS
 
 ## Status
 
-Phase 2 is done and approved (owner feedback, 2026-09-23: keep the current style, likes dark mode; same answer length; difficulty is the right starting point). Phase 3 (writing the full deck) is in progress; see "Where things stand" in COVERAGE.md. **WRITING.md is the house style for every card and drill; read it before writing content.**
+The deck is complete and audited (2026-09-26): 1,275 cards in 39 modules plus 53 drills; COVERAGE.md has the map, the audit notes and what was left out on purpose. Owner feedback (2026-09-23): keep the current style (likes dark mode), keep answer length, difficulty is right. New work is the owner's requests: more cards, new modules, fixes to flagged cards. **WRITING.md is the house style for every card and drill; read it before writing content.**
 
 ## Files
 
@@ -43,7 +43,7 @@ Accuracy over volume; US GAAP by default with IFRS noted where it changes the an
 
 ## Workflows
 
-- **"Add 30 cards on hotel management agreements":** edit `data/hotel-agreements.js`, continue from the next free ID (`node tools/cards.js --next hotel-agreements`), write the cards, recompute every number, run `node tools/validate.js --update-coverage`, tick the covered subtopics and update the Status in COVERAGE.md, then bump, commit, push.
+- **"Add 30 cards on hotel management agreements":** check what's already covered (`node tools/cards.js hotel-agreements`, `--grep <words>` across the deck), then edit `data/hotel-agreements.js` from the next free ID (`node tools/cards.js --next hotel-agreements`). Write the cards, recompute every number with a script, run `node tools/validate.js --update-coverage`, add or tick the subtopics in COVERAGE.md, then bump, commit, push.
 - **"Fix these flagged cards: ...":** flags arrive as `id: question` plus `Note:` lines (drills include a seed). Edit the card in place, keeping its ID. For a drill, reproduce with `Drills.run(id, seed)` in Node.
 - **New module file:** add `<script defer src="data/<slug>.js">` to index.html before `drills/engine.js`; `bump.js` adds it to the service worker cache.
 - **New drill:** `Drills.add({ id: 'drill-<track>-<name>', track, module, topic, level, ranges, make(r), check(p) })` in `drills/<track>.js`. `make` returns `{ q, a, why, formula, steps, visual?, values }`; `check` must re-derive the answer a different way. List the ID in COVERAGE.md's drill list.
@@ -51,7 +51,8 @@ Accuracy over volume; US GAAP by default with IFRS noted where it changes the an
 
 ## Never
 
-- Never rename `STORE_KEY` (`technicals.progress.v1`) or change the progress shape without a migration in `Store.normalize`. Progress is keyed by card ID, so IDs are permanent.
+- Never touch the owner's saved progress. It lives only in their browsers under `technicals.progress.v1`: don't clear or rewrite it, don't rename `STORE_KEY` and don't change the progress shape without a migration in `Store.normalize`.
+- Never renumber, reuse or rename a card or drill ID; progress is keyed by ID. Deleting a card is safe (the app ignores progress for IDs that no longer exist), but retire its ID for good.
 - Never add fetch/XHR, CDN scripts or web fonts.
 
 ## Testing

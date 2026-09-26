@@ -4,6 +4,17 @@ A personal, TikTok-style feed of investment banking, commercial real estate and 
 
 Plain HTML, CSS and JavaScript. No accounts, no backend, no build step, no external requests.
 
+## What's inside
+
+| Track | Modules | Cards | Drills |
+|---|---:|---:|---:|
+| Investment banking: accounting and walk-throughs, EV, comps, precedents, DCF, WACC, LBO, M&A, process, credit, restructuring, sectors, modeling | 17 | 571 | 18 |
+| Real estate: fundamentals, leases, NOI, valuation, returns, debt, waterfalls, acquisitions, asset management, development, markets, accounting, modeling | 13 | 453 | 22 |
+| Hotels: metrics, revenue management, USALI, management and franchise agreements, valuation, capex, financing, asset management | 9 | 251 | 13 |
+| **Total** | **39** | **1,275** | **53** |
+
+About a third of the cards are level 1 (know cold), under half level 2 (standard interview) and a fifth level 3 (advanced, on the job or modeling test). About a quarter are marked as interview classics. Most cards carry a worked example (719) or a visual (508). COVERAGE.md lists every module's subtopics, how the deck was audited and what was left out on purpose.
+
 ## Open it
 
 - **Laptop:** double-click `index.html`. Everything works from disk except installing and offline caching, which need the hosted copy.

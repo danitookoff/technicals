@@ -45,7 +45,7 @@ Deck.add([
     a: "Usually, yes. A higher rate on the same number of rooms costs almost nothing extra, so most of it reaches profit. Extra occupancy brings real costs with every occupied room: housekeeping, laundry, amenities, utilities and commissions. The same RevPAR gain produces more profit when it comes from ADR.",
     why: "Hotel costs scale with occupied rooms, not with the price charged. Each occupied room triggers cleaning labor, linens, supplies and often a distribution cost. Raising ADR adds revenue without adding occupied rooms, so flow-through is high. Occupancy gains still matter (they bring food and beverage spend and build loyalty), and in a weak market filling rooms may be the only option, but owners prefer rate-led growth.",
     example: "Base: [[75%]] occupancy at [[$200]], RevPAR $150. Raise ADR [[5%]] to $210: RevPAR $157.50, and profit rises about $7.50 per available room per night. Reach the same RevPAR with 78.75% occupancy at $200 instead: at [[$45]] of cost per occupied room, profit rises only about $5.81.",
-    trap: "Rate gains aren't entirely free: commissions, card fees, and management and franchise fees are charged as a percentage of revenue. That's why flow-through on rate-led growth is high but below 100%.",
+    trap: "Rate gains aren't entirely free: commissions, card fees and the management and franchise fees are all charged as a percentage of revenue. That's why flow-through on rate-led growth is high but below 100%.",
     visual: { kind: "bars", unit: "$", dp: 2, items: [
       { label: "ADR-led", value: 7.50, highlight: true },
       { label: "Occupancy-led", value: 5.81 }

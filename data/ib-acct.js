@@ -27,7 +27,7 @@ Deck.add([
     classic: true,
     q: "If you could use only one financial statement to judge a company, which would you pick?",
     a: "The cash flow statement. It shows whether the business actually generates cash, which net income can obscure through accruals and non-cash items, and it shows what the company spends on capex and how it's financed. A business that consistently produces cash is healthy, whatever its reported earnings.",
-    why: "Net income depends on accounting choices: depreciation schedules, revenue timing, write-downs. Cash is harder to dress up. The cash flow statement also carries a lot of balance sheet information in its changes: working capital build-ups, capex, and debt raised or repaid. You lose the full balance sheet, but you keep the most decision-relevant fact: can this company fund itself?",
+    why: "Net income depends on accounting choices: depreciation schedules, revenue timing, write-downs. Cash is harder to dress up. The cash flow statement also carries a lot of balance sheet information in its changes: working capital build-ups, capex and debt raised or repaid. You lose the full balance sheet, but you keep the most decision-relevant fact: can this company fund itself?",
     trap: "The standard follow-up: what if you could use two? The income statement and balance sheet, because with beginning and ending balance sheets you can rebuild the cash flow statement."
   },
   {

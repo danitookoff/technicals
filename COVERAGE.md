@@ -8,24 +8,18 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 
 ## Where things stand
 
-- Phase 1 (plan) and Phase 2 (app, sample deck, validator, first deploy) are done. Live at https://danitookoff.github.io/technicals/.
-- Owner feedback on the sample (2026-09-23): keep the current style (likes dark mode), keep answer length the same, difficulty is the right starting point.
-- **Phase 3 (full deck) is in progress.** Content is written in parallel waves, one module per writer, following WRITING.md. After each wave: validate, spot-check, tick subtopics, update counts, bump, commit, push.
-  - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
-  - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
-  - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
-  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`, `ib-rx`, `ib-process`, `ib-sectors`; being written `ib-model`.
-- **Phase 4 (audit) has started on real estate and hotels**, which are final: most-asked questions checked (gaps filled: opportunity zones, LIHTC, rent regulation), legal wording reviewed, math re-verified on a random 10%.
-- Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
-- Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
+- **The deck is complete (2026-09-26).** All five phases are done: plan, app, full deck, audit and handoff. 1,275 cards in 39 modules plus 53 drills. Live at https://danitookoff.github.io/technicals/.
+- Owner feedback on the sample (2026-09-23): keep the current style (likes dark mode), keep answer length the same, difficulty is the right starting point. The full deck kept all three.
+- How it was written: four parallel waves, one module per writer, all following WRITING.md; every number in every module was recomputed by script, then spot-checked again when the module was merged.
+- What comes next is up to the owner: new cards, new modules or fixes to flagged cards. CLAUDE.md has the workflows. Next free ID in a module = highest existing number + 1; never renumber or reuse an ID.
 
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 551 | 148 | 18 of 18 |
+| IB | 17 | 560 | 571 | 153 | 18 of 18 |
 | Real estate | 13 | 440 | 453 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **1255** | **332** | **53 of 53** |
+| **Total** | **39** | **1250** | **1275** | **337** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -347,20 +341,20 @@ Target: 25 · Written: 26 · Classic: 7 · Status: complete
 - [x] Utilities: rate base and allowed ROE
 
 ### `ib-model` Modeling mechanics and Excel
-Target: 20 · Written: 0 · Classic: 0 · Status: planned
+Target: 20 · Written: 20 · Classic: 5 · Status: complete
 
-- [ ] Three-statement build order
-- [ ] The revolver as the plug
-- [ ] Circular references and circuit breakers
-- [ ] Tracking down an unbalanced balance sheet
-- [ ] Projecting working capital
-- [ ] Debt schedules
-- [ ] Formatting conventions: blue inputs, black formulas, green links
-- [ ] NPV vs XNPV; IRR vs XIRR
-- [ ] PMT and IPMT
-- [ ] SUMIFS, INDEX/MATCH, XLOOKUP
-- [ ] Data tables
-- [ ] How to run a timed modeling test
+- [x] Three-statement build order
+- [x] The revolver as the plug
+- [x] Circular references and circuit breakers
+- [x] Tracking down an unbalanced balance sheet
+- [x] Projecting working capital
+- [x] Debt schedules
+- [x] Formatting conventions: blue inputs, black formulas, green links
+- [x] NPV vs XNPV; IRR vs XIRR
+- [x] PMT and IPMT
+- [x] SUMIFS, INDEX/MATCH, XLOOKUP
+- [x] Data tables
+- [x] How to run a timed modeling test
 
 ---
 
@@ -802,3 +796,21 @@ Drills generate fresh numbers every time. `--update-coverage` ticks the ones tha
 - [x] `drill-hotel-pip` PIP cost per key and return
 - [x] `drill-hotel-loan-sizing` Hotel loan sizing on debt yield
 - [x] `drill-hotel-cpor` Cost per occupied room
+
+## Audit (Phase 4, 2026-09-26)
+
+- **Most-asked questions.** 391 commonly asked interview and modeling-test questions (136 IB, 183 real estate, 72 hotels) were checked against the deck by keyword search, then by reading the closest cards. Nearly all already had a card asking them directly. Five gaps were filled: opportunity zones (`re-dev-036`), low-income housing tax credits (`re-dev-037`), rent regulation (`re-market-017`), staple financing (`ib-process-029`) and dual-track processes (`ib-process-030`).
+- **Duplicates.** Every pair of cards was scored for similarity (question, answer and topic), and the closest pairs were read side by side. They ask different questions, such as mechanics vs return effects or a concept vs a walk-through, so nothing needed merging. The validator's near-duplicate check passes.
+- **Math.** A seeded random 10% of the deck was re-verified figure by figure: 70 of the 704 real estate and hotel cards and 53 of the 525 IB cards finished at the time, 123 in all. The last two modules to land, `ib-sectors` and `ib-model`, had 14 of their 46 cards checked the same way. No errors turned up; every writer had already recomputed its module by script.
+- **Legal and technical wording.** The acquisitions legal cards (environmental, zoning, closing costs, prorations) and the restructuring cards were read against the rules they describe. One fix: `re-acq-022` overstated what law and ordinance insurance covers.
+- **Flags.** None received yet. Flags collect under Menu › Flagged; Copy pastes them in the format the "fix these flagged cards" workflow expects.
+
+## Deliberately left out
+
+- Behavioral and fit questions (why banking, walk me through your resume): the deck is technicals only.
+- Live market levels. Cards use illustrative numbers and rough ranges, so nothing goes stale when rates or cap rates move.
+- Real company and deal specifics. Examples use fictional companies; real laws, standards and market conventions are named where the answer depends on them.
+- Law beyond the US basics an interview tests: Chapter 15 and Subchapter V in restructuring, state-by-state transfer tax and rent rules, and non-US lease and hotel law beyond brief notes. IFRS appears only where it changes the answer.
+- Fast-changing tax detail. Opportunity zones and the interest deduction cap are taught as mechanics, with a note to check the current rules.
+- Niche sectors outside `ib-sectors` (banks, insurers, REITs, energy, software, retail, hotels, healthcare, industrials, utilities), such as mining, telecom and shipping.
+- Excel keystrokes. `ib-model` covers the functions and model mechanics interviews and modeling tests ask about, not shortcuts.
