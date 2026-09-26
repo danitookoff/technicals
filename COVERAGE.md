@@ -21,10 +21,10 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 223 | 63 | 4 of 18 |
+| IB | 17 | 560 | 239 | 65 | 13 of 18 |
 | Real estate | 13 | 440 | 450 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **924** | **247** | **39 of 53** |
+| **Total** | **39** | **1250** | **940** | **249** | **48 of 53** |
 <!-- summary:end -->
 
 ---
@@ -32,37 +32,37 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 ## IB
 
 ### `ib-acct` Accounting and the three statements
-Target: 60 · Written: 60 · Classic: 15 · Status: seeded
+Target: 60 · Written: 60 · Classic: 13 · Status: complete
 
-- [ ] What the income statement, balance sheet and cash flow statement each show
-- [ ] How the three statements link (net income, D&A, working capital, capex, debt, cash, retained earnings)
-- [ ] Revenue recognition basics under ASC 606 (five steps; point in time vs over time)
-- [ ] Gross vs net revenue (principal vs agent)
-- [ ] COGS, gross profit and operating expenses
-- [ ] EBITDA vs EBIT vs net income, and what each is used for
-- [ ] Non-recurring items and how to treat them
-- [ ] Basic vs diluted EPS
-- [ ] Balance sheet structure: current vs non-current; assets = liabilities + equity
-- [ ] Working-capital accounts (AR, inventory, prepaids, AP, accrued expenses, deferred revenue); operating working capital excludes cash and debt
-- [ ] PP&E, depreciation and accumulated depreciation
-- [ ] Intangible assets and goodwill: where they come from
-- [ ] Debt accounts: revolver, current portion, long-term debt
-- [ ] Equity accounts: common stock and APIC, retained earnings, treasury stock, AOCI
-- [ ] Contra accounts (allowance for doubtful accounts, accumulated depreciation)
-- [ ] The indirect cash flow statement: operating, investing, financing
-- [ ] Non-cash add-backs (D&A, SBC, impairments, deferred taxes, gains and losses)
-- [ ] Sign logic of working-capital changes on the cash flow statement
-- [ ] Accrual vs cash accounting
-- [ ] Inventory methods: FIFO vs LIFO vs weighted average, in rising and falling prices; LIFO not allowed under IFRS
-- [ ] Where D&A hides (inside COGS and opex) and why it matters for EBITDA
-- [ ] Capitalizing vs expensing, and the effect on each statement
-- [ ] Prepaid expenses, accrued expenses and deferred revenue
-- [ ] FCF vs unlevered FCF vs levered FCF
-- [ ] The "only one statement" and "only two statements" questions
-- [ ] Profitable but cash-poor, and cash-rich but unprofitable
-- [ ] Interest and dividends on the cash flow statement: US GAAP vs IFRS classification
-- [ ] Gains and losses on asset sales
-- [ ] The statement of shareholders' equity
+- [x] What the income statement, balance sheet and cash flow statement each show
+- [x] How the three statements link (net income, D&A, working capital, capex, debt, cash, retained earnings)
+- [x] Revenue recognition basics under ASC 606 (five steps; point in time vs over time)
+- [x] Gross vs net revenue (principal vs agent)
+- [x] COGS, gross profit and operating expenses
+- [x] EBITDA vs EBIT vs net income, and what each is used for
+- [x] Non-recurring items and how to treat them
+- [x] Basic vs diluted EPS
+- [x] Balance sheet structure: current vs non-current; assets = liabilities + equity
+- [x] Working-capital accounts (AR, inventory, prepaids, AP, accrued expenses, deferred revenue); operating working capital excludes cash and debt
+- [x] PP&E, depreciation and accumulated depreciation
+- [x] Intangible assets and goodwill: where they come from
+- [x] Debt accounts: revolver, current portion, long-term debt
+- [x] Equity accounts: common stock and APIC, retained earnings, treasury stock, AOCI
+- [x] Contra accounts (allowance for doubtful accounts, accumulated depreciation)
+- [x] The indirect cash flow statement: operating, investing, financing
+- [x] Non-cash add-backs (D&A, SBC, impairments, deferred taxes, gains and losses)
+- [x] Sign logic of working-capital changes on the cash flow statement
+- [x] Accrual vs cash accounting
+- [x] Inventory methods: FIFO vs LIFO vs weighted average, in rising and falling prices; LIFO not allowed under IFRS
+- [x] Where D&A hides (inside COGS and opex) and why it matters for EBITDA
+- [x] Capitalizing vs expensing, and the effect on each statement
+- [x] Prepaid expenses, accrued expenses and deferred revenue
+- [x] FCF vs unlevered FCF vs levered FCF
+- [x] The "only one statement" and "only two statements" questions
+- [x] Profitable but cash-poor, and cash-rich but unprofitable
+- [x] Interest and dividends on the cash flow statement: US GAAP vs IFRS classification
+- [x] Gains and losses on asset sales
+- [x] The statement of shareholders' equity
 
 ### `ib-walk` Walk-throughs
 Target: 35 · Written: 35 · Classic: 10 · Status: complete
@@ -188,7 +188,7 @@ Target: 25 · Written: 0 · Classic: 0 · Status: planned
 - [ ] Spreading comps in practice
 
 ### `ib-precedents` Precedent transactions
-Target: 15 · Written: 0 · Classic: 0 · Status: planned
+Target: 15 · Written: 16 · Classic: 4 · Status: planned
 
 - [ ] Selecting deals (size, sector, date, buyer type)
 - [ ] Control premiums and premiums-paid analysis
@@ -719,17 +719,17 @@ Target: 20 · Written: 20 · Classic: 5 · Status: complete
 - [x] Single-asset CMBS for hotels
 
 ### `hotel-am` Hotel asset management and development
-Target: 30 · Written: 30 · Classic: 8 · Status: planned
+Target: 30 · Written: 30 · Classic: 8 · Status: complete
 
-- [ ] Reviewing the operator's budget
-- [ ] The monthly P&L review: flow-through, GOP margin, variances, labor
-- [ ] Benchmarking
-- [ ] Enforcing performance tests
-- [ ] ADR vs occupancy strategy
-- [ ] Group vs transient mix
-- [ ] Brand selection and repositioning
-- [ ] Hotel development: cost per key, pre-opening costs, ramp to stabilization
-- [ ] What a hotel feasibility study contains
+- [x] Reviewing the operator's budget
+- [x] The monthly P&L review: flow-through, GOP margin, variances, labor
+- [x] Benchmarking
+- [x] Enforcing performance tests
+- [x] ADR vs occupancy strategy
+- [x] Group vs transient mix
+- [x] Brand selection and repositioning
+- [x] Hotel development: cost per key, pre-opening costs, ramp to stabilization
+- [x] What a hotel feasibility study contains
 
 ---
 
@@ -740,15 +740,15 @@ Drills generate fresh numbers every time. `--update-coverage` ticks the ones tha
 ### IB
 
 - [x] `drill-ib-ev-bridge` EV to equity value bridge and back
-- [ ] `drill-ib-share-price` Implied share price from a multiple
+- [x] `drill-ib-share-price` Implied share price from a multiple
 - [x] `drill-ib-tsm` Diluted shares by the treasury stock method
-- [ ] `drill-ib-ufcf` Unlevered FCF build
-- [ ] `drill-ib-tv-gordon` Gordon growth terminal value with the implied exit multiple
-- [ ] `drill-ib-tv-exit` Exit-multiple terminal value with the implied growth rate
-- [ ] `drill-ib-discount` Discount factors with the mid-year convention
-- [ ] `drill-ib-capm` CAPM cost of equity
-- [ ] `drill-ib-wacc` WACC
-- [ ] `drill-ib-beta` Unlevering and relevering beta
+- [x] `drill-ib-ufcf` Unlevered FCF build
+- [x] `drill-ib-tv-gordon` Gordon growth terminal value with the implied exit multiple
+- [x] `drill-ib-tv-exit` Exit-multiple terminal value with the implied growth rate
+- [x] `drill-ib-discount` Discount factors with the mid-year convention
+- [x] `drill-ib-capm` CAPM cost of equity
+- [x] `drill-ib-wacc` WACC
+- [x] `drill-ib-beta` Unlevering and relevering beta
 - [x] `drill-ib-paper-lbo` Paper LBO: MOIC and IRR
 - [ ] `drill-ib-moic-irr` MOIC to IRR conversion
 - [ ] `drill-ib-accretion` Accretion/dilution funded with cash, stock or debt, with the earnings-yield shortcut
@@ -756,7 +756,7 @@ Drills generate fresh numbers every time. `--update-coverage` ticks the ones tha
 - [ ] `drill-ib-wc-days` Working-capital days and the cash conversion cycle
 - [ ] `drill-ib-leverage` Leverage and coverage ratios
 - [ ] `drill-ib-goodwill` Goodwill from a purchase price allocation
-- [ ] `drill-ib-ltm` LTM and calendarization
+- [x] `drill-ib-ltm` LTM and calendarization
 
 ### Real estate
 

@@ -4,6 +4,22 @@
   const { fmt, near, round } = Drills;
   const { pct, mult, dollars, millions, num, signed, an } = fmt;
 
+  // Local helpers.
+  // $M with only the decimals a figure needs, so every figure shows exactly: 1240 → "$1,240M", 219.4 → "$219.4M".
+  const dpOf = (x) => (Math.abs(x - round(x, 0)) < 1e-7 ? 0 : Math.abs(x - round(x, 1)) < 1e-7 ? 1 : 2);
+  const M = (x) => millions(x, dpOf(x));
+  // A result rounded to $0.1M, the precision the working shows; later steps continue from it.
+  // Rounding that first clears float noise, so exact halves round up: 7.5% × 0.75 = 5.625% → 5.63%, not 5.62%.
+  const rd = (x, dp) => round(round(x, 9), dp);
+  const r1 = (x) => rd(x, 1);
+  // Capitalized article for the start of a sentence.
+  const An = (t) => (an(t) === 'an' ? 'An' : 'A');
+  // Rates the way they're quoted: 0.04 → "4.0%", 0.0425 → "4.25%".
+  const rate = (x) => pct(x);
+  // Plain decimals without trailing zeros: 1.2765, 0.75.
+  const dec = (x, dp) => num(x, dp).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
   // ---------------------------------------------------------------- EV bridge and back
   Drills.add({
     id: 'drill-ib-ev-bridge',
@@ -124,6 +140,961 @@
       const v = p.values;
       const intrinsic = v.tranches.reduce((s, t) => s + (t.strike < v.price ? t.count * (v.price - t.strike) : 0), 0);
       return near(intrinsic / v.price, v.net, 1e-9) && near(v.basic + intrinsic / v.price + v.rsu, v.diluted, 1e-9);
+    }
+  });
+
+  // ---------------------------------------------------------------- Implied share price from a multiple
+  Drills.add({
+    id: 'drill-ib-share-price',
+    track: 'ib',
+    module: 'ib-comps',
+    topic: 'Implied share price',
+    level: 2,
+    ranges: { price: [3, 500], multiple: [4, 30], equity: [50, 80000] },
+    make(r) {
+      const mode = r.pick(['median', 'median', 'pe', 'range']);
+      const basis = r.pick(['LTM', 'NTM', 'NTM']);
+      // Today's price sits 3–22% from the implied value, so the verdict is never a coin flip.
+      const away = (x) => {
+        let f = r.step(0.78, 1.22, 0.01);
+        if (Math.abs(f - 1) < 0.03) f = f < 1 ? 0.95 : 1.05;
+        return rd(x * f, 2);
+      };
+      const side = (up) => `${pct(Math.abs(up), 1)} ${up >= 0 ? 'upside' : 'downside'}`;
+      const sgn = (up) => `${up < 0 ? '−' : '+'}${pct(Math.abs(up), 1)}`;
+      const sh = (x) => `[[${num(x, 1)}M]]`;
+      const $ = (x) => dollars(x, 2);
+
+      if (mode === 'median') {
+        const ebitda = r.step(60, 1500, 5);
+        const mid = r.step(7, 12.5, 0.1);
+        const b2 = rd(mid - r.step(0.3, 1.2, 0.1), 1);
+        const b1 = rd(b2 - r.step(0.3, 1.5, 0.1), 1);
+        const a1 = rd(mid + r.step(0.3, 1.2, 0.1), 1);
+        const outlier = r.pick(['high', 'high', 'low', 'none', 'none']);
+        const a2 = rd(a1 + (outlier === 'high' ? r.step(3, 7, 0.1) : r.step(0.3, 1.5, 0.1)), 1);
+        const lo = outlier === 'low' ? rd(Math.max(3.5, b1 - r.step(2.5, 4, 0.1)), 1) : b1;
+        const sorted = [lo, b2, mid, a1, a2];
+        const peers = r.shuffle(sorted);
+        const mean = sorted.reduce((s, x) => s + x, 0) / 5;
+        const ev = r1(mid * ebitda);
+        const debt = Math.round(ebitda * r.step(0.5, 3.5, 0.1) / 5) * 5;
+        const cash = Math.max(5, Math.round(ebitda * r.step(0.1, 0.8, 0.05) / 5) * 5);
+        const nd = debt - cash;
+        const equity = r1(ev - nd);
+        const shares = Math.max(5, rd(equity / r.step(18, 160, 1), 1));
+        const price = equity / shares, shown = rd(price, 2);
+        const cur = r.chance(0.6) ? away(shown) : 0;
+        const up = cur ? shown / cur - 1 : 0;
+        const list = peers.map((x) => `[[${mult(x, 1)}]]`);
+        const steps = [
+          `Median: in order, ${sorted.map((x) => mult(x, 1)).join(', ')}, so the middle one is ${mult(mid, 1)}` +
+            (outlier === 'none' ? '' : `. The mean, ${mult(mean, 2)}, is pulled ${outlier === 'high' ? 'up' : 'down'} by the ${mult(outlier === 'high' ? a2 : lo, 1)} outlier; the median isn't`),
+          `Implied EV: ${mult(mid, 1)} × [[${M(ebitda)}]] = ${M(ev)}`,
+          `Equity value: ${M(ev)} − [[${M(debt)}]] of debt + [[${M(cash)}]] of cash = ${M(equity)}`,
+          `Share price: ${M(equity)} ÷ ${sh(shares)} diluted shares = ${$(shown)}`
+        ];
+        if (cur) steps.push(`Against [[${$(cur)}]] today: ${$(shown)} ÷ [[${$(cur)}]] − 1 = ${sgn(up)}, so ${side(up)}`);
+        const netText = nd >= 0 ? `after ${M(nd)} of net debt` : `with ${M(-nd)} of net cash added`;
+        return {
+          q: `Five peers trade at ${list.slice(0, 4).join(', ')} and ${list[4]} ${basis} EBITDA. The target has [[${M(ebitda)}]] of ${basis} EBITDA, [[${M(debt)}]] of debt, [[${M(cash)}]] of cash and ${sh(shares)} diluted shares${cur ? `, and trades at [[${$(cur)}]]` : ''}. What share price does the peer median imply?`,
+          a: `${$(shown)} a share. The ${mult(mid, 1)} median on ${M(ebitda)} of ${basis} EBITDA gives ${M(ev)} of EV, or ${M(equity)} of equity value ${netText}.${cur ? ` That's ${side(up)} from ${$(cur)}.` : ''}`,
+          why: `Comps value the target the way the market values similar businesses. EV/EBITDA is a whole-company multiple, so applied to the target's EBITDA (${basis} to ${basis}, matching the peers) it gives enterprise value, not equity value. Bridge to equity by subtracting debt and adding cash, then divide by diluted shares. The median shrugs off outliers, like a peer with a one-off or a takeover bid in its price, better than the mean. In practice you show a range, since no peer is a perfect match.`,
+          formula: 'Implied EV = peer multiple × target EBITDA\nEquity value = EV − debt + cash\nShare price = equity value ÷ diluted shares',
+          steps,
+          visual: { kind: 'waterfall', unit: '$M', dp: Math.max(dpOf(ev), dpOf(equity)), start: { label: 'Implied EV', value: ev },
+            steps: [{ label: 'Debt', delta: -debt }, { label: 'Cash', delta: cash }], end: { label: 'Equity value', value: equity },
+            caption: `÷ ${num(shares, 1)}M diluted shares = ${$(shown)} a share` },
+          values: { mode: 1, price, shown, equity, ev, multiple: mid, peers: sorted, ebitda, debt, cash, shares, cur, up }
+        };
+      }
+
+      if (mode === 'pe') {
+        const ni = r.step(40, 900, 1);
+        const pe = r.step(10, 28, 0.1);
+        const equity = r1(pe * ni);
+        const shares = Math.max(5, rd(equity / r.step(18, 160, 1), 1));
+        const price = equity / shares, shown = rd(price, 2);
+        const cur = away(shown);
+        const up = shown / cur - 1;
+        const curPe = cur * shares / ni;
+        return {
+          q: `Peers trade at a median [[${mult(pe, 1)}]] ${basis} P/E. The target's ${basis} net income is [[${M(ni)}]], it has ${sh(shares)} diluted shares and its stock trades at [[${$(cur)}]]. What share price does the median imply, and how far is that from today's?`,
+          a: `${$(shown)} a share, ${side(up)} from ${$(cur)}. The ${mult(pe, 1)} median P/E on ${M(ni)} of net income gives ${M(equity)} of equity value directly, spread over ${num(shares, 1)}M diluted shares.`,
+          why: "P/E prices the equity directly: net income is what's left after lenders are paid, so the peer P/E times the target's net income is equity value, with no bridge through net debt. Divide by diluted shares, or multiply the P/E by EPS, for the share price. The catch is that P/E mixes the business with its capital structure: more debt means more interest and a different P/E for the same operations. That's why EV/EBITDA is usually the main multiple and P/E a cross-check.",
+          formula: 'Equity value = peer P/E × target net income\nShare price = equity value ÷ diluted shares = P/E × EPS\nUpside = implied price ÷ current price − 1',
+          steps: [
+            `Implied equity value: [[${mult(pe, 1)}]] × [[${M(ni)}]] = ${M(equity)}. Net income is already after interest, so there's no bridge`,
+            `Share price: ${M(equity)} ÷ ${sh(shares)} = ${$(shown)}`,
+            `Against [[${$(cur)}]] today: ${$(shown)} ÷ [[${$(cur)}]] − 1 = ${sgn(up)}`,
+            `Today's P/E: [[${$(cur)}]] × ${sh(shares)} ÷ [[${M(ni)}]] = ${mult(curPe, 1)}, ${curPe < pe ? 'below' : 'above'} the [[${mult(pe, 1)}]] peer median`
+          ],
+          visual: { kind: 'bars', unit: '$', dp: 2, caption: 'Share price', items: [
+            { label: 'Today', value: cur },
+            { label: `At ${mult(pe, 1)} P/E`, value: shown, highlight: true }
+          ] },
+          values: { mode: 2, price, shown, equity, multiple: pe, ni, shares, cur, up, curPe }
+        };
+      }
+
+      const ebitda = r.step(60, 1500, 5);
+      const lo = r.step(6, 11, 0.5);
+      const hi = lo + r.pick([1, 1.5, 2, 2, 2.5, 3]);
+      const debt = Math.round(ebitda * r.step(0.5, 3.5, 0.1) / 5) * 5;
+      const cash = Math.max(5, Math.round(ebitda * r.step(0.1, 0.8, 0.05) / 5) * 5);
+      const nd = debt - cash;
+      const evLo = r1(lo * ebitda), evHi = r1(hi * ebitda);
+      const eqLo = r1(evLo - nd), eqHi = r1(evHi - nd);
+      const shares = Math.max(5, rd((eqLo + eqHi) / 2 / r.step(18, 160, 1), 1));
+      const pLo = eqLo / shares, pHi = eqHi / shares;
+      const sLo = rd(pLo, 2), sHi = rd(pHi, 2);
+      const pos = r.pick(['below', 'within', 'within', 'above']);
+      const cur = pos === 'below' ? rd(sLo * r.step(0.82, 0.96, 0.01), 2)
+        : pos === 'above' ? rd(sHi * r.step(1.04, 1.18, 0.01), 2)
+          : rd(sLo + (sHi - sLo) * r.step(0.1, 0.9, 0.05), 2);
+      const at = (cur - sLo) / (sHi - sLo);
+      const verdict = pos === 'below' ? 'below the range, so on these comps it looks cheap'
+        : pos === 'above' ? 'above the range: the market already prices it richer than its peers'
+          : `inside the range, ${at < 1 / 3 ? 'near the low end' : at > 2 / 3 ? 'near the high end' : 'around the middle'}`;
+      const Fr = (x) => millions(x, Math.max(...[evLo, evHi, eqLo, eqHi].map(dpOf)));
+      const netStep = nd >= 0 ? `Net debt: [[${M(debt)}]] − [[${M(cash)}]] = ${Fr(nd)}` : `Net cash: [[${M(cash)}]] − [[${M(debt)}]] = ${Fr(-nd)}`;
+      const eqStep = nd >= 0
+        ? `Equity value: ${Fr(evLo)} − ${Fr(nd)} = ${Fr(eqLo)}; ${Fr(evHi)} − ${Fr(nd)} = ${Fr(eqHi)}`
+        : `Equity value: ${Fr(evLo)} + ${Fr(-nd)} = ${Fr(eqLo)}; ${Fr(evHi)} + ${Fr(-nd)} = ${Fr(eqHi)}`;
+      const spread = nd >= 0
+        ? `EV rises ${pct(evHi / evLo - 1, 1)} from the low end to the high end, but the share price rises ${pct(sHi / sLo - 1, 1)}: net debt is the same at both ends, so the equity absorbs the whole swing`
+        : `EV rises ${pct(evHi / evLo - 1, 1)} from the low end to the high end and the share price ${pct(sHi / sLo - 1, 1)}: the net cash is the same at both ends, which cushions the equity`;
+      return {
+        q: `Peers trade at [[${mult(lo, 1)}]] to [[${mult(hi, 1)}]] ${basis} EBITDA (25th to 75th percentile). The target: ${basis} EBITDA [[${M(ebitda)}]], debt [[${M(debt)}]], cash [[${M(cash)}]], ${sh(shares)} diluted shares, share price [[${$(cur)}]]. What price range do the comps imply?`,
+        a: `${$(sLo)} to ${$(sHi)} a share. At ${$(cur)} the stock trades ${verdict}.`,
+        why: "Comps give a range, not a point: the 25th to 75th percentile of peer multiples brackets how the market prices businesses like this one. Apply both ends to the target's EBITDA, bridge each to equity value and divide by diluted shares. Net debt is the same at both ends, so for a levered company the equity range is wider in percentage terms than the EV range, and the more debt, the wider it gets. On a football field this bar sits beside precedents, the DCF and the LBO.",
+        formula: 'EV = multiple × EBITDA, at each end of the range\nEquity value = EV − net debt\nShare price = equity value ÷ diluted shares',
+        steps: [
+          `EV: [[${mult(lo, 1)}]] × [[${M(ebitda)}]] = ${Fr(evLo)}; [[${mult(hi, 1)}]] × [[${M(ebitda)}]] = ${Fr(evHi)}`,
+          netStep,
+          eqStep,
+          `Per share: ${Fr(eqLo)} ÷ ${sh(shares)} = ${$(sLo)}; ${Fr(eqHi)} ÷ ${sh(shares)} = ${$(sHi)}`,
+          spread,
+          `At [[${$(cur)}]], the stock trades ${verdict}`
+        ],
+        visual: { kind: 'bars', unit: '$', dp: 2, caption: 'Implied share price at each end of the peer range', items: [
+          { label: `Low end (${mult(lo, 1)})`, value: sLo },
+          { label: 'Today', value: cur, highlight: true },
+          { label: `High end (${mult(hi, 1)})`, value: sHi }
+        ] },
+        values: { mode: 3, price: pLo, pHi, sLo, sHi, equity: eqLo, eqHi, multiple: lo, hi, ebitda, nd, shares, cur, pos }
+      };
+    },
+    // Second way: rebuild EV from the share price (price × shares + net debt) and divide by EBITDA to get back the
+    // multiple; for P/E, rebuild the multiple from price × shares ÷ net income.
+    check(p) {
+      const v = p.values;
+      if (v.mode === 1) {
+        const median = v.peers.slice().sort((a, b) => a - b)[2];
+        const upOk = !v.cur || near(v.up, rd(v.price, 2) / v.cur - 1, 1e-9);
+        return near(median, v.multiple, 1e-9) && near((v.price * v.shares + v.debt - v.cash) / v.ebitda, v.multiple, 1e-9) && upOk;
+      }
+      if (v.mode === 2) {
+        return near(v.price * v.shares / v.ni, v.multiple, 1e-9) && near(v.curPe / v.multiple, v.cur / v.price, 1e-9) &&
+          (v.up > 0) === (v.curPe < v.multiple);
+      }
+      const where = v.cur < v.sLo ? 'below' : v.cur > v.sHi ? 'above' : 'within';
+      return near((v.price * v.shares + v.nd) / v.ebitda, v.multiple, 1e-9) && near((v.pHi * v.shares + v.nd) / v.ebitda, v.hi, 1e-9) && where === v.pos;
+    }
+  });
+
+  // ---------------------------------------------------------------- LTM and calendarization
+  Drills.add({
+    id: 'drill-ib-ltm',
+    track: 'ib',
+    module: 'ib-comps',
+    topic: 'LTM and calendarization',
+    level: 2,
+    ranges: { ebitda: [20, 5000] },
+    make(r) {
+      const mode = r.pick(['ltm', 'ltm', 'multiple', 'cal', 'cal']);
+      const why = "Comps only work when every company is measured over the same 12 months. LTM rolls the last annual report forward to the latest quarter: take the full fiscal year, add this year's year-to-date and remove the same period of last year, which leaves the most recent 12 months. Calendarizing lines up a company whose fiscal year doesn't end in December with peers that do, by blending the two fiscal years that overlap the calendar year by the months each contributes. The blend assumes even months; with quarterly data, add the actual quarters, which handles seasonality.";
+
+      if (mode === 'cal') {
+        const fye = r.pick([3, 6, 9]);
+        const Y = r.pick([2025, 2026, 2026, 2027]);
+        const fy1 = r.step(80, 2400, 2);
+        const fy2 = rd(fy1 * (1 + r.step(0.03, 0.15, 0.01)) / 2, 0) * 2;
+        const w1 = fye / 12, w2 = 1 - w1;
+        const c1 = r1(w1 * fy1), c2 = r1(w2 * fy2);
+        const cy = r1(c1 + c2);
+        const Fc = (x) => millions(x, Math.max(dpOf(c1), dpOf(c2), dpOf(cy)));
+        const mon = MONTHS[fye - 1];
+        const day = fye === 3 ? 31 : 30;
+        const next = MONTHS[fye];
+        const withEv = r.chance(0.5);
+        const ev = withEv ? Math.round(cy * r.step(7, 13, 0.1) / 10) * 10 : 0;
+        const steps = [
+          `Calendar ${Y} runs January to December ${Y}: ${fye} months (January to ${mon}) fall in the fiscal year ending ${mon} ${Y}, the other ${12 - fye} (${next} to December) in the year ending ${mon} ${Y + 1}`,
+          `Weights: ${fye}/12 = ${dec(w1, 2)} and ${12 - fye}/12 = ${dec(w2, 2)}`,
+          `Calendar ${Y} EBITDA: ${dec(w1, 2)} × [[${M(fy1)}]] + ${dec(w2, 2)} × [[${M(fy2)}]] = ${Fc(c1)} + ${Fc(c2)} = ${Fc(cy)}`
+        ];
+        if (withEv) steps.push(`Calendar ${Y} multiple: [[${M(ev)}]] ÷ ${Fc(cy)} = ${mult(ev / cy, 1)}, comparable with peers' calendar ${Y} multiples`);
+        steps.push(`The result sits between the two fiscal years, closer to the one that contributes more months. It assumes EBITDA is spread evenly; with quarterly data, add the actual quarters instead`);
+        return {
+          q: `A company's fiscal year ends [[${mon} ${day}]]. EBITDA is [[${M(fy1)}]] for the year ending ${mon} ${Y} and [[${M(fy2)}]] for the year ending ${mon} ${Y + 1}. Peers use calendar years. What's its calendar ${Y} EBITDA?${withEv ? ` At [[${M(ev)}]] of EV, what multiple is that?` : ''}`,
+          a: `${Fc(cy)}: ${fye}/12 of the fiscal year ending ${mon} ${Y} plus ${12 - fye}/12 of the year ending ${mon} ${Y + 1}.${withEv ? ` That puts it at ${mult(ev / cy, 1)} calendar ${Y} EBITDA.` : ''}`,
+          why,
+          formula: 'Calendar-year figure = (months in the earlier fiscal year ÷ 12) × that year + (months in the later fiscal year ÷ 12) × that year\nLTM = last fiscal year + current year-to-date − prior year-to-date',
+          steps,
+          visual: { kind: 'table', headers: ['Fiscal year', 'EBITDA', 'Months in CY' + String(Y).slice(2), 'Counts'], rows: [
+            [`Ends ${mon.slice(0, 3)} ${Y}`, `[[${M(fy1)}]]`, `${fye} of 12`, Fc(c1)],
+            [`Ends ${mon.slice(0, 3)} ${Y + 1}`, `[[${M(fy2)}]]`, `${12 - fye} of 12`, Fc(c2)],
+            [`Calendar ${Y}`, '', '12', Fc(cy)]
+          ] },
+          values: { mode: 3, ebitda: cy, fy1, fy2, fye, ev }
+        };
+      }
+
+      // LTM: a fiscal year plus year-to-date figures. Usually a December year-end; sometimes June, March or September.
+      const fye = r.pick([12, 12, 12, 6, 3, 9]);
+      const n = r.pick([3, 6, 9]);
+      const endMonth = MONTHS[(fye + n - 1) % 12];
+      const R = r.step(300, 6000, 10);
+      const m = r.step(0.12, 0.34, 0.005);
+      const E = Math.round(R * m);
+      const g = r.step(-0.04, 0.16, 0.01);
+      const ytdR0 = Math.round(R * n / 12 * r.step(0.9, 1.1, 0.01));
+      const ytdR1 = Math.round(ytdR0 * (1 + g));
+      const ytdE0 = Math.round(ytdR0 * m * r.step(0.94, 1.06, 0.01));
+      const ytdE1 = Math.round(ytdR1 * m * r.step(0.94, 1.08, 0.01));
+      const ltmR = R + ytdR1 - ytdR0, ltmE = E + ytdE1 - ytdE0;
+      const words = { 3: 'Three', 6: 'Six', 9: 'Nine' }[n];
+      const fyText = fye === 12 ? 'Last fiscal year (to December)' : `Fiscal years end in ${MONTHS[fye - 1]}. Last fiscal year`;
+      const stub = 12 - n;
+      const tail = (lead, x, y, cur) => `${lead} last fiscal year's final ${stub} months ([[${M(x)}]] − [[${M(y)}]] = ${M(x - y)}) plus this year's first ${n} ([[${M(cur)}]])`;
+
+      if (mode === 'multiple') {
+        const ev = Math.round(ltmE * r.step(7, 13, 0.1) / 10) * 10;
+        const fyM = ev / E, ltmM = ev / ltmE;
+        return {
+          q: `${fyText}: EBITDA [[${M(E)}]]. ${words} months to ${endMonth}: [[${M(ytdE1)}]] this year vs [[${M(ytdE0)}]] a year earlier. EV is [[${M(ev)}]]. What are LTM EBITDA and the LTM EV/EBITDA multiple, against the multiple on last fiscal year?`,
+          a: `LTM EBITDA is ${M(ltmE)}, so EV/LTM EBITDA is ${mult(ltmM, 1)}, against ${mult(fyM, 1)} on last fiscal year's ${M(E)}. ${ltmE > E ? 'EBITDA has grown since year-end, so the stale figure overstates the multiple.' : ltmE < E ? 'EBITDA has fallen since year-end, so the stale figure understates the multiple.' : 'EBITDA is flat, so the two agree.'}`,
+          why,
+          formula: 'LTM = last fiscal year + current year-to-date − prior year-to-date\nLTM multiple = EV ÷ LTM EBITDA',
+          steps: [
+            `LTM EBITDA: [[${M(E)}]] + [[${M(ytdE1)}]] − [[${M(ytdE0)}]] = ${M(ltmE)}`,
+            tail('The LTM window is', E, ytdE0, ytdE1),
+            `LTM multiple: [[${M(ev)}]] ÷ ${M(ltmE)} = ${mult(ltmM, 1)}`,
+            `On last fiscal year: [[${M(ev)}]] ÷ [[${M(E)}]] = ${mult(fyM, 1)}`
+          ],
+          visual: { kind: 'waterfall', unit: '$M', dp: 0, start: { label: 'Last fiscal year', value: E }, steps: [
+            { label: `This year's ${n} months`, delta: ytdE1 },
+            { label: `Last year's ${n} months`, delta: -ytdE0 }
+          ], end: { label: 'LTM EBITDA', value: ltmE }, caption: `LTM to ${endMonth}` },
+          values: { mode: 2, ebitda: ltmE, E, ytdE0, ytdE1, n, ev, ltmM, fyM, R: 0, ytdR0: 0, ytdR1: 0 }
+        };
+      }
+
+      const mFY = E / R, mL = ltmE / ltmR;
+      return {
+        q: `${fyText}: revenue [[${M(R)}]], EBITDA [[${M(E)}]]. ${words} months to ${endMonth}: revenue [[${M(ytdR1)}]] this year vs [[${M(ytdR0)}]] a year earlier; EBITDA [[${M(ytdE1)}]] vs [[${M(ytdE0)}]]. What are LTM revenue and EBITDA?`,
+        a: `LTM revenue ${M(ltmR)} and EBITDA ${M(ltmE)}, ${an(pct(mL, 1))} ${pct(mL, 1)} margin: last fiscal year, plus this year's ${n} months, less the same ${n} months of last year.`,
+        why,
+        formula: 'LTM = last fiscal year + current year-to-date − prior year-to-date\nLTM margin = LTM EBITDA ÷ LTM revenue',
+        steps: [
+          `LTM revenue: [[${M(R)}]] + [[${M(ytdR1)}]] − [[${M(ytdR0)}]] = ${M(ltmR)}`,
+          `LTM EBITDA: [[${M(E)}]] + [[${M(ytdE1)}]] − [[${M(ytdE0)}]] = ${M(ltmE)}`,
+          tail('For revenue, the window is', R, ytdR0, ytdR1),
+          `LTM margin: ${M(ltmE)} ÷ ${M(ltmR)} = ${pct(mL, 1)}, against ${pct(mFY, 1)} in the last fiscal year`
+        ],
+        visual: { kind: 'table', headers: ['', 'Last FY', `+ ${n}M this year`, `− ${n}M last year`, 'LTM'], rows: [
+          ['Revenue', `[[${M(R)}]]`, `[[${M(ytdR1)}]]`, `[[${M(ytdR0)}]]`, M(ltmR)],
+          ['EBITDA', `[[${M(E)}]]`, `[[${M(ytdE1)}]]`, `[[${M(ytdE0)}]]`, M(ltmE)],
+          ['Margin', pct(mFY, 1), pct(ytdE1 / ytdR1, 1), pct(ytdE0 / ytdR0, 1), pct(mL, 1)]
+        ], caption: `LTM to ${endMonth}` },
+        values: { mode: 1, ebitda: ltmE, E, ytdE0, ytdE1, n, R, ytdR0, ytdR1, ltmR }
+      };
+    },
+    // Second way: build the months. Spread each period evenly over its months and add up the latest 12
+    // (for calendarization, January to December across the two fiscal years).
+    check(p) {
+      const v = p.values;
+      if (v.mode === 3) {
+        const months = [];
+        for (let k = 0; k < 12; k++) months.push(v.fy1 / 12);
+        for (let k = 0; k < 12; k++) months.push(v.fy2 / 12);
+        // Fiscal year 1 covers months 0–11, ending in month fye of the calendar year; January is month 12 − fye.
+        const cal = months.slice(12 - v.fye, 24 - v.fye).reduce((s, x) => s + x, 0);
+        return Math.abs(cal - v.ebitda) <= 0.1 + 1e-9;
+      }
+      const roll = (fy, y0, y1) => {
+        const s = [];
+        for (let k = 0; k < v.n; k++) s.push(y0 / v.n);
+        for (let k = v.n; k < 12; k++) s.push((fy - y0) / (12 - v.n));
+        for (let k = 0; k < v.n; k++) s.push(y1 / v.n);
+        return s.slice(s.length - 12).reduce((t, x) => t + x, 0);
+      };
+      const e = near(roll(v.E, v.ytdE0, v.ytdE1), v.ebitda, 1e-9);
+      if (v.mode === 2) return e && near(v.ev / v.ebitda, v.ltmM, 1e-9);
+      return e && near(roll(v.R, v.ytdR0, v.ytdR1), v.ltmR, 1e-9);
+    }
+  });
+
+  // ---------------------------------------------------------------- Unlevered free cash flow
+  // Tax rates with an EBIT grid that keeps the tax charge to $0.1M: 25% on $2M steps, 24% and 26% on $5M, 21% on $10M.
+  const TAX = [[0.21, 10], [0.24, 5], [0.25, 2], [0.25, 2], [0.26, 5]];
+  Drills.add({
+    id: 'drill-ib-ufcf',
+    track: 'ib',
+    module: 'ib-dcf',
+    topic: 'Unlevered free cash flow',
+    level: 1,
+    ranges: { ufcf: [1, 4000], conversion: [0.15, 0.95] },
+    make(r) {
+      const mode = r.pick(['ebit', 'ebitda', 'ni', 'revenue']);
+      const [t, grid] = r.pick(TAX);
+      const tS = `[[${pct(t, 0)}]]`;
+      let ebit, da, capex, dn, tax, ebitda, ni = 0, interest = 0, atInt = 0, R0 = 0, R1 = 0, m = 0, d = 0, c = 0, w = 0;
+      if (mode === 'revenue') {
+        R0 = r.step(300, 5000, 10);
+        R1 = Math.round(R0 * (1 + r.step(0.03, 0.15, 0.01)) / 10) * 10;
+        m = r.step(0.15, 0.35, 0.01);
+        d = r.step(0.02, 0.05, 0.01);
+        c = rd(d + r.step(0, 0.02, 0.01), 2);
+        w = r.step(0.05, 0.2, 0.01);
+        ebitda = r1(m * R1); da = r1(d * R1); capex = r1(c * R1); dn = r1(w * (R1 - R0));
+        ebit = r1(ebitda - da);
+        // Taxes are shown to $0.1M, and the rest of the working continues from that figure.
+        tax = r1(ebit * t);
+      } else {
+        ebit = r.step(60, 1500, grid);
+        da = Math.round(ebit * r.step(0.15, 0.5, 0.01));
+        capex = Math.round(da * r.step(0.9, 1.6, 0.05));
+        dn = Math.max(1, Math.round(ebit * r.step(0.01, 0.12, 0.01))) * (r.chance(0.75) ? 1 : -1);
+        ebitda = ebit + da;
+        tax = r1(ebit * t);
+        if (mode === 'ni') {
+          interest = Math.max(grid, Math.round(ebit * r.step(0.08, 0.4, 0.01) / grid) * grid);
+          ni = r1((ebit - interest) * (1 - t));
+          atInt = r1(interest * (1 - t));
+        }
+      }
+      const nopat = r1(ebit - tax);
+      const ufcf = r1(nopat + da - capex - dn);
+      // Calculated figures share one number of decimals, so a column of them reads cleanly.
+      const dpW = Math.max(...[ebit, da, capex, dn, tax, nopat, ufcf, ebitda, ni, atInt].map(dpOf));
+      const F = (x) => millions(x, dpW);
+      const given = mode !== 'revenue';
+      const G = (x) => (given ? `[[${M(x)}]]` : F(x));
+      const nwcQ = `net working capital ${dn > 0 ? 'rises' : 'falls'} by [[${M(Math.abs(dn))}]]`;
+      const nwcStep = dn > 0 ? `Subtract the increase in net working capital: − ${G(dn)}` : `Add the decrease in net working capital: + ${G(-dn)}`;
+      const sum = `UFCF: ${F(nopat)} + ${G(da)} − ${G(capex)}${dn > 0 ? ` − ${G(dn)}` : ` + ${G(-dn)}`} = ${F(ufcf)}, ${pct(ufcf / ebitda, 0)} of EBITDA`;
+      const why0 = "Unlevered free cash flow is the cash the operations produce for every capital provider, lenders and shareholders alike, so it's measured before interest: tax is charged on EBIT as if the company had no debt, and the interest tax shield shows up in WACC instead. D&A comes back because it's a non-cash charge that already cut EBIT; its only cash effect is the tax it saved. Capex and a growing working-capital balance absorb cash, so they come off; a working-capital release adds cash.";
+      // Given inputs keep their own format in the answer; calculated ones use the shared decimals.
+      const I = (x) => (given ? M(x) : F(x));
+      const rest = dn > 0
+        ? `plus ${I(da)} of D&A, less ${I(capex)} of capex and the ${I(dn)} working-capital build`
+        : `plus ${I(da)} of D&A and the ${I(-dn)} working-capital release, less ${I(capex)} of capex`;
+      const restNi = dn > 0
+        ? `Add ${I(da)} of D&A, then subtract ${I(capex)} of capex and the ${I(dn)} working-capital build`
+        : `Add ${I(da)} of D&A and the ${I(-dn)} working-capital release, then subtract ${I(capex)} of capex`;
+      const nwcBar = { label: dn > 0 ? 'Increase in NWC' : 'Decrease in NWC', delta: -dn };
+      let q, a, steps, why = why0, start, wf;
+
+      if (mode === 'ni') {
+        q = `Net income is [[${M(ni)}]] after [[${M(interest)}]] of interest expense, at a ${tS} tax rate. D&A is [[${M(da)}]], capex [[${M(capex)}]], and ${nwcQ}. What's unlevered free cash flow?`;
+        steps = [
+          `After-tax interest: [[${M(interest)}]] × (1 − ${tS}) = ${F(atInt)}`,
+          `NOPAT: [[${M(ni)}]] + ${F(atInt)} = ${F(nopat)}, what the company would earn with no debt (EBIT of ${F(ebit)} × (1 − ${tS}))`,
+          `Add back D&A: + ${G(da)}; subtract capex: − ${G(capex)}`,
+          nwcStep,
+          sum
+        ];
+        a = `${F(ufcf)}. Net income plus ${F(atInt)} of after-tax interest is NOPAT of ${F(nopat)}. ${restNi}.`;
+        why = why0 + ' From net income, add back interest after tax: it belongs to the lenders.';
+        start = { label: 'Net income', value: ni };
+        wf = [{ label: 'After-tax interest', delta: atInt }, { label: 'NOPAT', subtotal: true }, { label: 'D&A', delta: da }, { label: 'Capex', delta: -capex }, nwcBar];
+      } else if (mode === 'revenue') {
+        q = `Revenue grows from [[${M(R0)}]] to [[${M(R1)}]]. EBITDA margin [[${pct(m, 0)}]]; D&A [[${pct(d, 0)}]] and capex [[${pct(c, 0)}]] of revenue; net working capital [[${pct(w, 0)}]] of revenue; tax rate ${tS}. What's this year's unlevered FCF?`;
+        steps = [
+          `EBITDA: [[${pct(m, 0)}]] × [[${M(R1)}]] = ${F(ebitda)}; D&A: [[${pct(d, 0)}]] × [[${M(R1)}]] = ${F(da)}; EBIT = ${F(ebit)}`,
+          `Taxes: ${F(ebit)} × ${tS} = ${F(tax)}, so NOPAT = ${F(nopat)}`,
+          `Capex: [[${pct(c, 0)}]] × [[${M(R1)}]] = ${F(capex)}`,
+          `Increase in NWC: [[${pct(w, 0)}]] × ([[${M(R1)}]] − [[${M(R0)}]]) = ${F(dn)}. Working capital grows with revenue`,
+          sum
+        ];
+        a = `${F(ufcf)}: NOPAT of ${F(nopat)} ${rest}.`;
+        why = why0 + ' In a projection, working capital scales with revenue, so growth itself uses cash.';
+        start = { label: 'EBITDA', value: ebitda };
+        wf = [{ label: 'D&A', delta: -da }, { label: 'EBIT', subtotal: true }, { label: 'Taxes', delta: -tax }, { label: 'D&A add-back', delta: da }, { label: 'Capex', delta: -capex }, nwcBar];
+      } else {
+        const fromEbitda = mode === 'ebitda';
+        q = fromEbitda
+          ? `EBITDA is [[${M(ebitda)}]], D&A [[${M(da)}]], capex [[${M(capex)}]] and the tax rate ${tS}, and ${nwcQ}. What's unlevered free cash flow?`
+          : `EBIT is [[${M(ebit)}]], the tax rate ${tS}, D&A [[${M(da)}]] and capex [[${M(capex)}]], and ${nwcQ}. What's unlevered free cash flow?`;
+        steps = (fromEbitda ? [`EBIT: [[${M(ebitda)}]] − [[${M(da)}]] = ${F(ebit)}`] : []).concat([
+          `Taxes on EBIT: ${fromEbitda ? F(ebit) : `[[${M(ebit)}]]`} × ${tS} = ${F(tax)}, so NOPAT = ${F(nopat)}`,
+          `Add back D&A: + ${G(da)}; subtract capex: − ${G(capex)}`,
+          nwcStep,
+          sum
+        ]);
+        a = `${F(ufcf)}: NOPAT of ${F(nopat)} ${rest}.`;
+        start = fromEbitda ? { label: 'EBITDA', value: ebitda } : { label: 'EBIT', value: ebit };
+        wf = (fromEbitda ? [{ label: 'D&A', delta: -da }, { label: 'EBIT', subtotal: true }] : [])
+          .concat([{ label: 'Taxes', delta: -tax }, { label: fromEbitda ? 'D&A add-back' : 'D&A', delta: da }, { label: 'Capex', delta: -capex }, nwcBar]);
+      }
+      return {
+        q, a, why, steps,
+        formula: 'UFCF = EBIT × (1 − tax rate) + D&A − capex − increase in NWC\nFrom net income: add back interest × (1 − tax rate) to reach NOPAT\nSame thing: EBITDA × (1 − tax rate) + D&A × tax rate − capex − increase in NWC',
+        visual: { kind: 'waterfall', unit: '$M', dp: dpW, start, steps: wf, end: { label: 'Unlevered FCF', value: ufcf } },
+        // Only the revenue form rounds a step (taxes to $0.1M), so only it needs a tolerance.
+        values: { ufcf, conversion: ufcf / ebitda, ebitda, da, capex, dn, t, ni, interest, R0, R1, m, d, c, w, mode, tol: mode === 'revenue' ? 0.05 + 1e-6 : 1e-6 }
+      };
+    },
+    // Second way: the tax-shield form, EBITDA × (1 − t) + D&A × t − capex − increase in NWC, built from the raw inputs
+    // (from net income, EBITDA is rebuilt as pre-tax income plus interest plus D&A).
+    check(p) {
+      const v = p.values;
+      let ebitda = v.ebitda, da = v.da, capex = v.capex, dn = v.dn;
+      if (v.mode === 'revenue') { ebitda = v.m * v.R1; da = v.d * v.R1; capex = v.c * v.R1; dn = v.w * (v.R1 - v.R0); }
+      if (v.mode === 'ni') ebitda = v.ni / (1 - v.t) + v.interest + v.da;
+      const exact = ebitda * (1 - v.t) + da * v.t - capex - dn;
+      return Math.abs(exact - v.ufcf) <= v.tol && v.ufcf > 0;
+    }
+  });
+
+  // The PV of a terminal value, discounted N years with an exact power, against the drill's figure (factor shown to
+  // four decimals, PV to $1M): the gap is at most $0.5M plus the factor's rounding.
+  const pvOk = (v) => {
+    const pow = Math.pow(1 + v.W, v.N);
+    return Math.abs(v.pvTV - v.tv / pow) <= 0.5 + v.tv * 5e-5 / (v.fac * pow) + 1e-6;
+  };
+
+  // ---------------------------------------------------------------- Gordon growth terminal value
+  Drills.add({
+    id: 'drill-ib-tv-gordon',
+    track: 'ib',
+    module: 'ib-dcf',
+    topic: 'Gordon growth terminal value',
+    level: 2,
+    ranges: { tv: [150, 80000], multiple: [3, 30] },
+    make(r) {
+      const mode = r.pick(['peers', 'peers', 'pv']);
+      const W = r.step(0.075, 0.115, 0.0025);
+      const g = r.step(0.015, Math.min(0.035, Math.floor((W - 0.045) / 0.005 + 1e-9) * 0.005), 0.005);
+      const fcf = r.step(40, 1500, 1);
+      const ebitda = Math.round(fcf / r.step(0.4, 0.65, 0.01) / 5) * 5;
+      // Each figure is shown rounded (next year's FCF to $0.1M, TV to $1M) and the next step works from it.
+      const pipe = (w, gg) => {
+        const f1 = r1(fcf * (1 + gg));
+        const tv = rd(f1 / (w - gg), 0);
+        return { f1, tv, m: tv / ebitda };
+      };
+      const base = pipe(W, g);
+      const { f1, tv } = base;
+      const im = base.m;
+      const WS = `[[${rate(W)}]]`, gS = `[[${rate(g)}]]`, fS = `[[${M(fcf)}]]`, eS = `[[${M(ebitda)}]]`;
+      const tvSteps = [
+        `Next year's FCF: ${fS} × (1 + ${gS}) = ${M(f1)}. The formula needs the perpetuity's first cash flow, not the last forecast year's`,
+        `Terminal value: ${M(f1)} ÷ (${WS} − ${gS}) = ${M(f1)} ÷ ${rate(W - g)} = ${M(tv)}`,
+        `Implied exit multiple: ${M(tv)} ÷ ${eS} = ${mult(im, 1)} final-year EBITDA`
+      ];
+      const hi = pipe(W, g + 0.005);
+      const why = "The Gordon growth model treats every cash flow after the forecast as a perpetuity growing at a constant rate, so it takes the first cash flow of that perpetuity (next year's) and divides by WACC minus growth. The growth rate has to be one the business can sustain forever, so it's usually kept at or below long-run nominal growth in the economy. Because value rests on the gap between WACC and growth, small changes in either swing the answer. Converting the result into an EBITDA multiple is the sanity check: it should look like what similar companies trade at.";
+      const formula = 'Terminal value = final-year FCF × (1 + g) ÷ (WACC − g)\nImplied exit multiple = terminal value ÷ final-year EBITDA\nPV of terminal value = terminal value ÷ (1 + WACC)^N';
+
+      if (mode === 'pv') {
+        const N = r.pick([5, 5, 6, 7]);
+        const gf = r.step(0.04, 0.1, 0.01);
+        let raw = 0;
+        for (let k = 1; k <= N; k++) raw += fcf / Math.pow(1 + gf, N - k) / Math.pow(1 + W, k);
+        const pvSum = Math.round(raw / 5) * 5;
+        const fac = rd(Math.pow(1 + W, N), 4);
+        const pvTV = rd(tv / fac, 0);
+        const ev = pvSum + pvTV;
+        const share = pvTV / ev;
+        return {
+          q: `Year-[[${N}]] unlevered FCF is ${fS} and EBITDA ${eS}; the PV of years 1–${N} FCF is [[${M(pvSum)}]]. WACC ${WS}, perpetual growth ${gS}, year-end discounting. What are the terminal value, EV and the terminal value's share of EV?`,
+          a: `Terminal value ${M(tv)} (${mult(im, 1)} EBITDA), worth ${M(pvTV)} today. EV is ${M(ev)}, and the terminal value is ${pct(share, 0)} of it.`,
+          why, formula,
+          steps: tvSteps.concat([
+            `Discount it [[${N}]] years: (1 + ${WS})^${N} = ${num(fac, 4)}, so ${M(tv)} ÷ ${num(fac, 4)} = ${M(pvTV)}`,
+            `EV: [[${M(pvSum)}]] + ${M(pvTV)} = ${M(ev)}`,
+            `Terminal value share: ${M(pvTV)} ÷ ${M(ev)} = ${pct(share, 1)}. That's typical, and why the growth rate and WACC deserve the most scrutiny`
+          ]),
+          visual: { kind: 'stack', unit: '$M', dp: 0, caption: `Enterprise value of ${M(ev)}`, items: [
+            { label: `PV of years 1–${N} FCF`, value: pvSum },
+            { label: 'PV of terminal value', value: pvTV, highlight: true }
+          ] },
+          values: { mode: 2, tv, multiple: im, f1, fcf, ebitda, W, g, N, fac, pvTV, pvSum, ev, share }
+        };
+      }
+
+      const pm = Math.max(6, Math.round(im * r.step(0.75, 1.25, 0.05) * 2) / 2);
+      const lo = pm - 1, hi2 = pm + 1;
+      const shownM = rd(im, 1);
+      const where = shownM < lo ? 'below' : shownM > hi2 ? 'above' : 'inside';
+      const verdict = where === 'inside' ? `Inside the [[${mult(lo, 1)}]]–[[${mult(hi2, 1)}]] peer range, so the growth rate and WACC hang together`
+        : where === 'below' ? `Below the [[${mult(lo, 1)}]]–[[${mult(hi2, 1)}]] peer range: the ${gS} growth rate looks conservative, or WACC high`
+          : `Above the [[${mult(lo, 1)}]]–[[${mult(hi2, 1)}]] peer range: the ${gS} growth rate looks aggressive, or WACC low`;
+      const cols = [g - 0.005, g, g + 0.005];
+      const rows = [W - 0.005, W, W + 0.005].map((w) => [w === W ? `[[${rate(w)}]]` : rate(w)].concat(cols.map((gg) => mult(pipe(w, gg).m, 1))));
+      return {
+        q: `Final-year unlevered FCF is ${fS} and EBITDA ${eS}. WACC ${WS}, perpetual growth ${gS}. What's the Gordon growth terminal value, and what exit multiple does it imply? Peers trade at [[${mult(lo, 1)}]] to [[${mult(hi2, 1)}]] EBITDA.`,
+        a: `${M(tv)}, which implies ${an(mult(im, 1))} ${mult(im, 1)} exit multiple: ${where === 'inside' ? 'inside the peer range, so the assumptions look consistent' : where === 'below' ? 'below the peer range, so the growth rate looks conservative' : 'above the peer range, so the growth rate looks aggressive'}.`,
+        why, formula,
+        steps: tvSteps.concat([
+          verdict,
+          `Sensitivity: at ${rate(g + 0.005)} growth the terminal value is ${M(hi.tv)}, ${pct(hi.tv / tv - 1, 0)} higher, because the gap WACC − g shrinks`
+        ]),
+        visual: { kind: 'table', headers: ['WACC', `g ${rate(cols[0])}`, `g ${rate(cols[1])}`, `g ${rate(cols[2])}`], rows,
+          caption: 'Implied exit multiple of final-year EBITDA; the given case is the middle cell' },
+        values: { mode: 1, tv, multiple: im, f1, fcf, ebitda, W, g, lo, hi: hi2, where }
+      };
+    },
+    // Second way: add up the growing perpetuity year by year (2,000 years is plenty) and compare with the formula;
+    // then multiply the implied multiple back to the terminal value.
+    check(p) {
+      const v = p.values;
+      let sum = 0, cf = v.f1;
+      for (let k = 1; k <= 2000; k++) { sum += cf / Math.pow(1 + v.W, k); cf *= 1 + v.g; }
+      const ok = Math.abs(sum - v.tv) <= 0.5 + 1e-6 * v.tv && near(v.multiple * v.ebitda, v.tv, 1e-9) && Math.abs(v.f1 - v.fcf * (1 + v.g)) <= 0.05 + 1e-9;
+      if (v.mode === 2) return ok && near(v.pvSum + v.pvTV, v.ev, 1e-9) && pvOk(v) && near(v.pvTV / v.ev, v.share, 1e-9);
+      const m = rd(v.multiple, 1);
+      return ok && v.where === (m < v.lo ? 'below' : m > v.hi ? 'above' : 'inside');
+    }
+  });
+
+  // ---------------------------------------------------------------- Exit-multiple terminal value
+  Drills.add({
+    id: 'drill-ib-tv-exit',
+    track: 'ib',
+    module: 'ib-dcf',
+    topic: 'Exit-multiple terminal value',
+    level: 2,
+    ranges: { tv: [300, 80000], g: [-0.03, 0.08] },
+    make(r) {
+      const mode = r.pick(['basic', 'basic', 'pv']);
+      const W = r.step(0.075, 0.115, 0.0025);
+      const ebitda = r.step(80, 2500, 5);
+      const fcf = Math.round(ebitda * r.step(0.38, 0.62, 0.01));
+      // Pick a growth rate first, then round the multiple it implies to 0.5x, so the multiples look like real ones.
+      const g0 = r.step(0.005, 0.05, 0.005);
+      const m = Math.min(16, Math.max(5, Math.round(fcf * (1 + g0) / (W - g0) / ebitda * 2) / 2));
+      // Shown figures: TV to $0.1M and TV × WACC to $0.1M; the implied growth works from them.
+      const pipe = (mm) => {
+        const tv = r1(mm * ebitda);
+        const top = r1(tv * W);
+        return { tv, top, g: (top - fcf) / (tv + fcf) };
+      };
+      const { tv, top, g } = pipe(m);
+      const dpW = Math.max(dpOf(tv), dpOf(top));
+      const F = (x) => millions(x, dpW);
+      const mS = `[[${mult(m, 1)}]]`, WS = `[[${rate(W)}]]`, eS = `[[${M(ebitda)}]]`, fS = `[[${M(fcf)}]]`;
+      // Judge the rate as shown, to one decimal.
+      const gShown = rd(g, 3);
+      const band = gShown < 0 ? 'negative' : gShown < 0.015 ? 'low' : gShown <= 0.035 ? 'plausible' : 'high';
+      const verdict = {
+        negative: `That implies cash flow shrinking forever, so the ${mS} multiple looks too low for a going concern (or WACC too high)`,
+        low: `That's very little growth for a business that keeps going, so the ${mS} multiple looks conservative (or WACC high)`,
+        plausible: `That's a plausible perpetual rate: models typically use low single digits, at or below long-run growth in the economy`,
+        high: `That's more than most businesses can sustain forever (models rarely go much above 3–4%), so the ${mS} multiple looks rich`
+      }[band];
+      const short = {
+        negative: 'cash flow shrinking forever, so the multiple looks too low',
+        low: 'low, so the multiple looks conservative',
+        plausible: 'a plausible long-run rate',
+        high: 'aggressive, so the multiple may be too rich'
+      }[band];
+      const tvStep = `Terminal value: ${mS} × ${eS} = ${F(tv)}`;
+      const gStep = `Implied growth: (${F(tv)} × ${WS} − ${fS}) ÷ (${F(tv)} + ${fS}) = (${F(top)} − ${fS}) ÷ ${F(tv + fcf)} = ${pct(g, 1)}`;
+      const why = "An exit multiple values the business as if it were sold at the end of the forecast at a multiple similar companies trade at today. It's market-based and easy to explain, but it imports today's pricing into a year far in the future. The cross-check is to ask what perpetual growth rate the same terminal value implies: solve the Gordon formula, TV = FCF × (1 + g) ÷ (WACC − g), for g. If the answer is above long-run growth in the economy, the multiple is too rich; if it's near zero or negative, it may be too low.";
+      const formula = 'Terminal value = final-year EBITDA × exit multiple\nImplied growth = (TV × WACC − final-year FCF) ÷ (TV + final-year FCF)\nPV of terminal value = TV ÷ (1 + WACC)^N, from the end of year N';
+
+      if (mode === 'pv') {
+        const N = r.pick([5, 5, 6, 7]);
+        const gf = r.step(0.04, 0.1, 0.01);
+        let raw = 0;
+        for (let k = 1; k <= N; k++) raw += fcf / Math.pow(1 + gf, N - k) / Math.pow(1 + W, k);
+        const pvSum = Math.round(raw / 5) * 5;
+        const fac = rd(Math.pow(1 + W, N), 4);
+        const pvTV = rd(tv / fac, 0);
+        const ev = pvSum + pvTV;
+        const share = pvTV / ev;
+        return {
+          q: `Year-[[${N}]] EBITDA is ${eS} and unlevered FCF ${fS}; the PV of years 1–${N} FCF is [[${M(pvSum)}]]. Exit multiple ${mS}, WACC ${WS}. What's EV, how much of it is terminal value, and what growth rate does the multiple imply?`,
+          a: `EV is ${M(ev)}, ${pct(share, 0)} of it from the terminal value (${M(tv)} at exit, ${M(pvTV)} today). The multiple implies ${pct(g, 1)} perpetual growth: ${short}.`,
+          why, formula,
+          steps: [
+            tvStep,
+            `Discount it [[${N}]] full years: (1 + ${WS})^${N} = ${num(fac, 4)}, so ${F(tv)} ÷ ${num(fac, 4)} = ${M(pvTV)}. An exit is a sale at the end of year ${N}, so it's discounted from year-end even under the mid-year convention`,
+            `EV: [[${M(pvSum)}]] + ${M(pvTV)} = ${M(ev)}; terminal value share ${M(pvTV)} ÷ ${M(ev)} = ${pct(share, 1)}`,
+            gStep,
+            verdict
+          ],
+          visual: { kind: 'stack', unit: '$M', dp: 0, caption: `Enterprise value of ${M(ev)}`, items: [
+            { label: `PV of years 1–${N} FCF`, value: pvSum },
+            { label: 'PV of terminal value', value: pvTV, highlight: true }
+          ] },
+          values: { mode: 2, tv, g, m, W, fcf, ebitda, top, N, fac, pvTV, pvSum, ev, share }
+        };
+      }
+
+      const rows = [m - 1, m, m + 1].map((mm) => {
+        const x = pipe(mm);
+        return [mm === m ? mS : mult(mm, 1), F(x.tv), pct(x.g, 1)];
+      });
+      return {
+        q: `Final-year EBITDA is ${eS} and unlevered FCF ${fS}. At ${an(mult(m, 1))} ${mS} exit multiple and ${an(rate(W))} ${WS} WACC, what's the terminal value, and what perpetual growth rate does it imply?`,
+        a: `${M(tv)}. It implies ${pct(g, 1)} perpetual growth: ${short}.`,
+        why, formula,
+        steps: [
+          tvStep,
+          gStep,
+          'That formula is the Gordon model, TV = FCF × (1 + g) ÷ (WACC − g), solved for g',
+          verdict
+        ],
+        visual: { kind: 'table', headers: ['Exit multiple', 'Terminal value', 'Implied growth'], rows, caption: `At ${an(rate(W))} ${rate(W)} WACC; each turn of multiple moves the implied growth rate` },
+        values: { mode: 1, tv, g, m, W, fcf, ebitda, top }
+      };
+    },
+    // Second way: put the implied growth back into the Gordon formula; it must rebuild the terminal value.
+    check(p) {
+      const v = p.values;
+      const gx = (v.tv * v.W - v.fcf) / (v.tv + v.fcf);
+      const ok = near(v.fcf * (1 + gx) / (v.W - gx), v.tv, 1e-9) && Math.abs(v.g - gx) <= 0.05 / (v.tv + v.fcf) + 1e-12 && near(v.tv, v.m * v.ebitda, 1e-9);
+      if (v.mode === 2) return ok && near(v.pvSum + v.pvTV, v.ev, 1e-9) && pvOk(v);
+      return ok;
+    }
+  });
+
+  // ---------------------------------------------------------------- Discount factors and the mid-year convention
+  Drills.add({
+    id: 'drill-ib-discount',
+    track: 'ib',
+    module: 'ib-dcf',
+    topic: 'Mid-year convention',
+    level: 2,
+    ranges: { pv: [50, 40000], lift: [0.03, 0.065] },
+    make(r) {
+      const mode = r.pick(['compare', 'compare', 'tv']);
+      const W = r.step(0.075, 0.12, 0.0025);
+      const N = r.pick([3, 4, 5]);
+      const f0 = r.step(40, 600, 1);
+      const gf = r.step(0.03, 0.12, 0.01);
+      const fcfs = [];
+      for (let t = 1; t <= N; t++) fcfs.push(Math.round(f0 * Math.pow(1 + gf, t - 1)));
+      // Factors to four decimals and PVs to $0.1M, the way a model's output would show them.
+      const dfMid = (t) => rd(1 / Math.pow(1 + W, t - 0.5), 4);
+      const dfEnd = (t) => rd(1 / Math.pow(1 + W, t), 4);
+      const pvMid = fcfs.map((f, i) => r1(f * dfMid(i + 1)));
+      const pvEnd = fcfs.map((f, i) => r1(f * dfEnd(i + 1)));
+      const sMid = r1(pvMid.reduce((s, x) => s + x, 0));
+      const sEnd = r1(pvEnd.reduce((s, x) => s + x, 0));
+      const lift = sMid / sEnd - 1;
+      const WS = `[[${rate(W)}]]`;
+      const fS = fcfs.map((f) => `[[${M(f)}]]`);
+      const list = `${fS.slice(0, -1).join(', ')} and ${fS[N - 1]}`;
+      const half = rd(Math.sqrt(1 + W), 4);
+      const why = "Discounting assumes each year's cash arrives on a single date. Year-end discounting puts it all on the last day of the year, but a business collects cash all year, so the mid-year convention discounts each year's cash flow from the middle of the year: 0.5, 1.5, 2.5 years and so on. Every cash flow moves half a year closer, so the PV rises by the same factor, (1 + WACC)^0.5, roughly half of WACC. An exit-multiple terminal value is a sale at the end of the final year, so it keeps year-end discounting.";
+      const formula = 'Year-end factor = 1 ÷ (1 + WACC)^t\nMid-year factor = 1 ÷ (1 + WACC)^(t − 0.5)\nPV = Σ cash flow × discount factor';
+      const P = (x) => millions(x, 1);
+      const yearStep = (i, withEnd) => `Year ${i + 1}: ${fS[i]} × ${num(dfMid(i + 1), 4)} = ${P(pvMid[i])}` + (withEnd ? ` (year-end: × ${num(dfEnd(i + 1), 4)} = ${P(pvEnd[i])})` : '');
+      const periods = Array.from({ length: N }, (_, i) => dec(i + 0.5, 1)).join(', ');
+
+      if (mode === 'tv') {
+        const tv = Math.round(fcfs[N - 1] * r.step(12, 22, 0.5) / 10) * 10;
+        const dN = dfEnd(N);
+        const pvTV = r1(tv * dN);
+        const ev = r1(sMid + pvTV);
+        return {
+          q: `Unlevered FCF is ${list} in years 1–${N}, and the exit-multiple terminal value is [[${M(tv)}]] at the end of year ${N}. WACC is ${WS}. Using the mid-year convention for the cash flows, what's enterprise value?`,
+          a: `${P(ev)}: ${P(sMid)} from the cash flows, discounted from mid-year, plus ${P(pvTV)} for the terminal value, discounted from the end of year ${N}.`,
+          why, formula,
+          steps: [`Mid-year factors: 1 ÷ (1 + ${WS})^t for t = ${periods} years`]
+            .concat(fcfs.map((f, i) => yearStep(i, false)))
+            .concat([
+              `Cash flows: ${pvMid.map(P).join(' + ')} = ${P(sMid)}`,
+              `Terminal value: [[${M(tv)}]] × 1 ÷ (1 + ${WS})^${N} = [[${M(tv)}]] × ${num(dN, 4)} = ${P(pvTV)}. It's a sale price at the end of year ${N}, so it's discounted the full ${N} years`,
+              `EV: ${P(sMid)} + ${P(pvTV)} = ${P(ev)}`,
+              `A Gordon growth terminal value built on mid-year cash flows is often discounted ${dec(N - 0.5, 1)} years instead; practice varies, so check the model`
+            ]),
+          visual: { kind: 'table', headers: ['Year', 'Cash flow', 'Periods', 'Factor', 'PV'], rows: fcfs.map((f, i) => [String(i + 1), fS[i], dec(i + 0.5, 1), num(dfMid(i + 1), 4), P(pvMid[i])])
+            .concat([['TV', `[[${M(tv)}]]`, String(N), num(dN, 4), P(pvTV)], ['EV', '', '', '', P(ev)]]) },
+          values: { mode: 2, pv: sMid, sEnd, lift, W, fcfs, tv, pvTV, ev, N }
+        };
+      }
+
+      return {
+        q: `Unlevered FCF is ${list} in years 1–${N}. WACC is ${WS}. What's the present value with the mid-year convention, and how much higher is it than with year-end discounting?`,
+        a: `${P(sMid)} with the mid-year convention, ${pct(lift, 1)} more than the ${P(sEnd)} from year-end discounting, because each cash flow arrives half a year sooner.`,
+        why, formula,
+        steps: [`Mid-year factors: 1 ÷ (1 + ${WS})^t for t = ${periods}; year-end factors use t = ${Array.from({ length: N }, (_, i) => i + 1).join(', ')}`]
+          .concat(fcfs.map((f, i) => yearStep(i, true)))
+          .concat([
+            `Mid-year PV: ${pvMid.map(P).join(' + ')} = ${P(sMid)}`,
+            `Year-end PV: ${pvEnd.map(P).join(' + ')} = ${P(sEnd)}`,
+            `Difference: ${P(sMid)} ÷ ${P(sEnd)} − 1 = ${pct(lift, 1)}. Every flow moves half a year closer, so the ratio is (1 + ${WS})^0.5 = ${num(half, 4)} for any cash flows`
+          ]),
+        visual: { kind: 'table', headers: ['Year', 'FCF', 'PV mid-year', 'PV year-end'], rows: fcfs.map((f, i) => [String(i + 1), fS[i], P(pvMid[i]), P(pvEnd[i])])
+          .concat([['Total', M(fcfs.reduce((s, x) => s + x, 0)), P(sMid), P(sEnd)]]) },
+        values: { mode: 1, pv: sMid, sEnd, lift, W, fcfs, tv: 0, pvTV: 0, ev: 0, N }
+      };
+    },
+    // Second way: discount year-end with Drills.npv, then scale by (1 + WACC)^0.5 for the mid-year view.
+    // Factors to four decimals and PVs to $0.1M leave a small, bounded rounding gap.
+    check(p) {
+      const v = p.values;
+      const yearEnd = Drills.npv(v.W, [0].concat(v.fcfs));
+      const tol = v.fcfs.reduce((s, f) => s + 0.05 + f * 5e-5, 0.05);
+      const ok = Math.abs(yearEnd * Math.sqrt(1 + v.W) - v.pv) <= tol && Math.abs(yearEnd - v.sEnd) <= tol;
+      if (v.mode === 2) return ok && Math.abs(v.pvTV - v.tv / Math.pow(1 + v.W, v.N)) <= 0.05 + v.tv * 5e-5 && near(v.pv + v.pvTV, v.ev, 1e-9);
+      return ok;
+    }
+  });
+
+  // ---------------------------------------------------------------- CAPM cost of equity
+  Drills.add({
+    id: 'drill-ib-capm',
+    track: 'ib',
+    module: 'ib-wacc',
+    topic: 'CAPM cost of equity',
+    level: 1,
+    ranges: { ke: [0.05, 0.22] },
+    make(r) {
+      const mode = r.pick(['basic', 'basic', 'market', 'size']);
+      const rf = r.step(0.03, 0.05, 0.0025);
+      const erp = r.step(0.045, 0.065, 0.0025);
+      const beta = r.step(0.6, 1.8, 0.05);
+      const size = mode === 'size' ? r.step(0.01, 0.035, 0.0025) : 0;
+      const rm = rd(rf + erp, 4);
+      // Beta × ERP is shown to 0.01%, and the cost of equity adds up from the figures shown.
+      const prem = rd(beta * erp, 4);
+      const ke = rd(rf + prem + size, 4);
+      const rfS = `[[${rate(rf)}]]`, erpS = `[[${rate(erp)}]]`, bS = `[[${num(beta, 2)}]]`, sizeS = `[[${rate(size)}]]`;
+      const steps = [];
+      let q;
+      if (mode === 'market') {
+        q = `The risk-free rate is ${rfS} and the market is expected to return [[${rate(rm)}]]. A stock's beta is ${bS}. What's its cost of equity under CAPM?`;
+        steps.push(`Equity risk premium: [[${rate(rm)}]] − ${rfS} = ${rate(erp)}. CAPM needs the market's return above the risk-free rate, not the market return itself`);
+      } else if (mode === 'size') {
+        q = `A small company's beta, from its peers, is ${bS}. Risk-free rate ${rfS}, equity risk premium ${erpS}, and you add ${an(rate(size))} ${sizeS} size premium. What's its cost of equity?`;
+      } else {
+        q = `A company's levered beta is ${bS}. With ${an(rate(rf))} ${rfS} risk-free rate and ${an(rate(erp))} ${erpS} equity risk premium, what's its cost of equity under CAPM?`;
+      }
+      const erpIn = mode === 'market' ? rate(erp) : erpS;
+      steps.push(`Beta × equity risk premium: ${bS} × ${erpIn} = ${pct(prem, 2)}`);
+      steps.push(`Cost of equity: ${rfS} + ${pct(prem, 2)}${size ? ` + ${sizeS}` : ''} = ${pct(ke, 2)}`);
+      steps.push(`Each 0.1 of beta moves it by 0.1 × ${rate(erp)} = ${dec(erp * 10, 3)} percentage points; a beta of ${num(beta, 2)} ${beta > 1 ? 'means the stock swings more than the market, so it needs more than the market premium' : beta < 1 ? 'means the stock swings less than the market, so it needs less than the market premium' : 'earns exactly the market premium'}`);
+      return {
+        q,
+        a: `${pct(ke, 2)}: the ${rate(rf)} risk-free rate plus ${num(beta, 2)} × the ${rate(erp)} equity risk premium (${pct(prem, 2)})${size ? `, plus ${an(rate(size))} ${rate(size)} size premium` : ''}.`,
+        why: "CAPM prices only the risk a diversified investor can't diversify away: how much the stock moves with the market, measured by beta. Start from the risk-free rate and add beta times the equity risk premium, the extra return the market as a whole is expected to earn over risk-free. A beta of 1.0 earns exactly the market premium; above 1.0, more. Practice varies on every input: which government bond sets the risk-free rate, how the premium is estimated, and whether to add size or country premiums for small or emerging-market companies.",
+        formula: 'Cost of equity = risk-free rate + beta × equity risk premium (+ any size or country premium)\nEquity risk premium = expected market return − risk-free rate',
+        steps,
+        visual: { kind: 'waterfall', unit: '%', dp: 2, start: { label: 'Risk-free rate', value: rd(rf * 100, 2) },
+          steps: [{ label: `Beta × ERP (${num(beta, 2)} × ${rate(erp)})`, delta: rd(prem * 100, 2) }].concat(size ? [{ label: 'Size premium', delta: rd(size * 100, 2) }] : []),
+          end: { label: 'Cost of equity', value: rd(ke * 100, 2) } },
+        values: { ke, rf, beta, erp, size, rm, prem }
+      };
+    },
+    // Second way: the security market line, cost of equity = (1 − beta) × risk-free + beta × market return (+ size premium).
+    check(p) {
+      const v = p.values;
+      return Math.abs((1 - v.beta) * v.rf + v.beta * v.rm + v.size - v.ke) <= 5e-5 + 1e-12;
+    }
+  });
+
+  // ---------------------------------------------------------------- WACC
+  Drills.add({
+    id: 'drill-ib-wacc',
+    track: 'ib',
+    module: 'ib-wacc',
+    topic: 'WACC',
+    level: 2,
+    ranges: { wacc: [0.045, 0.15], wE: [0.25, 0.95] },
+    make(r) {
+      const mode = r.pick(['given', 'capm', 'capm', 'pref', 'target']);
+      const t = r.pick([0.21, 0.25, 0.25, 0.26]);
+      const tS = `[[${pct(t, 0)}]]`;
+      let ke, rf = 0, beta = 0, erp = 0, prem = 0;
+      if (mode === 'capm') {
+        rf = r.step(0.03, 0.05, 0.0025);
+        beta = r.step(0.7, 1.6, 0.05);
+        erp = r.step(0.045, 0.065, 0.0025);
+        prem = rd(beta * erp, 4);
+        ke = rd(rf + prem, 4);
+      } else {
+        ke = r.step(0.085, 0.14, 0.0025);
+      }
+      // Debt costs less than equity: keep the pre-tax yield at least 2 points below the cost of equity.
+      const kd = r.step(0.045, Math.max(0.045, Math.min(0.09, Math.floor((ke - 0.02) / 0.0025 + 1e-9) * 0.0025)), 0.0025);
+      const kdat = rd(kd * (1 - t), 4);
+      let E = 0, D = 0, P = 0, kp = 0, price = 0, shares = 0, de = 0, wD, wP = 0;
+      if (mode === 'target') {
+        de = r.pick([0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1]);
+        wD = rd(de / (1 + de), 3);
+      } else {
+        if (mode === 'pref') {
+          E = r.step(800, 30000, 10);
+        } else {
+          price = r.int(1500, 15000) / 100;
+          shares = r.step(20, 800, 0.1);
+          E = rd(price * shares, 0);
+        }
+        D = Math.max(10, Math.round(E * r.step(0.1, 0.9, 0.01) / 10) * 10);
+        if (mode === 'pref') {
+          P = Math.max(10, Math.round(E * r.step(0.03, 0.12, 0.01) / 10) * 10);
+          kp = r.step(Math.max(kdat + 0.005, 0.055), ke - 0.005, 0.0025);
+          kp = rd(Math.ceil(kp / 0.0025 - 1e-9) * 0.0025, 4);
+        }
+        const V = E + D + P;
+        wD = rd(D / V, 3);
+        wP = rd(P / V, 3);
+      }
+      const wE = rd(1 - wD - wP, 3);
+      const cE = rd(wE * ke, 4), cD = rd(wD * kdat, 4), cP = rd(wP * kp, 4);
+      const wacc = rd(cE + cD + cP, 4);
+      const V = E + D + P;
+      const w1 = (x) => pct(x, 1), p2 = (x) => pct(x, 2);
+      const keS = mode === 'capm' ? p2(ke) : `[[${rate(ke)}]]`;
+      const steps = [];
+      let q;
+      if (mode === 'target') {
+        q = `The company targets [[${pct(de, 0)}]] debt to equity. Cost of equity [[${rate(ke)}]], pre-tax cost of debt [[${rate(kd)}]], tax rate ${tS}. What's WACC?`;
+        steps.push(`Weights from D/E: debt [[${pct(de, 0)}]] ÷ (1 + [[${pct(de, 0)}]]) = ${w1(wD)} of capital, equity ${w1(wE)}. A D/E of ${pct(de, 0)} doesn't mean ${pct(de, 0)} debt`);
+      } else if (mode === 'pref') {
+        q = `Equity value [[${M(E)}]], debt [[${M(D)}]] yielding [[${rate(kd)}]] pre-tax, preferred stock [[${M(P)}]] costing [[${rate(kp)}]], tax rate ${tS}, cost of equity [[${rate(ke)}]]. What's WACC?`;
+        steps.push(`Total capital: [[${M(E)}]] + [[${M(D)}]] + [[${M(P)}]] = ${M(V)}; weights: equity ${w1(wE)}, debt ${w1(wD)}, preferred ${w1(wP)}`);
+      } else {
+        const capm = mode === 'capm' ? ` Risk-free rate [[${rate(rf)}]], beta [[${num(beta, 2)}]], equity risk premium [[${rate(erp)}]].` : ` Cost of equity [[${rate(ke)}]].`;
+        q = `Share price [[${dollars(price, 2)}]], [[${num(shares, 1)}M]] diluted shares, [[${M(D)}]] of debt (market value) yielding [[${rate(kd)}]] pre-tax, tax rate ${tS}.${capm} What's WACC?`;
+        steps.push(`Equity value: [[${dollars(price, 2)}]] × [[${num(shares, 1)}M]] = ${M(E)}; total capital ${M(E)} + [[${M(D)}]] = ${M(V)}`);
+        steps.push(`Weights: equity ${M(E)} ÷ ${M(V)} = ${w1(wE)}, debt ${w1(wD)}`);
+        if (mode === 'capm') steps.push(`Cost of equity: [[${rate(rf)}]] + [[${num(beta, 2)}]] × [[${rate(erp)}]] = [[${rate(rf)}]] + ${p2(prem)} = ${p2(ke)}`);
+      }
+      steps.push(`After-tax cost of debt: [[${rate(kd)}]] × (1 − ${tS}) = ${p2(kdat)}`);
+      if (P) steps.push(`Preferred costs its full [[${rate(kp)}]]: its dividends aren't tax-deductible`);
+      steps.push(`WACC: ${w1(wE)} × ${keS} + ${w1(wD)} × ${p2(kdat)}${P ? ` + ${w1(wP)} × [[${rate(kp)}]]` : ''} = ${p2(cE)} + ${p2(cD)}${P ? ` + ${p2(cP)}` : ''} = ${p2(wacc)}`);
+      const rows = [['Equity', w1(wE), keS, p2(cE)], ['Debt, after tax', w1(wD), p2(kdat), p2(cD)]];
+      if (P) rows.push(['Preferred', w1(wP), `[[${rate(kp)}]]`, p2(cP)]);
+      rows.push(['WACC', '100.0%', '', p2(wacc)]);
+      return {
+        q,
+        a: `${p2(wacc)}: ${w1(wE)} equity at ${p2(ke)} and ${w1(wD)} debt at ${p2(kdat)} after tax${P ? `, plus ${w1(wP)} preferred at ${rate(kp)}` : ''}.`,
+        why: "WACC is the return the business must earn to satisfy all its capital providers at once, so each source's cost is weighted by its share of capital at market value: what investors could sell their stakes for today, not book value. Debt enters after tax because interest is deductible, which makes it the cheapest source; equity costs the most because it's paid last and absorbs the swings. Adding debt lowers WACC at first, until rising default risk pushes up the cost of both debt and equity.",
+        formula: 'WACC = E ÷ V × cost of equity + D ÷ V × pre-tax cost of debt × (1 − tax rate) (+ P ÷ V × cost of preferred)\nV = E + D (+ P), at market values\nFrom a D/E ratio: D ÷ V = D/E ÷ (1 + D/E)',
+        steps,
+        visual: { kind: 'table', headers: ['Source', 'Weight', 'Cost', 'Contribution'], rows },
+        values: { wacc, wE, wD, wP, ke, kd, kdat, kp, t, E, D, P, de, mode }
+      };
+    },
+    // Second way: the dollar cost of capital. Each source's market value times its cost, summed and divided by total
+    // capital (for a target D/E, per $1 of equity), with unrounded weights. Rounding the weights to 0.1% and the costs
+    // to 0.01% leaves a small gap.
+    check(p) {
+      const v = p.values;
+      const E = v.mode === 'target' ? 1 : v.E, D = v.mode === 'target' ? v.de : v.D, P = v.P;
+      const dollar = (E * v.ke + D * v.kd * (1 - v.t) + P * v.kp) / (E + D + P);
+      return Math.abs(dollar - v.wacc) <= 4e-4 && v.wacc < v.ke && v.wacc > v.kdat && near(v.wE + v.wD + v.wP, 1, 1e-9);
+    }
+  });
+
+  // ---------------------------------------------------------------- Unlevering and relevering beta
+  Drills.add({
+    id: 'drill-ib-beta',
+    track: 'ib',
+    module: 'ib-wacc',
+    topic: 'Unlevering and relevering beta',
+    level: 2,
+    ranges: { betaL: [0.4, 3], betaU: [0.3, 1.8] },
+    make(r) {
+      const mode = r.pick(['peers', 'peers', 'recap', 'capital']);
+      const t = r.pick([0.21, 0.25, 0.25]);
+      const tS = `[[${pct(t, 0)}]]`;
+      const keep = dec(1 - t, 2);
+      // 1 + (1 − t) × D/E, shown with the decimals it needs (1.30, 1.2765).
+      const fac = (de) => rd(1 + (1 - t) * de, 4);
+      const fs = (x) => num(x, [2, 3, 4].find((dp) => Math.abs(x - rd(x, dp)) < 1e-9) || 4);
+      const b2 = (x) => num(x, 2);
+      const why = "A levered beta mixes two risks: the business's own risk and the extra swing that debt adds to the equity. Peers carry different amounts of debt, so strip the leverage out of each beta (unlever), average the business risk, then add back the target's leverage (relever). Hamada's formula assumes debt carries no market risk (a debt beta of zero) and that the debt level is permanent. Relevered betas rise with leverage, which is why the cost of equity climbs as a company borrows more.";
+      const formula = 'Unlevered beta = levered beta ÷ (1 + (1 − tax rate) × D/E)\nRelevered beta = unlevered beta × (1 + (1 − tax rate) × target D/E)\nD/E = (D/V) ÷ (1 − D/V)';
+      const assume = 'Hamada assumes debt carries no market risk (a debt beta of zero) and a steady debt level; with risky debt, the unlevered beta would be a little higher';
+
+      if (mode === 'recap') {
+        const bL0 = r.step(0.8, 1.4, 0.05);
+        const de0 = r.step(0.1, 0.5, 0.05);
+        const de1 = r.step(0.6, 1.5, 0.1);
+        const rf = r.step(0.03, 0.05, 0.0025), erp = r.step(0.045, 0.065, 0.0025);
+        const f0 = fac(de0), f1 = fac(de1);
+        const bU = rd(bL0 / f0, 2);
+        const bL1 = rd(bU * f1, 2);
+        const ke0 = rd(rf + rd(bL0 * erp, 4), 4), ke1 = rd(rf + rd(bL1 * erp, 4), 4);
+        return {
+          q: `A company's beta is [[${b2(bL0)}]] at [[${pct(de0, 0)}]] debt to equity. A recapitalization takes debt to equity to [[${pct(de1, 0)}]]. Tax rate ${tS}, risk-free rate [[${rate(rf)}]], equity risk premium [[${rate(erp)}]]. New levered beta and cost of equity?`,
+          a: `Beta rises to ${b2(bL1)} and the cost of equity from ${pct(ke0, 2)} to ${pct(ke1, 2)}. The business risk (unlevered beta ${b2(bU)}) hasn't changed; the equity now carries far more debt ahead of it.`,
+          why, formula,
+          steps: [
+            `Unlever: [[${b2(bL0)}]] ÷ (1 + ${keep} × [[${pct(de0, 0)}]]) = [[${b2(bL0)}]] ÷ ${fs(f0)} = ${b2(bU)}`,
+            `Relever: ${b2(bU)} × (1 + ${keep} × [[${pct(de1, 0)}]]) = ${b2(bU)} × ${fs(f1)} = ${b2(bL1)}`,
+            `Cost of equity before: [[${rate(rf)}]] + [[${b2(bL0)}]] × [[${rate(erp)}]] = ${pct(ke0, 2)}`,
+            `Cost of equity after: [[${rate(rf)}]] + ${b2(bL1)} × [[${rate(erp)}]] = ${pct(ke1, 2)}`,
+            assume
+          ],
+          visual: { kind: 'bars', unit: '', dp: 2, caption: 'Beta', items: [
+            { label: 'Unlevered', value: bU },
+            { label: `Levered at ${pct(de0, 0)} D/E`, value: bL0 },
+            { label: `Levered at ${pct(de1, 0)} D/E`, value: bL1, highlight: true }
+          ] },
+          values: { mode: 2, betaL: bL1, betaU: bU, t, peers: [{ bL: bL0, de: de0 }], deT: de1, ke0, ke1, rf, erp }
+        };
+      }
+
+      const n = mode === 'peers' ? 3 : 2;
+      const peers = [];
+      for (let i = 0; i < n; i++) {
+        const de = r.step(0.1, 1.2, 0.05);
+        const bU0 = r.step(0.6, 1.2, 0.01);
+        peers.push({ name: 'ABC'[i], de, bL: Math.max(0.5, rd(Math.round(bU0 * fac(de) / 0.05) * 0.05, 2)) });
+      }
+      peers.forEach((pe) => { pe.f = fac(pe.de); pe.bU = rd(pe.bL / pe.f, 2); });
+      const avg = rd(peers.reduce((s, pe) => s + pe.bU, 0) / n, 2);
+      let deT, dv = 0;
+      const steps = peers.map((pe) => `${pe.name}: [[${b2(pe.bL)}]] ÷ (1 + ${keep} × [[${pct(pe.de, 0)}]]) = [[${b2(pe.bL)}]] ÷ ${fs(pe.f)} = ${b2(pe.bU)}`);
+      steps.unshift(`Unlever each peer: levered beta ÷ (1 + (1 − ${tS}) × D/E)`);
+      steps.push(`Average unlevered beta: (${peers.map((pe) => b2(pe.bU)).join(' + ')}) ÷ ${n} = ${b2(avg)}`);
+      if (mode === 'capital') {
+        dv = r.pick([0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5]);
+        deT = rd(dv / (1 - dv), 3);
+        steps.push(`Convert the target structure: [[${pct(dv, 0)}]] debt to capital means ${pct(dv, 0)} ÷ ${pct(1 - dv, 0)} = ${pct(deT, 1)} debt to equity`);
+      } else {
+        deT = r.step(0.2, 1.5, 0.05);
+      }
+      const fT = fac(deT);
+      const bL = rd(avg * fT, 2);
+      const deTS = mode === 'capital' ? pct(deT, 1) : `[[${pct(deT, 0)}]]`;
+      steps.push(`Relever at the target's ${deTS}: ${b2(avg)} × (1 + ${keep} × ${deTS}) = ${b2(avg)} × ${fs(fT)} = ${b2(bL)}`);
+      steps.push(assume);
+      const list = peers.map((pe) => `${pe.name} [[${b2(pe.bL)}]] at [[${pct(pe.de, 0)}]]`).join(', ');
+      const target = mode === 'capital' ? `The target's structure is [[${pct(dv, 0)}]] debt to total capital` : `The target runs [[${pct(deT, 0)}]] debt to equity`;
+      return {
+        q: `Peer levered betas and debt-to-equity ratios: ${list}. Tax rate ${tS}. ${target}. What's its relevered beta, using the peers' average unlevered beta?`,
+        a: `${b2(bL)}: the peers' average unlevered beta of ${b2(avg)}, relevered at the target's ${pct(deT, mode === 'capital' ? 1 : 0)} debt to equity.`,
+        why, formula,
+        steps,
+        visual: { kind: 'table', headers: ['', 'Levered beta', 'D/E', 'Unlevered beta'], rows: peers.map((pe) => [pe.name, `[[${b2(pe.bL)}]]`, `[[${pct(pe.de, 0)}]]`, b2(pe.bU)])
+          .concat([['Average', '', '', b2(avg)], ['Target', b2(bL), deTS, b2(avg)]]) },
+        values: { mode: mode === 'peers' ? 1 : 3, betaL: bL, betaU: avg, t, peers: peers.map((pe) => ({ bL: pe.bL, de: pe.de, bU: pe.bU })), deT }
+      };
+    },
+    // Second way: the asset-beta view. A levered beta is the unlevered beta scaled by value weights, βU = βL × E ÷ (E + (1 − t) × D)
+    // with debt's beta at zero; rebuild each unlevered beta that way, average, and scale back up at the target's D/E.
+    check(p) {
+      const v = p.values;
+      const bUs = v.peers.map((pe) => pe.bL * 1 / (1 + (1 - v.t) * pe.de));
+      const avg = bUs.reduce((s, x) => s + x, 0) / bUs.length;
+      const lev = 1 + (1 - v.t) * v.deT;
+      // Each shown beta is rounded to 0.01, and the relevering multiplies that rounding by the leverage factor.
+      const tol = 0.005 * (1 + 2 * lev) + 1e-9;
+      const ok = Math.abs(avg * lev - v.betaL) <= tol && Math.abs(avg - v.betaU) <= 0.0101;
+      if (v.mode === 2) return ok && v.ke1 > v.ke0 && Math.abs(v.rf + v.betaL * v.erp - v.ke1) <= 5e-5 + 1e-12;
+      return ok;
     }
   });
 

@@ -338,7 +338,7 @@ Deck.add([
     type: "qa",
     q: "Last year's revenue in this year's annual report differs from the figure the company originally reported. Why, and which should you use?",
     a: "Prior periods get recast when a company adopts a new accounting standard retrospectively, changes an accounting principle, corrects an error or moves a business into discontinued operations. Use the latest recast figures so every period is on the same basis, and find out why they changed: an error correction says far more about reporting quality than a new standard.",
-    why: "Filings present prior periods on the same basis as the current one, so changes in accounting principle are applied retrospectively. Changes in estimates, like useful lives or bad debt rates, apply only going forward, so they never trigger a recast. Errors split two ways: small ones are revised quietly in the next filing, while a material error forces a formal restatement and a warning that the old statements can't be relied on, a serious red flag for reporting quality.",
+    why: "Filings present prior periods on the same basis as the current one, so changes in accounting principle are applied retrospectively. Changes in estimates, like useful lives or bad debt rates, apply only going forward, so they never trigger a recast. Errors split two ways: small ones are corrected in the next filing's prior-year figures, while a material error forces a formal restatement and a warning that the old statements can't be relied on, a serious red flag for reporting quality.",
     trap: "When spreading comps or building history, take each year from the most recent filing that covers it, and footnote any recast. Mixing original and recast figures creates growth rates that never happened."
   },
   {
@@ -359,15 +359,13 @@ Deck.add([
     id: "ib-acct-025",
     track: "ib",
     module: "ib-acct",
-    topic: "Negative working capital",
+    topic: "Operating vs investing",
     level: 2,
     type: "qa",
-    classic: true,
-    q: "Can working capital be negative, and is that a bad sign?",
-    a: "Yes, and it's often a good sign. Negative operating working capital means the company collects from customers before it pays suppliers or delivers: subscription businesses billing upfront, retailers selling inventory before paying for it, restaurants paid on the spot. Growth releases cash instead of absorbing it. It's a warning only when it comes from stretched payables or a liquidity squeeze.",
-    why: "Working capital is cash tied up in the operating cycle. When customers pay quickly, inventory turns fast and suppliers give long terms, customers and suppliers effectively finance the business. For a growing company that's a source of cash every year, because payables and deferred revenue grow with sales. The bad version can look identical on the balance sheet: a company that can't pay its suppliers on time also shows high payables. Read the trend alongside the business model.",
-    example: "A grocer collects cash at the till, holds inventory for [[20]] days and pays suppliers in [[40]]. On [[$365M]] of annual cost of sales, $1M a day, inventory is about $20M and payables $40M: working capital of about −$20M, which grows more negative as sales grow.",
-    trap: "The flip side: if sales fall, negative working capital unwinds and consumes cash, because the company is still paying suppliers for last month's higher volumes."
+    q: "Inventory and equipment are both assets a company buys. Why is buying inventory an operating cash flow while buying equipment is an investing one?",
+    a: "Because inventory turns over within the operating cycle: bought, sold and collected as cash within months, it's part of running the business, like wages. Equipment produces revenue for years, so buying it is a decision to invest in capacity. Operating cash flow shows what the day-to-day business generates; investing shows what's spent on long-lived assets to sustain and grow it.",
+    why: "The split mirrors the balance sheet's line between current and non-current assets. Inventory becomes COGS within months, so its cash belongs with the revenue it supports. Equipment is expensed over years through depreciation, so its purchase appears once, in investing, and depreciation is added back in operations so the cost isn't counted twice. That separation is what makes free cash flow work: operating cash flow less capex is what the business produces after reinvesting in its capacity.",
+    trap: "Capitalized software development also lands in investing, even though it feels like an operating cost. When a company quotes free cash flow, check whether it subtracted that spending along with capex."
   },
   {
     id: "ib-acct-026",
@@ -431,14 +429,14 @@ Deck.add([
     id: "ib-acct-030",
     track: "ib",
     module: "ib-acct",
-    topic: "Managing operating cash flow",
+    topic: "Selling receivables",
     level: 3,
     type: "qa",
-    q: "How can a company make its operating cash flow look better for a quarter without improving the business?",
-    a: "By managing working capital around the period end: delaying supplier payments, selling or factoring receivables, offering discounts for early payment or running down inventory. Each pulls cash into the period and reverses later. Capitalizing costs it used to expense also lifts operating cash flow by moving the outflow to investing. Judge cash flow over several periods and watch working-capital days.",
-    why: "Operating cash flow is net income adjusted for working capital, and working capital is partly under management's control at quarter-end. Stretching payables raises cash once; it can't be repeated without straining suppliers. Supplier finance programs let a company pay later while its suppliers get paid early by a bank, which can hide what is effectively borrowing inside payables. The tell is operating cash flow rising while days payable climb or receivables sold increase.",
-    example: "A company buys [[$730M]] a year from suppliers, $2M a day. Stretching payment terms from [[45]] to [[60]] days raises payables by $30M, adding $30M of operating cash flow once. If terms stay at 60 days, the next year gets no further boost.",
-    trap: "Selling receivables brings cash into operations only if the sale qualifies for derecognition. If it doesn't, the cash is a secured borrowing and belongs in financing."
+    q: "A company sells $100M of receivables to a bank for $98M in cash. How does that show up in its statements, and how should you adjust?",
+    a: "If it qualifies as a sale, receivables fall $100M, a $2M loss hits earnings and operating cash flow jumps $98M before customers pay. If the company keeps control or, under IFRS, most of the risk, it's a secured borrowing: receivables stay on the books and the $98M is financing cash. To compare, add sold receivables back to receivables and debt.",
+    why: "Sale accounting turns a financing decision into operating cash flow: the company collects early, and the cash flow statement records it as collections. The boost comes once, when a program starts or grows; after that, sale proceeds just replace customer payments. The add-back reflects the economics: the program is funding a bank can withdraw, often just when the company is under stress, and the company usually keeps some risk through recourse or retained interests. That's why lenders and rating agencies often treat it as debt.",
+    example: "Revenue is [[$1,460M]] a year, $4M a day, with receivables of [[$240M]]: 60 days. Selling [[$100M]] of them at year-end cuts reported receivables to $140M, 35 days, and lifts the year's operating cash flow by about $98M. If the program stays the same size, the next year gets no further boost.",
+    trap: "Recourse alone doesn't block sale accounting under US GAAP, which tests legal isolation and control and records any recourse obligation as a liability. IFRS looks mainly at whether the risks and rewards moved."
   },
   {
     id: "ib-acct-031",
@@ -531,7 +529,7 @@ Deck.add([
     a: "Goodwill is the part of an acquisition price above the fair value of the target's identifiable net assets. The buyer writes the target's assets and liabilities to fair value and recognizes intangibles like customer relationships and brands; whatever price remains is goodwill. It arises only in acquisitions and isn't amortized under US GAAP or IFRS; it's tested for impairment instead.",
     why: "Goodwill captures what can't be separately identified: an assembled workforce, expected synergies, market position and any overpayment. A company can't record goodwill it builds itself, because there's no transaction to measure it. That's why two similar businesses can show very different balance sheets: the one built through acquisitions carries goodwill and acquired intangibles, and the one that grew organically doesn't.",
     example: "A buyer pays [[$500M]] for a company with [[$200M]] of book net assets. It writes PP&E up by [[$50M]] and recognizes [[$100M]] of customer relationships and brands. Identifiable net assets are $350M, so goodwill is $150M, ignoring deferred taxes.",
-    trap: "Private US companies can elect to amortize goodwill, over ten years or less. And when an acquisition disappoints, goodwill is written down: a non-cash charge that amounts to admitting the buyer overpaid.",
+    trap: "The reverse case exists: if the price is below the fair value of the identifiable net assets, the buyer rechecks its valuations, then records the shortfall as a bargain purchase gain in earnings, not as negative goodwill.",
     visual: { kind: "stack", unit: "$M", columns: [
       { title: "Price paid", items: [ { label: "Purchase price", value: 500 } ] },
       { title: "Allocated to", items: [
@@ -546,13 +544,14 @@ Deck.add([
     id: "ib-acct-037",
     track: "ib",
     module: "ib-acct",
-    topic: "Acquired vs internally built intangibles",
+    topic: "Where intangibles come from",
     level: 2,
     type: "qa",
-    q: "Why does an acquired brand appear on the balance sheet when a brand a company builds itself doesn't?",
-    a: "Because the cost of building a brand, years of advertising and talent, was expensed as incurred, and there's no transaction to measure its value. An acquisition sets a price, so the buyer records identifiable intangibles at fair value. Definite-lived ones, like customer relationships and technology, are amortized; indefinite-lived ones, like many trademarks, are only tested for impairment.",
-    why: "Accounting records assets at cost, and for a brand built over decades the cost is scattered across years of expensed marketing. So a company's most valuable assets are often missing from its own balance sheet. Acquisitions put them there, which makes acquisitive companies look asset-heavy and adds amortization that organic peers don't carry. That's why analysts often add back acquired-intangible amortization when comparing earnings, and why book value says little about what an asset-light business is worth.",
-    trap: "Don't mix up the two buckets. Identified intangibles with finite lives are amortized, while goodwill is only impairment-tested. Allocating more of a purchase price to amortizable intangibles lowers the buyer's future reported earnings."
+    q: "How do intangible assets get onto a balance sheet, and where does the spending on them show up in the cash flow statement?",
+    a: "Through acquisitions, separate purchases and, in narrow cases, internal development. Acquired intangibles are recorded at fair value, with the cash in the acquisition line of investing. A patent or license bought on its own is recorded at cost, also an investing outflow. Most internal spending on brands, customers and research is expensed, so it runs through operating cash flow instead.",
+    why: "The route, not the economics, decides which metrics the spending hits. An organic grower's investment in brands and customers is an operating expense, so it depresses EBITDA and operating cash flow. A serial acquirer buys the same kinds of assets through investing, so its EBITDA and operating cash flow look stronger, and it carries amortization and goodwill instead. For a fair comparison, count a serial acquirer's acquisition spending as reinvestment, much like capex, when you judge its free cash flow.",
+    example: "Two companies each earn [[$100M]] of EBITDA before growth spending. A spends [[$30M]] a year on marketing to win customers, all expensed, so it reports $70M. B pays [[$30M]] a year to buy customer contracts from rivals, an investing outflow, so it reports $100M. Both spent $30M of cash on growth.",
+    trap: "Adjusted earnings often add back amortization of acquired intangibles. That's fine for comparing operations, but the cash went out when the assets were bought; ignore both and a serial acquirer's growth looks free."
   },
   {
     id: "ib-acct-038",
@@ -669,14 +668,14 @@ Deck.add([
     id: "ib-acct-046",
     track: "ib",
     module: "ib-acct",
-    topic: "Allowance for doubtful accounts",
+    topic: "Allowance releases",
     level: 2,
     type: "qa",
-    q: "How does the allowance for doubtful accounts work, and why doesn't writing off a bad receivable hit the income statement?",
-    a: "The company estimates upfront how much of its receivables it won't collect, recording bad debt expense and building an allowance against receivables. When a specific customer defaults, the write-off reduces both gross receivables and the allowance, so net receivables and net income don't change. The expense was recognized earlier, when the allowance was built.",
-    why: "Estimating losses early matches the credit cost to the revenue that created it. Waiting until customers actually default would overstate profit in good years and bunch losses into later ones. Under US GAAP's current expected credit loss model, the estimate covers losses expected over the receivables' life, not just those already incurred; IFRS 9 works similarly for trade receivables. For analysis, an allowance that shrinks relative to receivables while customers weaken is flattering earnings.",
-    example: "Gross receivables [[$100M]]; the company expects [[3%]] to go unpaid, so it records $3M of bad debt expense and a $3M allowance: net receivables $97M. A [[$1M]] customer then defaults. Gross receivables fall to $99M and the allowance to $2M, so net receivables stay $97M.",
-    trap: "The direct write-off method, expensing bad debts only when they happen, is used for US tax purposes but isn't acceptable under GAAP when losses are material, because it mismatches expense and revenue."
+    q: "A company cuts its allowance for doubtful accounts from 5% to 3% of its $200M of receivables. How does that affect earnings and cash, and what would you check?",
+    a: "It adds $4M to pre-tax income, because bad debt expense falls by the $4M the allowance shrinks, but it adds no cash: receivables haven't changed. It's legitimate if customers really are paying better. Check write-off history, the receivables aging and customers' credit before accepting it, since a release can manufacture earnings in a weak quarter.",
+    why: "The allowance is management's estimate of receivables that won't be collected, so it's a judgment that runs straight through the income statement. Under US GAAP's current expected credit loss model, it should reflect losses expected over the receivables' life, based on history, current conditions and forecasts; IFRS 9 works similarly for trade receivables. Because the expense is non-cash, a release lifts earnings but not operating cash flow. A falling allowance while receivables age or customers weaken is a classic sign of borrowed earnings.",
+    example: "Receivables [[$200M]]. At [[5%]], the allowance is $10M; at [[3%]], $6M. The $4M release lowers bad debt expense, lifting pre-tax income $4M and net income $3M at a [[25%]] tax rate. Net receivables rise to $194M, and cash is unchanged.",
+    trap: "A release can't repeat indefinitely: once the allowance is low, the expense returns to normal. Treat a large release like a one-time gain when you normalize earnings."
   },
   {
     id: "ib-acct-047",
@@ -707,14 +706,14 @@ Deck.add([
     id: "ib-acct-049",
     track: "ib",
     module: "ib-acct",
-    topic: "Gains and losses on asset sales",
-    level: 2,
+    topic: "Recurring gains on asset sales",
+    level: 3,
     type: "qa",
-    classic: true,
-    q: "A company sells equipment with a $40M book value for $50M. Why is the $10M gain subtracted in cash from operations?",
-    a: "Because the gain is already in net income and the full $50M of proceeds appears in cash from investing. Leaving the gain in operations would count $10M twice and misstate operating cash, since selling equipment isn't an operating activity. So operations subtracts the $10M, investing shows +$50M and PP&E falls $40M.",
-    why: "The gain is an accounting comparison between the price and the asset's depreciated cost; the cash event is the price, which belongs in investing next to capex. A loss works in reverse and is added back. For analysis, strip gains and losses out of EBITDA and normalized earnings too: they're non-recurring and say nothing about how the operations performed. A gain often just means depreciation ran faster than the asset's value fell.",
-    trap: "The tax on the gain stays in operating cash flow under US GAAP, even though the proceeds sit in investing. At a 25% rate, operating cash flow falls $2.5M."
+    q: "A trucking company reports gains on selling used trucks almost every year. What does that tell you, and how should you treat the gains?",
+    a: "It usually means depreciation runs ahead of the trucks' loss of value: lives too short or salvage values too low, so each gain gives back past depreciation. Keep gains out of EBITDA but don't ignore them: selling used trucks is routine, so net the sale proceeds against capex and read the gains as a correction to depreciation.",
+    why: "A gain is just price minus book value. If assets routinely sell above book, the book values fell too fast: depreciation understated EBIT while the trucks were in service, and the gain catches up at sale. Over an asset's life, depreciation less any gain on sale always equals cost less sale proceeds, so a gain isn't extra profit, only depreciation charged in the wrong years. The mirror case is recurring losses on disposal: depreciation that's too slow, flattering EBIT until the assets are sold.",
+    example: "A truck costs [[$150K]] and is depreciated to a [[$30K]] salvage value over [[4]] years: $30K a year. It sells after four years for [[$60K]], a $30K gain. Its true cost was $90K, or $22.5K a year, so EBIT was understated by $7.5K a year until the gain caught up.",
+    trap: "Some fleet and equipment rental businesses report used-asset sales as revenue, with the book value in cost of sales, so the 'gain' sits inside gross profit. Check how peers present it before comparing margins or EBITDA."
   },
   {
     id: "ib-acct-050",

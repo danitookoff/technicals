@@ -1,2 +1,253 @@
 Deck.add([
+  {
+    id: "ib-precedents-001",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Precedent transactions",
+    level: 1,
+    type: "primer",
+    q: "Primer: precedent transactions",
+    a: "Precedent transactions value a company by what acquirers paid for similar ones. You find past acquisitions of comparable targets and divide each deal's purchase enterprise value by the target's revenue and EBITDA for the last twelve months before announcement. Then you apply a range of those multiples to your company. Each buyer bought control, often counting on synergies, so the multiples include a premium over the market price and usually sit above trading comps. A premiums-paid analysis checks the answer against the target's own share price.",
+    why: "Precedent: a past acquisition of a similar company. Purchase enterprise value: the offer price times diluted shares, plus debt and other claims, less cash. LTM: the last twelve months, to the last report before announcement. Control premium: the amount paid above the unaffected share price, before deal news or rumors moved it. VWAP: volume-weighted average price. Synergies: savings or extra revenue from combining two businesses. Strategic buyer: a company in a related business. Sponsor: a private equity firm. Consideration: what sellers receive, in cash, stock or both. Earnout: part of the price paid later if the business hits agreed goals. Merger of equals: similar-sized companies combining, usually in stock.",
+    visual: { kind: "table", headers: ["", "Trading comps", "Precedent transactions"], rows: [
+      ["What's priced", "A small, tradable stake", "Control of the whole company"],
+      ["Price source", "Today's share prices", "Prices paid in past deals"],
+      ["Usual period", "LTM and forward", "LTM at announcement"],
+      ["Control premium", "No", "Yes, often with synergies"],
+      ["Main risk", "Market mood", "Stale or unusual deals"]
+    ]}
+  },
+  {
+    id: "ib-precedents-002",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Building a precedents analysis",
+    level: 1,
+    type: "walk",
+    classic: true,
+    q: "Walk me through a precedent transactions analysis.",
+    a: "Find acquisitions of similar companies, calculate the multiples buyers paid and apply a range of them to your company. Screen by sector, business model, size and date, usually the last few years. For each deal, divide purchase enterprise value by the target's LTM revenue and EBITDA at announcement, and note the buyer type, consideration and premium. Explain the outliers, choose a range around the median or quartiles, apply it to your company's LTM EBITDA and bridge to value per share.",
+    why: "Every step keeps the deals comparable with each other and with your company. The price comes from the announced terms and the financials from the target's last report before announcement, because that's what the buyer knew when it agreed the price. Sources include press releases, merger proxies with their fairness opinion summaries, buyers' filings and deal databases. The range matters more than any single deal. Each price has a story, such as a bidding war, a distressed seller or large synergies, so explain the high and low deals before deciding where your company belongs.",
+    trap: "Don't just average every deal in the table. The follow-up is why your range sits where it does: which two or three deals are most like your company, and why.",
+    visual: { kind: "flow", steps: [
+      { label: "Set criteria", note: "Sector, business model, size, date and deal type" },
+      { label: "Collect deal data", note: "Offer terms; target's last report before announcement" },
+      { label: "Calculate multiples", note: "Purchase EV ÷ LTM revenue and EBITDA" },
+      { label: "Review outliers", note: "Explain each high and low deal" },
+      { label: "Choose a range", note: "Around the median or quartiles" },
+      { label: "Apply and bridge", note: "Your LTM EBITDA to EV, then to value per share" }
+    ]}
+  },
+  {
+    id: "ib-precedents-003",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Selecting deals",
+    level: 1,
+    type: "qa",
+    classic: true,
+    q: "How do you choose which deals to include in a precedent transactions analysis?",
+    a: "Pick acquisitions of control whose targets look like yours: same sector and business model, similar size and ideally similar geography, often from the last three to five years. Record each deal's buyer type and consideration so you can separate strategic from sponsor deals. Flag distressed sales, minority stakes and mergers of equals.",
+    why: "Each screen removes a reason a multiple could differ other than the target's value. Business model drives growth and margins; size affects risk and how many buyers can afford the deal; the date sets the backdrop of rates, credit and sector sentiment; geography brings different growth and rules. Buyer type matters because strategic buyers can pay for synergies, while sponsors price off the returns they need and the debt available. Tight screens give comparable deals but few of them. When deals are scarce, widen the dates or the sector definition and footnote that you did.",
+    trap: "Don't pad the set with loosely related deals to make it look robust. Five close precedents say more than fifteen loose ones, and an interviewer will ask why a particular deal is in the set.",
+    visual: { kind: "table", headers: ["Screen", "Typical choice"], rows: [
+      ["Sector and business model", "Same end markets, similar growth and margins"],
+      ["Size", "Similar revenue or deal value"],
+      ["Date", "Often the last 3–5 years"],
+      ["Geography", "Same region, or adjust for the difference"],
+      ["Buyer type", "Separate strategic and sponsor deals"],
+      ["Deal type", "Control deals; flag distressed and minority ones"]
+    ]}
+  },
+  {
+    id: "ib-precedents-004",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Transaction multiples",
+    level: 1,
+    type: "qa",
+    q: "Which multiples do you use in a precedent transactions analysis, and why are they usually LTM rather than forward?",
+    a: "Mainly purchase EV to LTM EBITDA, with EV to LTM revenue alongside and sector metrics where they're standard, such as price to tangible book for banks. They're LTM because every target's trailing results are known at announcement, while the forecasts buyers actually priced off are rarely disclosed.",
+    why: "A precedents table only works if every deal is measured the same way. Forward estimates exist only for public targets that analysts covered, and even those aren't the buyer's own projections. So LTM is the one figure available for nearly every deal, measured to the target's last report before announcement, not to closing. EV/revenue helps when targets are loss-making or growing fast, but it ignores margins, so give it less weight where EBITDA is meaningful. If most targets were public, you can add forward multiples, using estimates from just before announcement.",
+    trap: "Apply LTM multiples to your company's LTM EBITDA. Applying them to its forward EBITDA mixes periods and overstates the value of a growing company."
+  },
+  {
+    id: "ib-precedents-005",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Control premium",
+    level: 1,
+    type: "qa",
+    classic: true,
+    q: "What is a control premium, and why do buyers pay one?",
+    a: "It's the amount a buyer pays above the target's unaffected share price to take control, often roughly 20–40% for a public company. Control is worth more than a minority stake, because the owner can set strategy and capture synergies. And shareholders can already get the market price by selling, so persuading them all to sell takes more.",
+    why: "The market price values a small stake: a claim on cash flows the holder can't direct. A controlling owner decides strategy, management, capital structure and payouts, and can combine the business with its own to cut costs or grow revenue. That extra value is what the premium pays for, and competition decides how much of it the seller gets: the board must seek the best price, and a rival can top the offer. Premiums vary widely: cash offers and contested deals tend to pay more, stock mergers of equals less.",
+    formula: "Control premium = offer price per share ÷ unaffected share price − 1",
+    trap: "The follow-up: can a premium be too high? Yes. If it exceeds the value of the synergies and improvements the buyer can deliver, value moves from the buyer's shareholders to the target's, however strategic the deal looks."
+  },
+  {
+    id: "ib-precedents-006",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Limitations of precedents",
+    level: 1,
+    type: "qa",
+    classic: true,
+    q: "What are the main weaknesses of precedent transactions?",
+    a: "Deals go stale, few are truly comparable and each price reflects its own circumstances. A multiple from a boom or a slump says as much about that market as about the target. Private deals often disclose little. And a price can reflect synergies, a bidding war, a distressed seller, a partial stake or terms your company's sale won't share.",
+    why: "A precedent is one negotiated price, set by one buyer at one moment, not a market that trades every day. Rates, credit and sector sentiment change what buyers can pay, so old deals can mislead in either direction. Deal terms blur the headline: stock deals often carry lower premiums; earnouts and tax benefits change what was really paid; a minority stake carries no control premium. That's why bankers show precedents as a range, lean on the closest and most recent deals and cross-check them with comps, a DCF and a premiums-paid analysis.",
+    trap: "The follow-up: why use them at all? Because they're the only method built on what buyers actually paid for control of a whole company, which is exactly the question in a sale.",
+    visual: { kind: "table", headers: ["Issue", "Effect on the multiple"], rows: [
+      ["Stale deal", "Reflects that market's rates and sentiment"],
+      ["Synergies in the price", "Above the business's standalone value"],
+      ["Bidding war", "Above a typical negotiated price"],
+      ["Distressed seller", "Below a normal sale"],
+      ["Minority stake", "May carry no control premium"],
+      ["Stock consideration", "Premium often lower"]
+    ]}
+  },
+  {
+    id: "ib-precedents-007",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Premiums-paid analysis",
+    level: 2,
+    type: "qa",
+    q: "Comparable public-company deals paid 1-day premiums of 25–40%. Your target's unaffected share price is $30.00. What does a premiums-paid analysis imply?",
+    a: "About $37.50 to $42.00 a share: $30.00 × 1.25 and $30.00 × 1.40. The analysis applies the premiums buyers paid in similar public deals to the target's own unaffected price, so it shows what control of this company would cost. It sits beside the precedent multiples on the football field.",
+    why: "Each precedent's premium is usually measured against several reference prices: the close one day and one week before the unaffected date, the 30-day VWAP and sometimes the 52-week high. One day can be noisy and an average smooths it; the 52-week high shows whether recent buyers would sell at a loss. Apply each premium to the target's matching reference price. Because it starts from today's share price, the method reflects current market levels, but it inherits any mispricing in that price and works only for public targets.",
+    formula: "Implied price = target's reference price × (1 + precedent premium)",
+    trap: "Screen the premium set as carefully as the multiples. All-stock mergers often carry small premiums and contested auctions large ones, so a mixed set reflects deal mix rather than what control of your company is worth.",
+    visual: { kind: "table", headers: ["Reference", "Target price", "Premiums paid", "Implied price"], rows: [
+      ["1-day", "[[$30.00]]", "[[25%]]–[[40%]]", "$37.50–$42.00"],
+      ["30-day VWAP", "[[$28.00]]", "[[30%]]–[[45%]]", "$36.40–$40.60"]
+    ], caption: "Apply each range of premiums to the matching reference price" }
+  },
+  {
+    id: "ib-precedents-008",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Unaffected share price",
+    level: 2,
+    type: "qa",
+    q: "Takeover rumors lifted a target's stock from $40 to $46 two weeks before a $52 offer was announced. What premium did the buyer pay?",
+    a: "30%, measured from the $40 unaffected price, not 13% from the $46 close before the announcement. The run-up reflects the expected takeover, so it's part of the premium. Measure every reference point, including the 30-day average, back from the unaffected date.",
+    why: "The premium compares the offer with the stock's value before anyone expected a deal. Bankers set the unaffected date at the first sign of one: a press report, an unusual jump in price and volume, an activist's stake disclosure or the target announcing a strategic review. Database premiums are often measured from the day before announcement, so check any deal that leaked by hand. Get it wrong and the premium looks small, which drags down the premiums-paid range and makes a board seem to be selling cheaply.",
+    trap: "Not every rise before a deal is a leak. If peers rose as much, the move reflects the market, and the later price may be fair. Compare the stock with its sector before choosing the date.",
+    visual: { kind: "table", headers: ["Reference price", "Price", "Premium at [[$52]]"], rows: [
+      ["Unaffected close", "[[$40.00]]", "30.0%"],
+      ["30-day average to the unaffected date", "[[$39.00]]", "33.3%"],
+      ["Close before announcement", "[[$46.00]]", "13.0%"]
+    ]}
+  },
+  {
+    id: "ib-precedents-009",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Premium and the deal multiple",
+    level: 2,
+    type: "qa",
+    q: "A target has $600M of equity value, $400M of net debt and $100M of EBITDA, so it trades at 10.0x. A buyer pays a 30% premium. What's the transaction multiple?",
+    a: "11.8x, not 13.0x. The premium applies only to the $600M of equity, adding $180M, while the $400M of net debt is repaid or assumed at face value. Purchase EV is $1,180M, 18% above the trading EV. The more debt a target carries, the less a given premium lifts its EV multiple.",
+    why: "This is the mechanism behind precedents running above trading comps: buyers pay a premium over the market price for control, and often for part of the synergies. But the premium goes to shareholders. Lenders are usually repaid at face value, so the EV multiple rises by the premium times equity's share of EV. That's why two deals with the same premium can show quite different multiples, and why a levered target's multiple understates the premium its holders received.",
+    formula: "Purchase EV = equity value × (1 + premium) + net debt\nEV uplift = premium × equity value ÷ trading EV",
+    trap: "The follow-up: if the target has options, the equity cost is a little above $780M, since they add more shares at the offer price. Run the treasury stock method at the offer price, not today's.",
+    visual: { kind: "table", headers: ["", "Trading", "Deal"], rows: [
+      ["Equity value", "[[$600M]]", "$780M"],
+      ["Net debt", "[[$400M]]", "$400M"],
+      ["Enterprise value", "$1,000M", "$1,180M"],
+      ["EV/EBITDA", "10.0x", "11.8x"]
+    ], caption: "EBITDA of [[$100M]]; a [[30%]] premium on the equity only" }
+  },
+  {
+    id: "ib-precedents-010",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Synergies in the price",
+    level: 2,
+    type: "qa",
+    q: "A strategic buyer paid $1,200M, or 12.0x, for a target with $100M of EBITDA and expects $30M a year of cost synergies. How should you read that 12.0x when valuing another company?",
+    a: "As partly a price for synergies. Counting the $30M, the buyer paid about 9.2x EBITDA. Apply 12.0x to your company only if its likely buyers could make similar savings. If a sponsor is the likely buyer, lean toward the synergy-adjusted multiple or toward sponsor deals.",
+    why: "A buyer that can cut overlapping costs can pay more than the target is worth on its own, and competition makes it pass some of that value to the seller. So synergy-driven deals lift the multiple of the target's standalone EBITDA. Buyers rarely pay for all of it: run-rate synergies take years to arrive, cost money to achieve and sometimes never come. Where the buyer disclosed a synergy target, the synergy-adjusted multiple shows how much of the price rested on it. Then ask whether your company offers a buyer the same overlap.",
+    formula: "Synergy-adjusted multiple = purchase EV ÷ (LTM EBITDA + run-rate synergies)",
+    trap: "The follow-up: how much of the synergies goes to the seller? It depends on competition. If several bidders could make similar savings, bidding hands much of the value to the seller; if only one can, that buyer keeps most of it."
+  },
+  {
+    id: "ib-precedents-011",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Partial stakes",
+    level: 2,
+    type: "qa",
+    q: "One deal in your precedents screen is the purchase of a 40% stake for $400M. Should it go in the table, and if so, how?",
+    a: "Usually not in the main set. A 40% stake rarely brings control, so its price carries no control premium. If you show it, gross the price up to $1,000M for 100% of the equity ($400M ÷ 40%), add the target's net debt and label it a minority deal, outside the median.",
+    why: "Precedents are meant to show what buyers pay for control. A minority buyer can't set strategy or capture synergies, so it pays something close to a market price, or less for a stake that's hard to sell. Grossing up assumes value scales with ownership, which holds only when control doesn't change hands. A controlling owner buying out the remaining minority is different again: it already has control and no rival can bid, so those premiums follow their own logic. Keep the main set to deals where control changed hands.",
+    formula: "Implied equity value = price paid ÷ stake acquired\nImplied EV = implied equity value + net debt",
+    example: "Net debt [[$200M]]: implied EV = $1,000M + $200M = $1,200M. On LTM EBITDA of [[$120M]], that's 10.0x, a minority price rather than a cheap control deal.",
+    trap: "Read the terms before excluding it. A 40% stake can bring effective control when the other shares are widely held, and an option to buy the rest can make it the first step of a control deal."
+  },
+  {
+    id: "ib-precedents-012",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Cash vs stock consideration",
+    level: 2,
+    type: "qa",
+    q: "Does it matter whether a precedent deal was paid for in cash or in the acquirer's stock?",
+    a: "Yes: the form of payment affects both the premium and the value you record. Stock deals often carry lower premiums, because the target's holders keep a stake in the combined company and share its synergies. And a stock offer's value moves with the acquirer's share price until closing, so most tables value it at announcement.",
+    why: "In a cash deal, the target's holders take their money and leave, so they want the full price up front, and the sale is usually taxable to them. In a stock deal they become owners of the buyer, so part of their reward comes later through the combined company, and the deal can often be structured to defer their tax. That's why mergers of equals often carry small premiums. A buyer paying with richly valued shares may also offer a headline price it wouldn't pay in cash, so the multiple can overstate the economic price.",
+    example: "Fixed exchange ratio of [[0.5]] acquirer shares per target share, acquirer at [[$80]] before announcement: $40 a share, a 25% premium to the target's unaffected [[$32]]. By closing, the acquirer trades at [[$70]], so holders receive $35, about a 9% premium. The table records $40 and 25%.",
+    trap: "If your company's likely buyer would pay cash, weight the cash deals more heavily. A stock deal's lower premium partly reflects the upside its sellers kept."
+  },
+  {
+    id: "ib-precedents-013",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Private targets and missing data",
+    level: 2,
+    type: "qa",
+    q: "Several deals in your precedents screen had private targets, and only the prices were disclosed. How do you handle them?",
+    a: "Look harder for the numbers, but don't guess them. The buyer's press release, investor presentation, filings or reports on the acquisition debt sometimes give the target's revenue or EBITDA. If you still can't find them, list the deal for context, mark its multiple as not available and leave it out of the statistics.",
+    why: "Private deals are often the closest precedents, especially in fragmented sectors, but disclosure is thin: a public buyer usually has to publish the target's financial statements only when the deal is large relative to its own size. What does get published may be on a flattering basis, such as adjusted EBITDA or EBITDA including expected synergies, so check the definition before the multiple goes into the table. Even without a multiple, the deal tells you something: who bought, why and roughly at what size.",
+    trap: "Don't back into EBITDA from an industry margin to fill the gap. An estimated multiple looks as precise as the reported ones in the table, but it's your assumption, not the deal's."
+  },
+  {
+    id: "ib-precedents-014",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Precedents below comps",
+    level: 3,
+    type: "qa",
+    q: "A public target and its peers trade at 10.0x EBITDA, but your precedents imply only 8.0x. What could explain the gap, and how would you value the target for a sale?",
+    a: "Usually timing or deal mix: the deals were struck when the sector traded lower, or the set includes distressed sellers, weaker targets or low-premium stock mergers. Either way, the precedents can't set the price of a public target, because a buyer must still pay a premium to today's share price. Lean on the premiums-paid analysis and recent control deals.",
+    why: "Comps show what the market pays for the sector today; each precedent shows what one buyer paid when its deal was struck. The deals' share-price premiums tell you which story fits. If they were normal for the sector, the buyers paid full prices for their day, and the gap is the market moving up since. If they were thin, the sellers were probably weak or the stakes small, and those deals deserve less weight. Either way, precedents implying a price below the market show how valuations have moved, not what a buyer must pay now.",
+    example: "Target EBITDA [[$50M]], net debt [[$100M]], trading at [[10.0x]]: equity value $400M. The precedents' [[8.0x]] implies $300M, 25% below the market. A [[30%]] premium instead gives $520M of equity and a $620M EV: 12.4x.",
+    trap: "The reverse gap is the dangerous one. If the sector has fallen since a boom, precedents overstate what a buyer will pay today, and a seller anchored on them may turn down a fair offer."
+  },
+  {
+    id: "ib-precedents-015",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Deals from a different market",
+    level: 3,
+    type: "qa",
+    q: "Your closest precedent was struck at 15.0x EBITDA in a boom, when its sector traded at 12.0x. Peers now trade at 8.0x. How do you use that deal?",
+    a: "Don't apply 15.0x to today's company. Read the deal as a premium instead: the buyer paid 1.25x the sector's trading multiple at the time, which on today's 8.0x suggests about 10.0x. Show the raw multiple in the table, with its date obvious, and the rebased figure as a sensitivity.",
+    why: "A deal multiple mixes the market's valuation of the sector at the time with the premium the buyer paid on top. Rates, credit and sentiment drive the first part and may have changed completely; the premium over trading levels travels better. Measure it against the target's own unaffected multiple if it was public, or the peer median if not. The same logic handles a deal in another country: compare it with its local market's multiples at the time, after putting its accounting on your basis, since IFRS 16 lifts EBITDA for companies with big leases.",
+    formula: "Relative premium = deal multiple ÷ trading multiple at the time\nRebased multiple = today's trading multiple × relative premium",
+    trap: "Rebasing assumes the premium over trading multiples holds from one market to the next. It doesn't always, since cheap credit can inflate premiums too, so treat it as a check, not a substitute for recent deals."
+  },
+  {
+    id: "ib-precedents-016",
+    track: "ib",
+    module: "ib-precedents",
+    topic: "Earnouts and other deal terms",
+    level: 3,
+    type: "qa",
+    q: "A precedent's headline price is $600M on $50M of LTM EBITDA, but $100M of it is an earnout paid only if the business hits targets. What multiple do you show?",
+    a: "Show both: 10.0x on the $500M paid at closing and 12.0x including the full earnout, and treat every deal the same way. The upfront figure is usually the cleaner comparison, because the earnout pays for results the business hasn't delivered yet; if it's paid in full, EBITDA will have grown too.",
+    why: "Headline prices bundle terms that don't all buy today's EBITDA. Practice varies: some tables use the upfront price, some the headline and some add the earnout at the fair value the buyer booked, which lands in between. Other terms distort the headline as well. A tax step-up in an asset deal gives the buyer deductions worth paying for, so part of the price buys a tax asset rather than EBITDA. Assumed pensions or other debt-like items add to the real price even when the headline leaves them out.",
+    example: "The buyer books the earnout at a fair value of [[$40M]]: $540M ÷ $50M = 10.8x, between the 10.0x paid at closing and the 12.0x headline.",
+    trap: "Press releases and databases often quote the maximum price, earnout included. Check what each source counted before comparing the deal with others."
+  }
 ]);
