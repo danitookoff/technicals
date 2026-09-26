@@ -532,5 +532,31 @@ Deck.add([
     why: "A rental developer can hold or refinance a finished building; a condo developer must sell every unit to get its money back. Presales with meaningful deposits prove demand and reassure the lender, but buyers can walk if prices fall, forfeiting only the deposit. Slow sales stretch the carry, and the last unsold units often go at a discount to close out the project. With no income to fall back on, condo developers usually want a higher margin than rental developers.",
     example: "[[100]] units at an average [[$900K]]: $90.0M gross sellout. Less [[6%]] selling costs: $84.6M. Total cost [[$70.0M]]: profit $14.6M, 20.9% on cost and 16.2% of gross sales.",
     trap: "The follow-up: release prices. The lender often takes more than each unit's pro rata share of the loan from every closing, so the loan is repaid before sellout, and the developer's profit sits in the last units sold."
+  },
+  {
+    id: "re-dev-036",
+    track: "re",
+    module: "re-dev",
+    topic: "Opportunity zones",
+    level: 2,
+    type: "qa",
+    q: "What are opportunity zones, and why do so many opportunity zone deals involve ground-up development or heavy renovation?",
+    a: "Opportunity zones are low-income census tracts where capital gains invested through a qualified opportunity fund get tax breaks: the original gain is deferred, and the new investment's gains are tax-free after ten years. The fund must build new or roughly double the purchased building's basis within 30 months, so stabilized acquisitions rarely qualify.",
+    why: "The appeal is tax-free appreciation, which lets investors accept a lower pre-tax return, so opportunity zone capital can fund projects that wouldn't pencil otherwise. The rules shape the deal: the fund must put its cash to work within set deadlines, the ten-year hold dictates the business plan and exit, and the 30-month improvement test pushes funds toward ground-up development, land-heavy sites and gut renovations. Critics note many zones were already gentrifying, so much of the money went where investment was coming anyway. The program was made permanent in 2025, with changes to the rules and the zone map, so check the current version before relying on the details.",
+    example: "An investor puts [[$10M]] of capital gains into an opportunity zone fund that builds apartments. Ten years later the stake sells for [[$25M]]. Taxed normally at [[23.8%]], the $15M gain would cost $3.57M; held ten years in the fund, it's tax-free. The original $10M gain is mostly deferred rather than erased.",
+    trap: "The follow-up: does the doubling test include land? No, only the building. Buy a property for $10M with $6M of it land, and you must add more than $4M of improvements, not $10M, which is why land-heavy sites suit these funds."
+  },
+  {
+    id: "re-dev-037",
+    track: "re",
+    module: "re-dev",
+    topic: "Low-income housing tax credits",
+    level: 2,
+    type: "qa",
+    q: "How do low-income housing tax credits (LIHTC) fund an affordable apartment development?",
+    a: "The state allocates tax credits to the project, and the developer sells them to investors, usually banks, for equity. Investors claim the credits over ten years; in return, the affordable units' rents stay capped for at least 30 years. Competitive 9% credits often fund half or more of the cost; 4% credits come with tax-exempt bond financing and fund less.",
+    why: "The credits replace debt that restricted rents couldn't carry: capped rents support only a small mortgage, and investors pay roughly 80 to 95 cents per dollar of credit for equity that needs little cash return, since they're paid mainly in tax savings. Credits are based on eligible basis, which excludes land, and projects in high-cost or low-income areas can get a 30% basis boost. To qualify, set-aside tests require, for example, 40% of units at or below 60% of area median income, with rent capped at 30% of the income limit. Breaking the rules during the 15-year compliance period lets the IRS recapture credits, so investors watch compliance closely.",
+    example: "Eligible basis [[$40M]], all units affordable, 9% credits: $3.6M a year for ten years, $36M in total. At [[$0.90]] per dollar of credit, investors contribute $32.4M of equity toward a [[$50M]] project, leaving $17.6M for a small mortgage, soft loans and deferred developer fee.",
+    trap: "Don't read 9% and 4% as annual returns. They're annual credit rates, set so that ten years of credits are worth about 70% or 30% of qualified basis in present value."
   }
 ]);

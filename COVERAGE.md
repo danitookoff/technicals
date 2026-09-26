@@ -14,17 +14,18 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
   - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
   - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
-  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`; being written `ib-dcf`, `ib-lbo`, `ib-ma`, `ib-process`, `ib-rx`, `ib-sectors`; still to start `ib-model`.
+  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`; being written `ib-dcf`, `ib-process`, `ib-rx`, `ib-sectors`, `ib-model`.
+- **Phase 4 (audit) has started on real estate and hotels**, which are final: most-asked questions checked (gaps filled: opportunity zones, LIHTC, rent regulation), legal wording reviewed, math re-verified on a random 10%.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
 
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 323 | 88 | 18 of 18 |
-| Real estate | 13 | 440 | 450 | 118 | 22 of 22 |
+| IB | 17 | 560 | 425 | 115 | 18 of 18 |
+| Real estate | 13 | 440 | 453 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **1024** | **272** | **53 of 53** |
+| **Total** | **39** | **1250** | **1129** | **299** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -237,52 +238,52 @@ Target: 30 · Written: 30 · Classic: 9 · Status: complete
 - [x] Cost of debt without traded debt
 
 ### `ib-lbo` LBO
-Target: 55 · Written: 2 · Classic: 1 · Status: seeded
+Target: 55 · Written: 55 · Classic: 15 · Status: complete
 
 - [x] What an LBO is and why leverage lifts returns
-- [ ] Ideal LBO candidates
-- [ ] The steps of an LBO model
+- [x] Ideal LBO candidates
+- [x] The steps of an LBO model
 - [x] Sources and uses
-- [ ] Debt tranches: revolver, term loans A and B, senior secured and unsecured notes, subordinated notes, high yield, mezzanine, PIK, seller notes, unitranche
-- [ ] Maintenance vs incurrence covenants
-- [ ] Cash sweeps and optional prepayment
+- [x] Debt tranches: revolver, term loans A and B, senior secured and unsecured notes, subordinated notes, high yield, mezzanine, PIK, seller notes, unitranche
+- [x] Maintenance vs incurrence covenants
+- [x] Cash sweeps and optional prepayment
 - [x] Returns drivers: EBITDA growth, multiple expansion, debt paydown
-- [ ] Returns attribution
-- [ ] IRR vs MOIC and the rule-of-thumb table
-- [ ] Paper LBOs
-- [ ] Dividend recaps
-- [ ] Management rollover and option pools
-- [ ] Transaction fees vs financing fees
-- [ ] Interest circularity
-- [ ] Exit assumptions and exit routes
-- [ ] Hold-period effects on IRR and MOIC
-- [ ] The LBO as a valuation floor; solving for the max price at a target IRR
-- [ ] Strategic vs financial buyers
-- [ ] Add-on acquisitions and multiple arbitrage
-- [ ] Minimum cash and the revolver
+- [x] Returns attribution
+- [x] IRR vs MOIC and the rule-of-thumb table
+- [x] Paper LBOs
+- [x] Dividend recaps
+- [x] Management rollover and option pools
+- [x] Transaction fees vs financing fees
+- [x] Interest circularity
+- [x] Exit assumptions and exit routes
+- [x] Hold-period effects on IRR and MOIC
+- [x] The LBO as a valuation floor; solving for the max price at a target IRR
+- [x] Strategic vs financial buyers
+- [x] Add-on acquisitions and multiple arbitrage
+- [x] Minimum cash and the revolver
 
 ### `ib-ma` M&A and merger models
-Target: 50 · Written: 1 · Classic: 1 · Status: seeded
+Target: 50 · Written: 50 · Classic: 14 · Status: complete
 
-- [ ] Why companies buy
-- [ ] Revenue vs cost synergies and how to value them
-- [ ] Accretion/dilution step by step
-- [ ] Cash vs stock vs debt consideration
+- [x] Why companies buy
+- [x] Revenue vs cost synergies and how to value them
+- [x] Accretion/dilution step by step
+- [x] Cash vs stock vs debt consideration
 - [x] Cost of funds vs earnings yield shortcut
-- [ ] Break-even synergies
-- [ ] Purchase price allocation: write-ups, new DTLs, goodwill
-- [ ] Stock vs asset deals; 338(h)(10) and the step-up
-- [ ] NOLs after a deal (Section 382)
-- [ ] Exchange ratios: fixed ratio vs fixed price; collars
-- [ ] Contribution analysis
-- [ ] Pro forma ownership
-- [ ] Earnouts
-- [ ] Break fees and reverse break fees
-- [ ] Tender offers vs mergers
-- [ ] Hostile takeovers and defenses
-- [ ] Fairness opinions
-- [ ] Why accretion isn't value creation
-- [ ] Divestitures: spin-offs, carve-outs, split-offs
+- [x] Break-even synergies
+- [x] Purchase price allocation: write-ups, new DTLs, goodwill
+- [x] Stock vs asset deals; 338(h)(10) and the step-up
+- [x] NOLs after a deal (Section 382)
+- [x] Exchange ratios: fixed ratio vs fixed price; collars
+- [x] Contribution analysis
+- [x] Pro forma ownership
+- [x] Earnouts
+- [x] Break fees and reverse break fees
+- [x] Tender offers vs mergers
+- [x] Hostile takeovers and defenses
+- [x] Fairness opinions
+- [x] Why accretion isn't value creation
+- [x] Divestitures: spin-offs, carve-outs, split-offs
 
 ### `ib-process` Deal process and ECM
 Target: 25 · Written: 0 · Classic: 0 · Status: planned
@@ -555,7 +556,7 @@ Target: 50 · Written: 51 · Classic: 14 · Status: complete
 - [x] Tenant credit monitoring
 
 ### `re-dev` Development and feasibility
-Target: 35 · Written: 35 · Classic: 8 · Status: complete
+Target: 35 · Written: 37 · Classic: 8 · Status: complete
 
 - [x] The development budget: land, hard, soft, financing costs, contingency, developer fee
 - [x] Sources and uses
@@ -571,9 +572,10 @@ Target: 35 · Written: 35 · Classic: 8 · Status: complete
 - [x] Merchant build vs build-to-hold
 - [x] What a feasibility study contains
 - [x] Break-even rent
+- [x] Tax-driven capital: opportunity zones and LIHTC (added in the Phase 4 audit)
 
 ### `re-market` Market analysis
-Target: 15 · Written: 16 · Classic: 4 · Status: complete
+Target: 15 · Written: 17 · Classic: 4 · Status: complete
 
 - [x] Supply, demand and absorption
 - [x] The construction pipeline
@@ -582,6 +584,7 @@ Target: 15 · Written: 16 · Classic: 4 · Status: complete
 - [x] Demand drivers: jobs, population, household formation, incomes
 - [x] Barriers to entry
 - [x] How underwriting uses market data
+- [x] Rent regulation (added in the Phase 4 audit)
 
 ### `re-acct` Real estate accounting
 Target: 15 · Written: 15 · Classic: 4 · Status: complete

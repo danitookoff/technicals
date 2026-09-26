@@ -263,5 +263,18 @@ Deck.add([
       ["Oversupply", "Rising", "Deliveries peak", "Growth slows; concessions appear"],
       ["Recession", "Rising above normal", "Starts fall", "Falling"]
     ], caption: "The physical cycle in four phases, a widely used framework. Property types and markets move through it at different times." }
+  },
+  {
+    id: "re-market-017",
+    track: "re",
+    module: "re-market",
+    topic: "Rent regulation",
+    level: 2,
+    type: "qa",
+    q: "How does rent regulation change the way you underwrite an apartment acquisition?",
+    a: "Cap rent growth on regulated units at the legal limit, not the market, and verify each unit's legal rent, since overcharges can be refunded, sometimes with penalties. Value-add plans may not work: some regimes limit increases after renovations or on turnover. Model today's rules, stress a tightening and expect buyers at exit to price the same risk.",
+    why: "Regimes range from statewide caps, such as California's and Oregon's, which limit yearly increases to inflation plus 5 to 7% with a 10% ceiling, to strict local systems like New York City's rent stabilization, where a board sets the annual increases and 2019 reforms largely ended the routes to market rent. Under strict rules, the gap to market can't be captured, so value rests on income that grows slowly while taxes, insurance and payroll keep rising. That squeeze, plus the risk of new rules, is why regulated buildings trade at higher cap rates and can be harder to finance. Check exemptions: newer buildings are often exempt.",
+    example: "Revenue [[$2.0M]], expenses [[$1.0M]], NOI $1.0M. Regulated rents grow [[2%]] a year while expenses grow [[4%]]: in five years revenue reaches $2.21M, expenses $1.22M and NOI slips to $0.99M. The same building at market, with both growing [[3%]], earns $1.16M.",
+    trap: "Don't assume a vacated regulated unit resets to market. Under New York City's rules since 2019 it generally doesn't, so a loss-to-lease that looks like upside may never be captured."
   }
 ]);
