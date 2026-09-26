@@ -14,7 +14,7 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
   - Wave A (done): `re-basics`, `re-noi`, `re-val`, `re-returns`, `re-debt`, `hotel-metrics`, `hotel-usali`, `hotel-val`, plus every real estate and hotel drill.
   - Wave B (done): `re-leases`, `re-deals`, `re-acq`, `re-am`, `re-dev`, `re-market`, `re-acct`, `re-model`, `hotel-basics`, `hotel-agreements`. Real estate is complete.
   - Wave C (done): `hotel-capex`, `hotel-debt`, `hotel-rm`, `hotel-am`, `ib-acct`, `ib-walk`, `ib-acct-adv`, `ib-ratios`, `ib-ev`, `ib-val`, plus the remaining IB drills. Hotels and all 53 drills are complete.
-  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`; being written `ib-dcf`, `ib-process`, `ib-rx`, `ib-sectors`, `ib-model`.
+  - Wave D (in progress): done so far `ib-precedents`, `ib-wacc`, `ib-comps`, `ib-credit`, `ib-ma`, `ib-lbo`, `ib-dcf`; being written `ib-process`, `ib-rx`, `ib-sectors`, `ib-model`.
 - **Phase 4 (audit) has started on real estate and hotels**, which are final: most-asked questions checked (gaps filled: opportunity zones, LIHTC, rent regulation), legal wording reviewed, math re-verified on a random 10%.
 - Then Phase 4 (audit against the most-asked questions, merge duplicates, re-verify the math on a random 10% of cards, fix flags) and Phase 5 (final CLAUDE.md and README, coverage summary).
 - Next free ID in a module = highest existing number + 1. Never renumber or reuse an ID.
@@ -22,10 +22,10 @@ The content map for Technicals. Each module lists its subtopics as checkboxes, a
 <!-- summary:start -->
 | Track | Modules | Target | Written | Classic | Drills built |
 |---|---:|---:|---:|---:|---:|
-| IB | 17 | 560 | 425 | 115 | 18 of 18 |
+| IB | 17 | 560 | 479 | 129 | 18 of 18 |
 | Real estate | 13 | 440 | 453 | 118 | 22 of 22 |
 | Hotels | 9 | 250 | 251 | 66 | 13 of 13 |
-| **Total** | **39** | **1250** | **1129** | **299** | **53 of 53** |
+| **Total** | **39** | **1250** | **1183** | **313** | **53 of 53** |
 <!-- summary:end -->
 
 ---
@@ -198,28 +198,28 @@ Target: 15 · Written: 16 · Classic: 4 · Status: complete
 - [x] Limitations (stale deals, different markets, deal-specific terms)
 
 ### `ib-dcf` DCF
-Target: 55 · Written: 2 · Classic: 2 · Status: seeded
+Target: 55 · Written: 56 · Classic: 16 · Status: complete
 
 - [x] The steps of a DCF
-- [ ] Projection length
-- [ ] Building unlevered FCF, and why it's unlevered
-- [ ] Why D&A is added back and capex subtracted
-- [ ] Mid-year convention
-- [ ] Stub periods
+- [x] Projection length
+- [x] Building unlevered FCF, and why it's unlevered
+- [x] Why D&A is added back and capex subtracted
+- [x] Mid-year convention
+- [x] Stub periods
 - [x] Terminal value: Gordon growth vs exit multiple
 - [x] Implied exit multiple and implied growth cross-checks
-- [ ] Discounting terminal value (including under the mid-year convention)
-- [ ] Terminal value's share of total value
-- [ ] Normalizing the terminal year (capex vs D&A, working capital, margins)
-- [ ] Sensitivity tables
-- [ ] Levered DCF: FCFE and cost of equity
-- [ ] NOLs in a DCF
-- [ ] Stock-based compensation in a DCF (practice varies)
-- [ ] Companies with negative cash flow
-- [ ] Which inputs move value most
-- [ ] What-ifs: growth up 1%, discount rate up 1%, more debt, capex changes
-- [ ] Adjusted present value (APV) basics
-- [ ] DCF limitations
+- [x] Discounting terminal value (including under the mid-year convention)
+- [x] Terminal value's share of total value
+- [x] Normalizing the terminal year (capex vs D&A, working capital, margins)
+- [x] Sensitivity tables
+- [x] Levered DCF: FCFE and cost of equity
+- [x] NOLs in a DCF
+- [x] Stock-based compensation in a DCF (practice varies)
+- [x] Companies with negative cash flow
+- [x] Which inputs move value most
+- [x] What-ifs: growth up 1%, discount rate up 1%, more debt, capex changes
+- [x] Adjusted present value (APV) basics
+- [x] DCF limitations
 
 ### `ib-wacc` Cost of capital
 Target: 30 · Written: 30 · Classic: 9 · Status: complete

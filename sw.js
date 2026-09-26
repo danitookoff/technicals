@@ -1,7 +1,7 @@
 /* Technicals service worker: caches the whole app so it works offline.
    Run node tools/bump.js before every deploy. It raises VERSION and rebuilds ASSETS from index.html,
    and the new version makes installed copies show "Update ready". Progress in localStorage is never touched. */
-const VERSION = 10;
+const VERSION = 11;
 const CACHE = `technicals-v${VERSION}`;
 const ASSETS = [
   './',
